@@ -41,3 +41,10 @@ Given that everyone has specific tastes in music, but have different music liste
 `role:` Meeting organizer - coordinates with rest of team to organize meeting times and locations. Plans agenda for meeting and ensures that all needed points are covered during the meeting.
 
 `issues working on:` UI_DESIGN/Matched_group_design + DATA_DESIGN/Matched_group_data_structure + TEAM_DESIGN/Meeting_organizer
+
+
+`name:` Corwin Lee
+
+`role:` Note Taker - Ensures all ideas developed and brainstormed from the group is organized and kept in priority order, keeps track of current tasks of all team members to stay in order
+
+`issues working on:` UI_DESIGN/Profile_page + DATA_DESIGN/Listening_page_message + TEAM_DESIGN/Note_taker
