@@ -25,3 +25,9 @@ If time allows: we will automatically make a playlist in each of the music servi
 **Why This Project:**
 
 Given that everyone has specific tastes in music, but have different music listening platforms, this app helps enable cross-platform music enjoyment! We like music, and like the idea of making more friends!
+
+
+## Team Member List:
+`name:` Tuan Nguyen
+`role:`Timekeeper - watch for deadlines and keep track of team progress to ensure overall quality of final product
+`issues working on:` UI_DESIGN/Group_listening_page + DATA_DESIGN/Network_Algorithm + DATA_DESIGN/Song_finding + TEAM_DESIGN/TimeKeeper
