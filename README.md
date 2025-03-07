@@ -1,4 +1,4 @@
-## Music-Matchmaker - Team 22
+# Music-Matchmaker - Team 22
 
 ## Project Description:
 **Problem:**
@@ -30,6 +30,12 @@ Given that everyone has specific tastes in music, but have different music liste
 ## Team Member List:
 `name:` Tuan Nguyen
 
-`role:`Timekeeper - watch for deadlines and keep track of team progress to ensure overall quality of final product
+`role:` Timekeeper - watch for deadlines and keep track of team progress to ensure overall quality of final product
 
 `issues working on:` UI_DESIGN/Group_listening_page + DATA_DESIGN/Network_Algorithm + DATA_DESIGN/Song_finding + TEAM_DESIGN/TimeKeeper
+
+`name:` Ben Kuchma
+
+`role:` Meeting organizer - coordinates with rest of team to organize meeting times and locations. Plans agenda for meeting and ensures that all needed points are covered during the meeting.
+
+`issues working on:` UI_DESIGN/Matched_group_design + DATA_DESIGN/Matched_group_data_structure + TEAM_DESIGN/Meeting_organizer
