@@ -29,5 +29,7 @@ Given that everyone has specific tastes in music, but have different music liste
 
 ## Team Member List:
 `name:` Tuan Nguyen
+
 `role:`Timekeeper - watch for deadlines and keep track of team progress to ensure overall quality of final product
+
 `issues working on:` UI_DESIGN/Group_listening_page + DATA_DESIGN/Network_Algorithm + DATA_DESIGN/Song_finding + TEAM_DESIGN/TimeKeeper
