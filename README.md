@@ -48,3 +48,9 @@ Given that everyone has specific tastes in music, but have different music liste
 `role:` Note Taker - Ensures all ideas developed and brainstormed from the group is organized and kept in priority order, keeps track of current tasks of all team members to stay in order
 
 `issues working on:` UI_DESIGN/Profile_page + DATA_DESIGN/Listening_page_message + TEAM_DESIGN/Note_taker
+
+`name:` Cuong Nguyen
+
+`role:` Tester - Review and ensure that there are no problems on the functionality, performance and effectiveness of the product. Check commits of other teammates and resolve conflicts.
+
+`issues working on:` UI_DESIGN/Homepage + DATA_DESIGN/Profile + TEAM_DESIGN/Tester
