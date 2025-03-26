@@ -1,0 +1,143 @@
+
+/* PLEASE MAKE YOUR OWN STYLE SHEETS FOR YOUR PAGES TO AVOID MERGE CONFLICTS. AVOID EDITING THIS CSS FILE IF POSSIBLE! */
+
+body {
+    margin: 0px;
+    padding: 0px;
+    border: 0px;
+}
+
+/* Template styles */
+
+#header {
+    background: rgb(50, 50, 50);
+    width: 100vw;
+    height: 70px;
+}
+
+#footer {
+    background: rgb(50, 50, 50);
+    width: 100vw;
+    height: 70px;
+}
+
+.hcontainer {
+    display: flex;
+    flex-direction: row;
+}
+
+.vcontainer {
+    display: flex;
+    flex-direction: column;
+}
+
+.full {
+    width: 100%;
+    height: 100%;
+}
+
+.center {
+    margin: auto;
+    text-align: center;
+    line-height: normal;
+    vertical-align: middle;
+    align-content: center;
+}
+
+.white {
+    color: white;
+}
+
+.color1 {
+    background: rgb(50, 50, 50);
+}
+
+.color2 {
+    background: rgb(75, 75, 75)
+}
+
+.color3 {
+    background: skyblue;
+}
+
+.accent1 {
+    border: 3px solid skyblue;
+}
+
+.accent2 {
+    border: 3px solid darkcyan;
+}
+
+.h1 {
+    font-weight: 700;
+    font-size: 40px;
+    font-family: Arial;
+}
+
+.h2 {
+    font-weight: 700;
+    font-size: 30px;
+    font-family: Arial;
+}
+
+.header-home {
+    width: auto;
+    height: 100px;
+}
+
+.tight-fit {
+    margin: 0px;
+    padding: 0px;
+    border: 0px;
+}
+
+.bar {
+    width: auto;
+    height: 0px;
+}
+
+.header-item {
+    margin: 0px 15px;
+    white-space: nowrap;
+    width: fit-content;
+    padding: 5px 5px;
+    border-radius: 5px;
+}
+
+.top {
+    position: absolute;
+    top: 0px;
+}
+
+.bottom {
+    position: absolute;
+    bottom: 0px;
+}
+
+.tleft {
+    text-align: left;
+}
+
+.tright {
+    text-align: right;
+}
+
+#content {
+    height: 100%;
+    width: 100%;
+}
+
+#bottom-bar {
+    position: absolute;
+    bottom: 70px;
+    width: 100vw;
+}
+
+.link {
+    text-decoration: none;
+}
+
+.link:hover {
+    cursor: pointer;
+    background: rgb(100, 100, 100);
+}
