@@ -5,7 +5,7 @@
     <link rel="stylesheet" href="main.css" />
     <link rel="stylesheet" href="groups.css" />
   </head>
-  <body>
+  <body class="color2">
     <div class="body vcontainer">
       
       <div class="vcontainer top">
@@ -25,13 +25,28 @@
         <div class="bar accent1"></div>
       </div>
 
-      <div id="content">
+      <div id="content" class="hcontainer">
 
-        <div id="left-content">
-          
+        <div id="left-content" class="flex-content vcontainer">
+          <div id="group-info">
+            <div id="group-name" class="h1 tight-fit accent1-10 round5 background1 content-item">#1 Bruno Mars fanclub</div>
+            <div id="group-genres-box" class="h2 content-item hcontainer white">
+              <div>Genres: </div>
+              <div id="group-genres">Pop, R&B, Funk, Soul, Reggae, and Rock</div>
+            </div>
+            <div id="group-artists-box" class="h2 content-item hcontainer white">
+              <div>Artists: </div>
+              <div id="group-artists">Bruno Mars, Maroon 5, and Katy Perry</div>
+            </div>
+          </div>
+          <div id="playlist">
+            <iframe class="margin5" style="border-radius:12px" src="https://open.spotify.com/embed/playlist/37i9dQZF1E4vTHVDH1FT3Y?utm_source=generator&theme=0" width="90%" height="600" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+          </div>
         </div>
 
-        <div id="right-content" ></div>
+        <div id="right-content" class="flex-content vcontainer">
+          Right
+        </div>
 
       </div>
 
