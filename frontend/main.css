@@ -105,12 +105,12 @@ body {
 }
 
 .top {
-    position: absolute;
+    position: fixed;
     top: 0px;
 }
 
 .bottom {
-    position: absolute;
+    position: fixed;
     bottom: 0px;
 }
 
@@ -123,8 +123,9 @@ body {
 }
 
 #content {
-    height: 100%;
+    margin: 75px 0px 75px 0px;
     width: 100%;
+    word-wrap: break-word;
 }
 
 #bottom-bar {
