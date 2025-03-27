@@ -1,0 +1,4 @@
+.flex-content {
+    flex: flex-grow;
+    flex-basis: 500px;
+}
