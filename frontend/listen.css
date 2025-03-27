@@ -1,0 +1,39 @@
+/* Style for the Invite Member button */
+body {
+    position: relative;
+    /* This allows absolutely positioned elements inside it */
+}
+
+/* Style for the Invite Member button */
+#invite_member_btn {
+    position: fixed;
+    bottom: 14%;
+    right: 1%;
+    padding: 1% 2%;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 100%;
+    cursor: pointer;
+}
+
+#invite_member_btn:hover {
+    background-color: #0056b3;
+    /* Darker blue on hover */
+}
+
+/* Make the button responsive */
+@media screen and (max-width: 768px) {
+    #invite_member_btn {
+        padding: 1% 2%;
+        font-size: 100%;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    #invite_member_btn {
+        padding: 1% 2%;
+        font-size: 100%;
+    }
+}
