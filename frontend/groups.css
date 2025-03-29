@@ -1,4 +1,226 @@
 .flex-content {
-    flex: flex-grow;
-    flex-basis: 500px;
+    flex: 1 1 500px;
+    align-items: stretch;
+    min-width: 500px;
+}
+
+#content {
+    flex-wrap: wrap;
+}
+
+.margin1 {
+    margin: 1%;
+}
+
+.margin2 {
+    margin: 2%;
+}
+
+.margin5 {
+    margin: 5%;
+}
+
+.margin10 {
+    margin: 10%;
+}
+
+.margin20 {
+    margin: 20%;
+}
+
+.round5 {
+    border-radius: 5px;
+}
+
+.round10 {
+    border-radius: 10px;
+}
+
+.round20 {
+    border-radius: 20px;
+}
+
+.background1 {
+    background: skyblue;
+}
+
+.background2 {
+    background: darkcyan;
+}
+
+.accent1-1 {
+    border: 1px solid skyblue;
+}
+
+.accent1-2 {
+    border: 2px solid skyblue;
+}
+
+.accent1-5 {
+    border: 5px solid skyblue;
+}
+
+.accent1-10 {
+    border: 10px solid skyblue;
+}
+
+.accent1-20 {
+    border: 20px solid skyblue;
+}
+
+.accent2-1 {
+    border: 1px solid darkcyan;
+}
+
+.accent2-2 {
+    border: 2px solid darkcyan;
+}
+
+.accent2-5 {
+    border: 5px solid darkcyan;
+}
+
+.accent2-10 {
+    border: 10px solid darkcyan;
+}
+
+.accent2-20 {
+    border: 20px solid darkcyan;
+}
+
+.content-item {
+    margin: 5% 0% 0% 5%;
+}
+
+#group-name {
+    margin-top: 5%;
+}
+
+#group-genres-box {
+    margin-top: 2%;
+}
+
+#group-genres {
+    margin-left: 1%;
+}
+
+#group-artists-box {
+    margin-top: 2%;
+}
+
+#group-artists {
+    margin-left: 1%;
+}
+
+#group-members {
+    max-height: 500px;
+}
+
+#ratings-box {
+    max-height: 500px;
+    margin: 0px 5% 5% 5%;
+}
+
+.scroll-x {
+    overflow-y: hidden;
+    overflow-x: scroll;
+    scrollbar-color: skyblue rgb(75, 75, 75);
+}
+
+.scroll-y {
+    overflow-y: scroll;
+    overflow-x: hidden;
+    scrollbar-color: skyblue rgb(75, 75, 75);
+}
+
+.flex-content-50 {
+    flex: 1 1 50px;
+    align-items: stretch;
+    min-width: 200px;
+}
+
+.member-pfp-div {
+    justify-content: center;
+    align-content: center;
+}
+
+.member-pfp {
+    height: 30px;
+    width: 30px;
+}
+
+.member-name {
+    align-content: center;
+    margin-left: 20px;
+    font-size: 20px;
+    font-weight: 600;
+    font-family: Arial;
+}
+
+.member-info-title {
+    font-size: 15px;
+    font-weight: 600;
+    font-family: Arial;
+    align-content: center;
+}
+
+.member-info {
+    margin-left: 10px;
+    font-size: 15px;
+    font-weight: 400;
+    font-family: Arial;
+    align-content: center;
+}
+
+.user-genres {
+    align-content: center;
+    margin-left: 2%;
+}
+
+.user-artists {
+    align-content: center;
+    margin-left: 2%;
+}
+
+/* 2x2 grid code adapted from: https://codepen.io/mogpt/pen/ebXdzg by Michael Guidetti */
+.grid2x2 {
+    min-height: 100px;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+
+.grid2x2 > div {
+    display: flex; 
+    flex-basis: calc(50% - 40px);  
+    justify-content: center;
+    flex-direction: column;
+}
+
+.grid2x2 > div > div {
+    display: flex;
+    justify-content: left;
+    flex-direction: row;
+}
+
+.star {
+    margin-left: 5px;
+}
+
+.rating-stars {
+    margin-top: 10px;
+}
+
+.fa-star {
+    font-size: 30px !important;
+}
+
+.fa-star:hover {
+    color: #F8CA00;
+}
+
+.h3 {
+    font-weight: 600;
+    font-size: 15px;
+    font-family: Arial;
 }
