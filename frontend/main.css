@@ -86,8 +86,9 @@ body {
 }
 
 .tight-fit {
-    width: fit-content;
-    height: fit-content;
+    margin: 0px;
+    padding: 0px;
+    border: 0px;
 }
 
 .bar {
@@ -141,3 +142,40 @@ body {
     cursor: pointer;
     background: rgb(100, 100, 100);
 }
+
+.profile-pic {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+  }
+  
+  .genre-tag {
+    background: var(--accent1);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+  }
+  
+  .activity-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    margin: 0.5rem 0;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    #content .hcontainer {
+      flex-direction: column;
+      text-align: center;
+    }
+    
+    .profile-pic {
+      width: 100px;
+      height: 100px;
+    }
+  }
