@@ -1,197 +1,191 @@
 .flex-container {
     display: flex;
     flex-direction: column; 
-    height: 100vh; /* If you want it to take full screen height */
-  }
+    min-height: 100vh;
+}
 
 body {
-    position: relative;
+    font-size: 16px;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    overflow-x: hidden; /* Prevent horizontal scrolling */
 }
 
-/* Style for the Invite Member button */
-#invite_member_btn {
-    position: relative;
-    bottom: 10%;
-    right: 1%;
-    padding: 1% 1.5%;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 10px;
-    font-size: 100%;
-    cursor: pointer;
-    width: 90%;
+.content-container {
+    flex: 1;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 20px;
+    gap: 20px;
 }
 
-#invite_member_btn:hover {
-    background-color: #0056b3;
-    /* Darker blue on hover */
+.general-container {
+    flex: 1;
+    min-width: 250px;
+    max-width: 300px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .genre-display {
-    padding: 8px 12px;
-    margin: 5px;
-    display: inline-block;
-    font-size: 70%;
-    color: #333;
-    right: 0%;
+    margin-bottom: 15px;
 }
 
-.genre-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin: 10px 0;
-}
-.vcontainer.override {
-    display: flex;
-    flex-direction: column;
-    
-    min-height: 10vh;
-}
-#footer {
-    position: fixed;
-    bottom: 0;
+#invite_member_btn, #exit_session_btn {
     width: 100%;
-    z-index: 100;
-}
-.accent2 {
-    position: fixed;
-    bottom: 70px; 
-    width: 100%;
-    z-index: 99;
-}
-.content-container {
-    min-height: calc(100vh - 146px); /* 100vh minus space for accent bars */
-    width: 100%;
-    box-sizing: border-box;
-    
-}
-
-.general-container{
-    display: flex;
-    flex-direction: column;
-    position: fixed;
-    right: 4%;
-    width: 17%;
-    bottom: 15%;
-    background-color: white;
-    border-radius: 8px;
-    z-index: 1000;
-}
-
-#exit_session_btn {
-    margin-top: 2%;
-    position: relative;
-    bottom: 10%;
-    right: 1%;
-    padding: 1% 1.5%;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 10px;
-    font-size: 100%;
-    cursor: pointer;
-    width: 90%;
-}
-
-#exit_session_btn:hover {
-    background-color: #0056b3;
-}
-
-.member-display {
-    position: fixed;
-    right: 5%;
-    bottom: 35%;
-    z-index: 9999;
-    width: 50%;
-    height: 50%;
-    border: 1px solid #007bff;
-    border-radius: 15px;
-    overflow-y: auto;
-    scrollbar-width: none;
-
-
-}
-.member {
-    padding: 5px;
-    border-bottom: 1px solid #ddd;
-    margin-left: 2%;
-}
-.member:last-child {
-    border-bottom: none;
-}
-.member-display h2 {
-    border-top: 20%solid #ddd;
-    position: sticky;
-    top: 0;
-    background: white;
-    padding: 2%;
-    border-bottom: 2% solid #ddd;
-    z-index: 1000000000;
-    margin: 0;
-}
-
-.music-container {
-    height: 70%;
-    overflow-y: auto;
-    width: 40%;
-    scrollbar-width: none;    
-}
-.music-container h2 {
-    border-top: 20%solid #ddd;
-
-    position: sticky;
-    top: 0;
-    background: white;
-    padding: 2%;
-    border-bottom: 2px solid #ddd;
-    z-index: 10000;
-    margin: 0;
-    
-}
-.music-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 5px;
-    border-bottom: 1px solid #ddd;
-}
-.music-item:last-child {
-    border-bottom: none;
-}
-#add_song_btn {
-    bottom: -10%;
-    position: relative;
-    left: 15%; 
-    margin-left: auto; 
     padding: 10px 15px;
     background-color: #007bff;
     color: white;
     border: none;
     border-radius: 5px;
-    font-size: 16px;
+    font-size: 1rem;
     cursor: pointer;
-    z-index: 10; 
+    margin-bottom: 10px;
+    transition: background-color 0.3s;
 }
 
-#add_song_btn:hover {
+#invite_member_btn:hover, #exit_session_btn:hover {
     background-color: #0056b3;
 }
 
+.member-display {
+    flex: 2;
+    min-width: 300px;
+    max-height: 400px;
+    border: 1px solid #007bff;
+    border-radius: 8px;
+    overflow-y: auto;
+    scrollbar-width: none ;
+
+}
+
+.member-display h2 {
+    position: sticky;
+    top: 0;
+    background: white;
+    padding: 10px;
+    margin: 0;
+    border-bottom: 2px solid #007bff;
+}
+
+.member {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.music-wrapper {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    min-width: 300px;
+    max-height: 400px;
+
+}
+
+.music-container {
+    flex-grow: 1;
+    max-height: 350px;
+    overflow-y: auto;
+    border: 1px solid #007bff;
+    border-radius: 8px 8px 0 0;
+    scrollbar-width: none ;
+
+}
+
+.music-container h2 {
+    position: sticky;
+    top: 0;
+    background: white;
+    padding: 10px;
+    margin: 0;
+    border-bottom: 2px solid #007bff;
+}
+
+.music-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
 
 .remove-song-btn {
-    margin-left: auto;
     padding: 5px 10px;
     background-color: #ff4d4d;
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 14px;
+    font-size: 0.9rem;
+    transition: background-color 0.3s;
 }
 
 .remove-song-btn:hover {
     background-color: #e60000;
 }
 
+#add_song_btn {
+    padding: 10px 15px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 0 0 8px 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#add_song_btn:hover {
+    background-color: #218838;
+}
+
+#footer {
+    background-color: #343a40;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+}
+
+@media screen and (max-width: 768px) {
+    .content-container {
+        flex-direction: column;
+        overflow: hidden;
+    }
+
+    .general-container, .member-display, .music-wrapper {
+        max-width: 100%;
+    }
+
+    .music-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .remove-song-btn {
+        margin-top: 5px;
+    }
+}
+
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+    .general-container {
+        flex: 1 1 100%;
+        max-width: 100%;
+    }
+
+    .member-display, .music-wrapper {
+        flex: 1 1 45%;
+    }
+}
+
+@media screen and (min-width: 1025px) {
+    .general-container {
+        flex: 1;
+    }
+
+    .member-display, .music-wrapper {
+        flex: 2;
+    }
+}
