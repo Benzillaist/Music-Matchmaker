@@ -69,13 +69,18 @@ body {
     scrollbar-width: none;
 }
 
-.member-display h2 {
+.member-display h2, .music-container h2 {
     position: sticky;
     top: 0;
     background: white;
     padding: 10px;
     margin: 0;
     border-bottom: 2px solid #007bff;
+    z-index: 10;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .member {
@@ -90,15 +95,6 @@ body {
     max-height: 350px;
     overflow-y: auto;
     scrollbar-width: none;
-}
-
-.music-container h2 {
-    position: sticky;
-    top: 0;
-    background: white;
-    padding: 10px;
-    margin: 0;
-    border-bottom: 2px solid #007bff;
 }
 
 .music-item {
@@ -155,6 +151,16 @@ body {
 
     .general-container, .member-display, .music-wrapper, .chat-container {
         max-width: 100%;
+        min-width: 200px;
+    }
+    
+    .member-display, .music-wrapper, .chat-container {
+        max-height: none;
+        height: auto;
+    }
+    
+    .music-container {
+        max-height: none;
     }
 
     .music-item {
@@ -164,6 +170,11 @@ body {
 
     .remove-song-btn {
         margin-top: 5px;
+    }
+    
+    .member-display h2, .music-container h2 {
+        font-size: 1rem;
+        padding: 8px;
     }
 }
 
