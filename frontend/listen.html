@@ -5,6 +5,7 @@
     <title>Music Matchmaker</title>
     <link rel="stylesheet" href="main.css" />
     <link rel="stylesheet" href="listen.css" />
+    <link rel="stylesheet" href="js/chat.css" />
     <style>
 
     </style>
@@ -111,6 +112,19 @@
       
 
         <button id="add_song_btn">Add Song</button>
+        </div>
+
+        <!-- Chat Section -->
+        <div class="chat-container">
+          <h2>Chat</h2>
+          <div class="chat-messages" id="chat-messages">
+            <!-- Chat messages will be displayed here dynamically -->
+          </div>
+          <div class="chat-input-container">
+            <input type="text" id="chat-input" placeholder="Type a message..." />
+            <button id="send-message-btn">Send</button>
+          </div>
+        </div>
       </main>
       </div>
 
@@ -129,5 +143,8 @@
         <div class="item full center"></div>
       </footer>
     </div>
+
+    <!-- JavaScript for chat functionality -->
+    <script src="js/chat.js"></script>
   </body>
 </html>

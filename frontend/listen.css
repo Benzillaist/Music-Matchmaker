@@ -51,15 +51,22 @@ body {
     background-color: #0056b3;
 }
 
-.member-display {
+/* Making all display boxes consistent */
+.member-display, .music-wrapper, .chat-container {
     flex: 2;
     min-width: 300px;
     max-height: 400px;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
     border: 1px solid #007bff;
     border-radius: 8px;
-    overflow-y: auto;
-    scrollbar-width: none ;
+    overflow: hidden;
+}
 
+.member-display {
+    overflow-y: auto;
+    scrollbar-width: none;
 }
 
 .member-display h2 {
@@ -76,23 +83,13 @@ body {
     border-bottom: 1px solid #ddd;
 }
 
-.music-wrapper {
-    flex: 2;
-    display: flex;
-    flex-direction: column;
-    min-width: 300px;
-    max-height: 400px;
-
-}
+/* Removed empty .music-wrapper ruleset */
 
 .music-container {
     flex-grow: 1;
     max-height: 350px;
     overflow-y: auto;
-    border: 1px solid #007bff;
-    border-radius: 8px 8px 0 0;
-    scrollbar-width: none ;
-
+    scrollbar-width: none;
 }
 
 .music-container h2 {
@@ -132,10 +129,11 @@ body {
     background-color: #28a745;
     color: white;
     border: none;
-    border-radius: 0 0 8px 8px;
     font-size: 1rem;
     cursor: pointer;
     transition: background-color 0.3s;
+    width: 100%;
+    margin-top: auto;
 }
 
 #add_song_btn:hover {
@@ -155,7 +153,7 @@ body {
         overflow: hidden;
     }
 
-    .general-container, .member-display, .music-wrapper {
+    .general-container, .member-display, .music-wrapper, .chat-container {
         max-width: 100%;
     }
 
@@ -175,7 +173,7 @@ body {
         max-width: 100%;
     }
 
-    .member-display, .music-wrapper {
+    .member-display, .music-wrapper, .chat-container {
         flex: 1 1 45%;
     }
 }
@@ -185,7 +183,7 @@ body {
         flex: 1;
     }
 
-    .member-display, .music-wrapper {
+    .member-display, .music-wrapper, .chat-container {
         flex: 2;
     }
 }
