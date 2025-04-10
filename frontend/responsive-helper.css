@@ -1,0 +1,48 @@
+/* responsive-helper.css - Fix for header responsive issues in listen.html */
+
+/* Target the header hcontainer in listen page for small screens */
+@media screen and (max-width: 768px) {
+  /* Make header stack vertically on small screens */
+  #header.hcontainer {
+    flex-direction: column;
+    height: auto;
+    padding: 10px 0;
+  }
+  
+  /* Ensure header home link is centered and full width */
+  #header-home.full.center {
+    width: 100%;
+    margin: 10px 0;
+  }
+  
+  /* Make header items display properly on small screens */
+  #header-items.center.hcontainer {
+    width: 100%;
+    justify-content: space-around;
+    margin: 5px 0;
+  }
+  
+  /* Ensure content flows properly below the responsive header */
+  #content {
+    margin-top: 10px;
+  }
+  
+  /* Make the flex container and its content responsive */
+  .flex-container {
+    flex-direction: column;
+  }
+  
+  /* Fix layout of main containers in listen page */
+  .content-container {
+    width: 100%;
+    padding: 10px;
+  }
+}
+
+/* Medium screens adjustments */
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+  /* Adjust header for medium screens */
+  #header.hcontainer {
+    padding: 5px 15px;
+  }
+}

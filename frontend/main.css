@@ -1,3 +1,4 @@
+
 /* PLEASE MAKE YOUR OWN STYLE SHEETS FOR YOUR PAGES TO AVOID MERGE CONFLICTS. AVOID EDITING THIS CSS FILE IF POSSIBLE! */
 
 body {
@@ -10,15 +11,14 @@ body {
 
 #header {
     background: rgb(50, 50, 50);
-    width: 100%;
-    min-height: 70px;
-    overflow: visible;
+    width: 100vw;
+    height: 70px;
 }
 
 #footer {
     background: rgb(50, 50, 50);
-    width: 100%;
-    min-height: 70px;
+    width: 100vw;
+    height: 70px;
 }
 
 .hcontainer {
@@ -131,7 +131,7 @@ body {
 #bottom-bar {
     position: absolute;
     bottom: 70px;
-    width: 100%;
+    width: 100vw;
 }
 
 .link {
@@ -169,34 +169,6 @@ body {
   
   /* Responsive Design */
   @media (max-width: 768px) {
-    #header, #footer {
-      flex-wrap: wrap;
-      padding: 10px 0;
-    }
-    
-    #header-home, #header-items {
-      width: 100%;
-      justify-content: center;
-      margin: 5px 0;
-    }
-    
-    #header-items {
-      flex-wrap: wrap;
-    }
-    
-    .header-item {
-      margin: 5px;
-      font-size: 1.2rem;
-    }
-    
-    .h1 {
-      font-size: 28px;
-    }
-    
-    .h2 {
-      font-size: 24px;
-    }
-    
     #content .hcontainer {
       flex-direction: column;
       text-align: center;
@@ -205,10 +177,5 @@ body {
     .profile-pic {
       width: 100px;
       height: 100px;
-    }
-    
-    #footer a {
-      font-size: 0.9rem;
-      word-break: break-word;
     }
   }
