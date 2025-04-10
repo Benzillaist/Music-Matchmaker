@@ -109,7 +109,7 @@ body {
     scrollbar-width: none;
 }
 
-.member-display h2 {
+.member-display h2, .music-container h2 {
     position: sticky;
     top: 0;
     background: white;
@@ -233,6 +233,16 @@ body {
 
     .general-container, .member-display, .music-wrapper, .chat-container {
         max-width: 100%;
+        min-width: 200px;
+    }
+    
+    .member-display, .music-wrapper, .chat-container {
+        max-height: none;
+        height: auto;
+    }
+    
+    .music-container {
+        max-height: none;
     }
 
     .music-item {

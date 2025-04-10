@@ -281,6 +281,5 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Start the app
   init();
 });
