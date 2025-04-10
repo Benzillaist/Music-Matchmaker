@@ -106,7 +106,13 @@ body {
 
 .member-display {
     overflow-y: auto;
-    scrollbar-width: none;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+}
+
+/* Hide scrollbar for WebKit browsers (Chrome, Safari) */
+.member-display::-webkit-scrollbar {
+    display: none;
 }
 
 .member-display h2, .music-container h2 {
@@ -134,7 +140,13 @@ body {
     flex-grow: 1;
     max-height: 450px; /* Increased to match new container height */
     overflow-y: auto;
-    scrollbar-width: none;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+}
+
+/* Hide scrollbar for WebKit browsers (Chrome, Safari) */
+.music-container::-webkit-scrollbar {
+    display: none;
 }
 
 .music-container h2 {

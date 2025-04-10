@@ -8,7 +8,76 @@
     <link rel="stylesheet" href="js/chat.css" />
     <link rel="stylesheet" href="responsive-helper.css" />
     <style>
-
+      /* Additional fixes for chat container */
+      .chat-container {
+        display: flex;
+        flex-direction: column;
+        height: auto;
+        min-height: 450px; /* Reduced from 500px */
+        max-height: 450px; /* Reduced from 500px to match other containers better */
+      }
+      
+      .chat-messages {
+        flex: 1;
+        overflow-y: auto;
+        height: auto;
+        min-height: 320px; /* Reduced from 350px */
+        max-height: 330px; /* Reduced from 380px */
+      }
+      
+      /* Make all containers have consistent heights */
+      .member-display, .music-wrapper, .chat-container {
+        max-height: 450px; /* Consistent height for all containers */
+      }
+      
+      /* Chat input container settings */
+      .chat-input-container {
+        margin-top: auto;
+        width: 100%;
+        display: flex;
+        padding: 10px; /* Reduced from 15px */
+        box-sizing: border-box;
+      }
+      
+      /* Fix message alignment */
+      .message-self {
+        margin-left: auto;
+        margin-right: 0;
+      }
+      
+      .message-others {
+        margin-right: auto;
+        margin-left: 0;
+      }
+      
+      /* Fix button visibility */
+      #send-message-btn {
+        padding: 8px 15px; /* Reduced from 10px 20px */
+        min-width: 80px;
+        box-sizing: border-box;
+        margin-left: 10px;
+        height: auto;
+        white-space: nowrap;
+      }
+      
+      #chat-input {
+        flex: 1;
+        min-width: 0;
+        padding: 8px; /* Reduced from 10px */
+        box-sizing: border-box;
+      }
+      
+      /* Ensure the button is visible on all screen sizes */
+      @media screen and (max-width: 768px) {
+        .chat-input-container {
+          padding: 8px; /* Reduced from 10px */
+        }
+        
+        #send-message-btn {
+          padding: 6px 10px; /* Reduced from 8px 12px */
+          min-width: 60px;
+        }
+      }
     </style>
   </head>
   <body>
