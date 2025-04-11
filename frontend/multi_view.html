@@ -9,32 +9,29 @@
   </head>
   <body>
     <div class="body vcontainer">
-      <!-- Top Header Section -->
       <div>
         <div class="vcontainer top">
           <div id="header" class="hcontainer">
             <div id="header-home" class="full center">
               <div class="tleft">
-                <button class="h1 white header-item link" onclick="navigateTo('/home')">Home</button>
+                <button class="h1 white header-item link" onclick="navigateTo('home')">Home</button>
               </div>
             </div>
   
             <div id="header-items" class="center hcontainer">
-              <button class="h2 white header-item link" onclick="navigateTo('/listen')">Listen</button>
-              <button class="h2 white header-item link" onclick="navigateTo('/groups')">Groups</button>
-              <button class="h2 white header-item link" onclick="navigateTo('/profile')">Profile</button>
+              <button class="h2 white header-item link" onclick="navigateTo('listen')">Listen</button>
+              <button class="h2 white header-item link" onclick="navigateTo('groups')">Groups</button>
+              <button class="h2 white header-item link" onclick="navigateTo('profile')">Profile</button>
             </div>
           </div>
           <div class="bar accent1"></div>
         </div>
       </div>
   
-      <!-- Main Content Area -->
       <div id="view">
         Loading...
       </div>
   
-      <!-- Footer -->
       <div class="vcontainer bottom">
         <div class="bar accent1"></div>
         <div id="footer" class="full hcontainer">
@@ -51,34 +48,37 @@
   
     <script>
       const routes = {
-        "/home": "home.html",
-        "/listen": "listen.html",
-        "/groups": "groups.html",
-        "/profile": "profile.html",
+        "home": "index.html",    
+        "listen": "listen.html",
+        "groups": "groups.html",
+        "profile": "profile.html",
       };
   
       function navigateTo(path) {
-        history.pushState({}, "", path);
-        loadView(path);
+        history.pushState({}, "", `#${path}`);
+        loadView(path); 
       }
   
       async function loadView(path) {
-        const page = routes[path] || "home.html";
+        const page = routes[path] || "index.html";
         try {
           const res = await fetch(page);
           const html = await res.text();
           document.getElementById("view").innerHTML = html;
         } catch (e) {
           document.getElementById("view").innerHTML = "<h2>404 - Page not found</h2>";
+          console.error("Error loading page:", e);
         }
       }
   
       window.addEventListener("popstate", () => {
-        loadView(window.location.pathname);
+        const path = window.location.hash.slice(1) || "home";
+        loadView(path);
       });
   
       document.addEventListener("DOMContentLoaded", () => {
-        loadView(window.location.pathname || "/home");
+        const path = window.location.hash.slice(1) || "home";
+        loadView(path);
       });
     </script>
   </body>
