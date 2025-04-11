@@ -1,0 +1,176 @@
+/* responsive-helper.css - Fix for header responsive issues in listen.html */
+
+/* Target the header hcontainer in listen page for small screens */
+@media screen and (max-width: 768px) {
+  /* Make header stack vertically on small screens */
+  #header.hcontainer {
+    flex-direction: column;
+    height: auto;
+    padding: 10px 0;
+  }
+  
+  /* Ensure header home link is centered and full width */
+  #header-home.full.center {
+    width: 100%;
+    margin: 10px 0;
+  }
+  
+  /* Make header items display properly on small screens */
+  #header-items.center.hcontainer {
+    width: 100%;
+    justify-content: space-around;
+    margin: 5px 0;
+  }
+  
+  /* Ensure content flows properly below the responsive header */
+  #content {
+    margin-top: 10px;
+  }
+  
+  /* Make the flex container and its content responsive */
+  .flex-container {
+    flex-direction: column;
+  }
+  
+  /* Fix layout of main containers in listen page */
+  .content-container {
+    width: 100%;
+    padding: 10px;
+  }
+
+  /* Make member-display, music-wrapper, and chat-container consistent height */
+  .member-display, .music-wrapper, .chat-container {
+    max-height: 380px !important;
+    min-height: 330px !important;
+  }
+  
+  /* Fix for chat container on small screens */
+  .chat-container {
+    height: auto !important;
+    min-height: 380px !important;
+    max-height: 380px !important;
+    display: flex !important;
+    flex-direction: column !important;
+  }
+  
+  /* Make chat messages area properly visible */
+  .chat-messages {
+    flex: 1 !important;
+    max-height: 230px !important;
+    overflow-y: auto !important;
+    display: flex !important;
+  }
+  
+  /* Fix chat input area to stay at bottom and ensure send button is visible */
+  .chat-input-container {
+    position: relative !important;
+    bottom: 0 !important;
+    width: 100% !important;
+    display: flex !important;
+    flex-wrap: nowrap !important;
+  }
+  
+  /* Fix send button visibility */
+  #send-message-btn {
+    display: block !important;
+    min-width: 60px !important;
+    overflow: visible !important;
+    white-space: nowrap !important;
+    flex-shrink: 0 !important;
+  }
+  
+  /* Allow chat input to shrink */
+  #chat-input {
+    min-width: 0 !important;
+    flex: 1 !important;
+  }
+}
+
+/* Medium screens adjustments */
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+  /* Adjust header for medium screens */
+  #header.hcontainer {
+    padding: 5px 15px;
+  }
+  
+  /* Make member-display, music-wrapper, and chat-container consistent height */
+  .member-display, .music-wrapper, .chat-container {
+    max-height: 420px !important;
+    min-height: 380px !important;
+  }
+  
+  /* Fix for chat container on medium screens */
+  .chat-container {
+    height: auto !important;
+    min-height: 420px !important;
+    max-height: 420px !important;
+    display: flex !important;
+    flex-direction: column !important;
+  }
+  
+  /* Make chat messages area properly visible on medium screens */
+  .chat-messages {
+    flex: 1 !important;
+    max-height: 300px !important;
+    overflow-y: auto !important;
+  }
+  
+  /* Fix chat input container and button visibility on medium screens */
+  .chat-input-container {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+  }
+  
+  #send-message-btn {
+    min-width: 70px !important;
+    flex-shrink: 0 !important;
+    white-space: nowrap !important;
+  }
+}
+
+/* Large screens - add chat specific fixes */
+@media screen and (min-width: 1025px) {
+  /* Make member-display, music-wrapper, and chat-container consistent height */
+  .member-display, .music-wrapper, .chat-container {
+    max-height: 450px !important;
+    min-height: 420px !important;
+  }
+  
+  /* Fix for chat container on large screens */
+  .chat-container {
+    height: auto !important;
+    min-height: 450px !important;
+    max-height: 450px !important;
+    display: flex !important;
+    flex-direction: column !important;
+  }
+  
+  /* Make chat messages area properly visible */
+  .chat-messages {
+    flex: 1 !important;
+    height: auto !important;
+    min-height: 320px !important;
+    max-height: 330px !important;
+    overflow-y: auto !important;
+  }
+  
+  /* Fix positioning of chat input container */
+  .chat-input-container {
+    position: relative !important;
+    margin-top: auto !important;
+    width: 100% !important;
+  }
+  
+  /* Make sure send button is always visible */
+  #send-message-btn {
+    min-width: 80px !important;
+    flex-shrink: 0 !important;
+    overflow: visible !important;
+  }
+  
+  /* Allow chat input to shrink while keeping button visible */
+  #chat-input {
+    min-width: 0 !important;
+    flex: 1 !important;
+  }
+}

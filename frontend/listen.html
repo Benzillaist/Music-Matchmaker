@@ -5,129 +5,215 @@
     <title>Music Matchmaker</title>
     <link rel="stylesheet" href="main.css" />
     <link rel="stylesheet" href="listen.css" />
+    <link rel="stylesheet" href="js/chat.css" />
+    <link rel="stylesheet" href="responsive-helper.css" />
     <style>
-
+      /* Additional fixes for chat container */
+      .chat-container {
+        display: flex;
+        flex-direction: column;
+        height: auto;
+        min-height: 450px; /* Reduced from 500px */
+        max-height: 450px; /* Reduced from 500px to match other containers better */
+      }
+      
+      .chat-messages {
+        flex: 1;
+        overflow-y: auto;
+        height: auto;
+        min-height: 320px; /* Reduced from 350px */
+        max-height: 330px; /* Reduced from 380px */
+      }
+      
+      /* Make all containers have consistent heights */
+      .member-display, .music-wrapper, .chat-container {
+        max-height: 450px; /* Consistent height for all containers */
+      }
+      
+      /* Chat input container settings */
+      .chat-input-container {
+        margin-top: auto;
+        width: 100%;
+        display: flex;
+        padding: 10px; /* Reduced from 15px */
+        box-sizing: border-box;
+      }
+      
+      /* Fix message alignment */
+      .message-self {
+        margin-left: auto;
+        margin-right: 0;
+      }
+      
+      .message-others {
+        margin-right: auto;
+        margin-left: 0;
+      }
+      
+      /* Fix button visibility */
+      #send-message-btn {
+        padding: 8px 15px; /* Reduced from 10px 20px */
+        min-width: 80px;
+        box-sizing: border-box;
+        margin-left: 10px;
+        height: auto;
+        white-space: nowrap;
+      }
+      
+      #chat-input {
+        flex: 1;
+        min-width: 0;
+        padding: 8px; /* Reduced from 10px */
+        box-sizing: border-box;
+      }
+      
+      /* Ensure the button is visible on all screen sizes */
+      @media screen and (max-width: 768px) {
+        .chat-input-container {
+          padding: 8px; /* Reduced from 10px */
+        }
+        
+        #send-message-btn {
+          padding: 6px 10px; /* Reduced from 8px 12px */
+          min-width: 60px;
+        }
+      }
     </style>
   </head>
   <body>
-    <div class="flex-container">
-      <!-- Header Section -->
-      <header id="header" class="hcontainer">
-        <div id="header-home" class="full center tleft">
-          <a class="h1 white header-item link" href="index.html">Home</a>
+    <div class="body vcontainer">
+      <div>
+        <div class="vcontainer top">
+          <div id="header" class="hcontainer">
+            <div id="header-home" class="full center">
+              <div class="tleft">
+                <a class="h1 white header-item link" href="index.html"> Home </a>
+              </div>
+            </div>
+
+            <div id="header-items" class="center hcontainer">
+              <a class="h2 white header-item link" href="listen.html"> Listen </a>
+              <a class="h2 white header-item link" href="groups.html"> Groups </a>
+              <a class="h2 white header-item link" href="profile.html"> Profile </a>
+            </div>
+          </div>
+          <div class="bar accent1"></div>
         </div>
-        <nav id="header-items" class="center hcontainer">
-          <a class="h2 white header-item link" href="listen.html">Listen</a>
-          <a class="h2 white header-item link" href="groups.html">Groups</a>
-          <a class="h2 white header-item link" href="profile.html">Profile</a>
-        </nav>
-      </header>
-      <div class="bar accent1"></div>
+      </div>
 
       <!-- Main Content Section -->
-      <main class="content-container">
-        <div class="general-container">
-          <!-- Genre Display -->
-          <div id="genre_display" class="genre-display">
-            <h2>Current Genre:</h2>
-            <p id="current_genre">No genre selected</p>
-          </div>
-          <!-- Invite Member Button -->
-          <button id="invite_member_btn" class="invite-btn">
-            Invite Member
-          </button>
-          <!-- Exit Session Button -->
-          <button id="exit_session_btn" class="invite-btn">Exit Session</button>
+      <div id="content">
+        <div class="flex-container">
+          <main class="content-container">
+            <div class="general-container">
+              <!-- Genre Display -->
+              <div id="genre_display" class="genre-display">
+                <h2>Current Genre:</h2>
+                <p id="current_genre">No genre selected</p>
+              </div>
+              <!-- Invite Member Button -->
+              <button id="invite_member_btn" class="invite-btn">
+                Invite Member
+              </button>
+              <!-- Exit Session Button -->
+              <button id="exit_session_btn" class="invite-btn">Exit Session</button>
+            </div>
+
+            <!-- Member Display Section -->
+            <div class="member-display">
+              <h2>Members in session:</h2>
+              <div class="member">
+                <p><strong>Member 1 Username</strong></p>
+              </div>
+              <div class="member">
+                <p><strong>Member 2 Username</strong></p>
+              </div>
+              <div class="member">
+                <p><strong>Member 3 Username</strong></p>
+              </div>
+              <div class="member">
+                <p><strong>Member 4 Username</strong></p>
+              </div>
+              <div class="member">
+                <p><strong>Member 5 Username</strong></p>
+              </div>
+            </div>
+
+            <!-- Music Container Section -->
+            <div class="music-wrapper">
+              <div class="music-container">
+                <h2>Music Queue</h2>
+                <div class="music-item">
+                    <div class="music-info">Song 1 - Artist 1</div>
+                    <button class="remove-song-btn">Remove</button>
+                </div>
+                <div class="music-item">
+                    <div class="music-info">Song 2 - Artist 2</div>
+                    <button class="remove-song-btn">Remove</button>
+                </div>
+                <div class="music-item">
+                    <div class="music-info">Song 3 - Artist 3</div>
+                    <button class="remove-song-btn">Remove</button>
+                </div>
+                <div class="music-item">
+                    <div class="music-info">Song 4 - Artist 4</div>
+                    <button class="remove-song-btn">Remove</button>
+                </div>
+                <div class="music-item">
+                    <div class="music-info">Song 5 - Artist 5</div>
+                    <button class="remove-song-btn">Remove</button>
+                </div>
+                <div class="music-item">
+                    <div class="music-info">Song 6 - Artist 6</div>
+                    <button class="remove-song-btn">Remove</button>
+                </div>
+                <div class="music-item">
+                    <div class="music-info">Song 7 - Artist 7</div>
+                    <button class="remove-song-btn">Remove</button>
+                </div>
+                <div class="music-item">
+                    <div class="music-info">Song 8 - Artist 8</div>
+                    <button class="remove-song-btn">Remove</button>
+                </div>
+                <div class="music-item">
+                    <div class="music-info">Song 9 - Artist 9</div>
+                    <button class="remove-song-btn">Remove</button>
+                </div>
+              </div>
+              <button id="add_song_btn">Add Song</button>
+            </div>
+
+            <!-- Chat Section -->
+            <div class="chat-container">
+              <h2>Chat</h2>
+              <div class="chat-messages" id="chat-messages">
+                <!-- Chat messages will be displayed here dynamically -->
+              </div>
+              <div class="chat-input-container">
+                <input type="text" id="chat-input" placeholder="Type a message..." />
+                <button id="send-message-btn">Send</button>
+              </div>
+            </div>
+          </main>
         </div>
-
-        <!-- Member Display Section -->
-
-        <div class="member-display">
-          <h2 >Members in session:</h2>
-          <div class="member">
-            <p><strong>Member 1 Username</strong></p>
-
-          </div>
-          <div class="member">
-            <p><strong>Member 2 Username</strong></p>
-
-          </div>
-          <div class="member">
-            <p><strong>Member 3 Username</strong></p>
-
-          </div>
-          <div class="member">
-            <p><strong>Member 4 Username</strong></p>
-
-          </div>
-          <div class="member">
-            <p><strong>Member 5 Username</strong></p>
-
-          </div>
-        </div>
-
-        <!-- Music Container Section -->
-        <div class="music-wrapper">
-
-        <div class="music-container">
-          <h2>Music Queue</h2>
-          <div class="music-item">
-              <div class="music-info">Song 1 - Artist 1</div>
-              <button class="remove-song-btn">Remove</button>
-          </div>
-          <div class="music-item">
-              <div class="music-info">Song 2 - Artist 2</div>
-              <button class="remove-song-btn">Remove</button>
-          </div>
-          <div class="music-item">
-              <div class="music-info">Song 3 - Artist 3</div>
-              <button class="remove-song-btn">Remove</button>
-          </div>
-          <div class="music-item">
-              <div class="music-info">Song 4 - Artist 4</div>
-              <button class="remove-song-btn">Remove</button>
-          </div>
-          <div class="music-item">
-              <div class="music-info">Song 5 - Artist 5</div>
-              <button class="remove-song-btn">Remove</button>
-          </div>
-          <div class="music-item">
-              <div class="music-info">Song 6 - Artist 6</div>
-              <button class="remove-song-btn">Remove</button>
-          </div>
-          <div class="music-item">
-              <div class="music-info">Song 7 - Artist 7</div>
-              <button class="remove-song-btn">Remove</button>
-          </div>
-          <div class="music-item">
-              <div class="music-info">Song 8 - Artist 8</div>
-              <button class="remove-song-btn">Remove</button>
-          </div>
-          <div class="music-item">
-              <div class="music-info">Song 9 - Artist 9</div>
-              <button class="remove-song-btn">Remove</button>
-          </div>
-      </div>
-      
-
-        <button id="add_song_btn">Add Song</button>
-      </main>
       </div>
 
       <!-- Footer Section -->
-      <div class="bar accent2"></div>
-      <footer id="footer" class="full hcontainer">
-        <div class="item full center"></div>
-        <div class="item full center">
-          <a
-            class="white link"
-            href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-          >
-            Made by Ben Kuchma, Corwin Lee, Cuong Nguyen, and Tuan Nguyen
-          </a>
+      <div class="vcontainer bottom">
+        <div class="bar accent1"></div>
+        <div id="footer" class="full hcontainer">
+          <div class="item full center"></div>
+          <div class="item full center">
+            <a class="white link" href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">
+              Made by Ben Kuchma, Corwin Lee, Cuong Nguyen, and Tuan Nguyen
+            </a>
+          </div>
+          <div class="item full center"></div>
         </div>
-        <div class="item full center"></div>
-      </footer>
+      </div>
     </div>
+
+    <!-- JavaScript for chat functionality -->
+    <script src="js/chat.js"></script>
   </body>
 </html>
