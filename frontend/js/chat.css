@@ -1,8 +1,10 @@
 /* Chat Container Styles */
 .chat-container {
-  /* Flex properties are now managed in listen.css for consistency */
   display: flex;
   flex-direction: column;
+  position: relative;
+  min-height: 450px;
+  overflow: hidden; /* Prevent content from spilling outside */
 }
 
 .chat-container h2 {
@@ -13,6 +15,7 @@
   font-size: 30px;
   font-weight: 700;
   border-bottom: 2px solid skyblue;
+  z-index: 5;
 }
 
 /* Chat Messages Area */
@@ -23,8 +26,8 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
-  max-height: 380px; /* Adjusted for the new container height */
   scrollbar-width: thin;
+  position: relative;
   
   /* Hide scrollbars but maintain scroll functionality */
   scrollbar-width: none; /* Firefox */
@@ -84,9 +87,10 @@
   display: flex;
   padding: 15px;
   border-top: 1px solid #ddd;
-  background: white;
+  background: #b4d7fc;
   box-sizing: border-box;
   width: 100%;
+  z-index: 10;
 }
 
 #chat-input {
@@ -121,9 +125,22 @@
 
 /* Responsive adjustments for chat */
 @media screen and (max-width: 768px) {
+  .chat-container {
+    max-height: none !important;
+    min-height: 300px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    position: relative !important;
+    padding-bottom: 70px !important; /* Make room for chat input */
+    overflow: visible !important;
+  }
+  
   .chat-messages {
     max-height: 250px;
     padding: 10px;
+    position: relative !important;
+    overflow-y: auto !important;
+    flex: 1 !important;
   }
   
   .message {
@@ -132,18 +149,35 @@
   }
   
   .chat-input-container {
-    padding: 10px;
+    padding: 8px 10px !important;
+    position: absolute !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    height: 60px !important;
+    z-index: 100 !important;
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+    visibility: visible !important;
   }
   
   #chat-input {
     padding: 8px 12px;
     margin-right: 8px;
+    height: 40px !important;
+    visibility: visible !important;
+    display: block !important;
   }
   
   #send-message-btn {
-    min-width: 60px;
-    padding: 8px 12px;
-    font-size: 14px;
+    min-width: 60px !important;
+    padding: 8px 12px !important;
+    font-size: 14px !important;
+    height: 40px !important;
+    visibility: visible !important;
+    display: block !important;
+    opacity: 1 !important;
   }
   
   .message .sender {

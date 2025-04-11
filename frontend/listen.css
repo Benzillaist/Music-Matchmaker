@@ -291,20 +291,19 @@ body {
     display: flex;
     flex-direction: column;
     position: relative;
-    height: 500px; /* Match container height */
+    height: auto;
+    min-height: 500px;
 }
 
 .chat-messages {
     background-color: #2c3e50;
     padding: 15px;
     overflow-y: auto;
-    position: absolute;
-    top: 60px; /* Height of the header */
-    bottom: 60px; /* Height of the input container */
-    left: 0;
-    right: 0;
+    flex: 1;
     width: 100%;
     box-sizing: border-box;
+    min-height: 350px;
+    max-height: 350px;
 }
 
 /* Fixed chat input container layout */
@@ -317,12 +316,11 @@ body {
     gap: 10px;
     width: 100%;
     box-sizing: border-box;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
     height: 60px;
     border-radius: 0 0 12px 12px;
+    z-index: 10;
+    position: relative;
+    bottom: 0;
 }
 
 .message {
@@ -511,24 +509,63 @@ body {
     /* Mobile adjustments for chat container */
     .chat-container {
         min-height: 300px; /* Further reduced */
+        position: relative; /* Change from default to relative */
+        display: flex;
+        flex-direction: column;
+        overflow: visible;
+        margin-bottom: 20px;
+        padding-bottom: 60px; /* Ensure space for input container */
+        box-sizing: border-box;
     }
     
     .chat-messages {
-        position: relative; /* Change from absolute to relative */
+        position: static;
         top: auto;
         bottom: auto;
+        height: auto;
         min-height: 200px;
-        max-height: none;
+        max-height: 200px;
         flex: 1;
+        overflow-y: auto;
+        width: 100%;
+        left: auto;
+        right: auto;
     }
     
     /* Fix chat input positioning on mobile */
     .chat-input-container {
-        position: relative; /* Change from absolute to relative */
-        bottom: auto;
-        height: auto;
+        position: absolute; /* Position at bottom of container */
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 60px;
         min-height: 60px;
         padding: 8px;
+        width: 100%;
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        background-color: #2c3e50;
+        border-radius: 0 0 12px 12px;
+        margin-top: auto;
+        visibility: visible !important; /* Explicitly set visibility */
+        z-index: 100; /* Ensure it's on top */
+    }
+    
+    #chat-input {
+        flex: 1;
+        min-width: 0;
+        height: 40px;
+        visibility: visible !important;
+    }
+    
+    #send-message-btn {
+        display: inline-block !important;
+        visibility: visible !important;
+        height: 40px;
+        margin-left: 8px;
+        min-width: 60px !important;
+        opacity: 1 !important;
     }
 }
 
