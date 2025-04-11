@@ -1,30 +1,74 @@
 /* responsive-helper.css - Fix for header responsive issues in listen.html */
 
+/* Add header button styling with navy blue color scheme */
+#header .header-item.link {
+  background-color: #0a3d62; /* Deep navy blue base color */
+  border: 2px solid #1e6091; /* Slightly lighter navy as border */
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+}
+
+#header .header-item.link:hover {
+  background-color: #1e6091; /* Lighter navy blue on hover */
+  box-shadow: 0 0 8px rgba(30, 96, 145, 0.6); /* Subtle glow effect */
+  transform: translateY(-2px); /* Slight lift effect */
+}
+
 /* Target the header hcontainer in listen page for small screens */
 @media screen and (max-width: 768px) {
   /* Make header stack vertically on small screens */
   #header.hcontainer {
     flex-direction: column;
     height: auto;
+    min-height: 100px;
     padding: 10px 0;
   }
   
   /* Ensure header home link is centered and full width */
   #header-home.full.center {
     width: 100%;
-    margin: 10px 0;
+    margin: 5px 0;
+    justify-content: center !important;
+  }
+  
+  #header-home .tleft {
+    text-align: center !important;
+    width: 100%;
   }
   
   /* Make header items display properly on small screens */
   #header-items.center.hcontainer {
     width: 100%;
-    justify-content: space-around;
+    justify-content: center !important;
     margin: 5px 0;
+    flex-wrap: wrap; /* Allow wrapping to prevent overflow */
+    padding: 0;
+  }
+  
+  /* Ensure each header item fits properly */
+  .header-item {
+    margin: 5px;
+    padding: 5px 10px;
+    font-size: 24px !important; /* Slightly smaller font */
+    border-radius: 8px; /* Rounded corners for buttons */
+  }
+  
+  /* Adjust header item size for very small screens */
+  @media screen and (max-width: 400px) {
+    .header-item {
+      font-size: 20px !important;
+      margin: 3px;
+      padding: 5px 8px;
+    }
+    
+    .h2.white.header-item {
+      font-size: 20px !important; /* Even smaller for very small devices */
+    }
   }
   
   /* Ensure content flows properly below the responsive header */
   #content {
-    margin-top: 10px;
+    margin-top: 120px; /* Increased margin to account for taller header */
   }
   
   /* Make the flex container and its content responsive */
@@ -148,6 +192,22 @@
 
 /* Medium screens adjustments */
 @media screen and (min-width: 769px) and (max-width: 1024px) {
+  /* Fix header for medium screens */
+  #header.hcontainer {
+    justify-content: space-between;
+    padding: 0 10px;
+  }
+  
+  #header-items {
+    flex-wrap: nowrap;
+  }
+  
+  .header-item {
+    margin: 0 8px; /* Smaller margins between buttons */
+    font-size: 26px !important; /* Slightly smaller font */
+    border-radius: 8px; /* Rounded corners for buttons */
+    padding: 5px 15px; /* More horizontal padding for better button shape */
+  }
 
   /* Make member-display, music-wrapper, and chat-container consistent height */
   .member-display, .music-wrapper, .chat-container {
@@ -262,6 +322,12 @@
     flex: 1 !important;
   }
 
+  /* Header button styling for large screens */
+  .header-item {
+    border-radius: 8px; /* Rounded corners for buttons */
+    padding: 5px 20px; /* More horizontal padding for better button shape */
+  }
+
   /* GROUP PAGE RESPONSIVE STYLES - LARGE SCREENS */
   .flex-content {
     flex: 1 1 500px;
@@ -298,6 +364,15 @@
 /* Fix for header on all screens to avoid overlap */
 .top {
   z-index: 100 !important;
+  width: 100%; /* Ensure full width */
+  overflow: visible; /* Prevent clipping */
+}
+
+/* Improve header responsiveness across all pages */
+#header {
+  box-sizing: border-box; /* Include padding in width calculation */
+  width: 100% !important; /* Ensure it's exactly 100% */
+  overflow: visible; /* Prevent header items from being clipped */
 }
 
 /* Fix for profile page layout */

@@ -2,6 +2,9 @@
     display: flex;
     flex-direction: column; 
     min-height: 100vh;
+    width: 100%;
+    max-width: 100%; /* Ensure container doesn't overflow */
+    box-sizing: border-box; /* Include padding in width calculation */
 }
 
 body {
@@ -10,6 +13,7 @@ body {
     padding: 0;
     font-family: Arial, sans-serif;
     overflow-x: hidden; /* Prevent horizontal scrolling */
+    width: 100%;
 }
 
 .top {
@@ -31,7 +35,10 @@ body {
     margin: 20px 0px 75px 0px; 
     background-color: rgba(30, 30, 40, 0.3); /* Subtle dark background */
     border-radius: 12px;
-    min-height: 600px; /* Added minimum height */
+    min-height: auto; /* Remove fixed min-height */
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box; /* Include padding in width calculation */
 }
 
 /* Fix for footer to anchor at bottom */
@@ -39,6 +46,8 @@ body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    width: 100%;
+    max-width: 100%;
 }
 
 #content {
@@ -53,14 +62,15 @@ body {
 /* Updated color for general container with gradient */
 .general-container {
     flex: 1;
-    min-width: 250px;
-    max-width: 300px;
+    min-width: 200px; /* Reduce min-width for better fit */
+    max-width: 100%; /* Allow full width on small screens */
     background: linear-gradient(145deg, #2c3e50, #34495e);
     color: white;
     border-radius: 12px;
     padding: 20px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     border: 1px solid rgba(255, 255, 255, 0.1);
+    box-sizing: border-box; /* Include padding in width calculation */
 }
 
 .genre-display {
@@ -112,9 +122,9 @@ body {
 /* Making all display boxes consistent with updated styling */
 .member-display, .music-wrapper, .chat-container {
     flex: 1 1 30%; /* Equal flex distribution */
-    min-width: 300px;
-    height: 500px; /* Increased height from 450px */
-    max-height: 500px; /* Increased max height from 450px */
+    min-width: 250px; /* Reduce min-width for better fit on small screens */
+    height: auto; /* Allow dynamic height */
+    max-height: 500px;
     margin-top: 20px;
     display: flex;
     flex-direction: column;
@@ -123,6 +133,7 @@ body {
     overflow: hidden;
     background-color: #2c3e50;
     box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    box-sizing: border-box; /* Include padding in width calculation */
 }
 
 .member-display {
@@ -394,22 +405,28 @@ body {
 @media screen and (max-width: 768px) {
     .content-container {
         flex-direction: column;
-        overflow: hidden;
+        overflow: visible; /* Change from hidden to visible */
         margin: 30px 0; /* Less margin on mobile */
+        padding: 15px; /* Reduced padding */
+        width: 95%; /* Slightly narrower than 100% */
+        margin-left: auto;
+        margin-right: auto;
     }
 
     .general-container, .member-display, .music-wrapper, .chat-container {
         max-width: 100%;
-        min-width: 200px;
+        min-width: 0; /* Remove min-width constraint */
+        width: 100%; /* Full width */
     }
     
     .member-display, .music-wrapper, .chat-container {
         flex: 1 1 100%;
         height: auto;
         max-height: none;
-        min-height: 400px;
+        min-height: 350px; /* Reduced from 400px */
+        margin-bottom: 15px; /* Add spacing between elements */
     }
-    
+
     .music-container {
         max-height: none;
     }
@@ -417,6 +434,7 @@ body {
     .music-item {
         flex-direction: column;
         align-items: flex-start;
+        padding: 10px; /* Reduced padding */
     }
 
     .remove-song-btn {
@@ -492,18 +510,33 @@ body {
 
     /* Mobile adjustments for chat container */
     .chat-container {
-        min-height: 350px;
+        min-height: 300px; /* Further reduced */
     }
     
     .chat-messages {
-        min-height: 250px;
-        max-height: calc(100% - 100px);
+        position: relative; /* Change from absolute to relative */
+        top: auto;
+        bottom: auto;
+        min-height: 200px;
+        max-height: none;
+        flex: 1;
+    }
+    
+    /* Fix chat input positioning on mobile */
+    .chat-input-container {
+        position: relative; /* Change from absolute to relative */
+        bottom: auto;
+        height: auto;
+        min-height: 60px;
+        padding: 8px;
     }
 }
 
 @media screen and (min-width: 769px) and (max-width: 1024px) {
     .content-container {
-        margin: 50px 0;
+        margin: 50px auto; /* Center horizontally */
+        width: 95%; /* Slightly narrower than 100% */
+        max-width: 1000px; /* Maximum width */
     }
     
     .general-container {
@@ -536,8 +569,9 @@ body {
     .content-container {
         padding: 30px;
         gap: 30px;
-        margin: 75px 0;
-        min-height: px; /* Increased minimum height for large screens */
+        margin: 75px auto; /* Center horizontally */
+        width: 95%; /* Slightly narrower than 100% */
+        max-width: 1400px; /* Maximum width */
     }
     
     .general-container {
