@@ -8,7 +8,6 @@
 .chat-container h2 {
   position: sticky;
   top: 0;
-  background: white;
   padding: 15px;
   margin: 0;
   font-size: 30px;
@@ -26,7 +25,6 @@
   gap: 10px;
   max-height: 380px; /* Adjusted for the new container height */
   scrollbar-width: thin;
-  background-color: white;
   
   /* Hide scrollbars but maintain scroll functionality */
   scrollbar-width: none; /* Firefox */
@@ -76,7 +74,6 @@
 
 .message-others {
   align-self: flex-start;
-  background-color: #f1f0f0;
   border: 1px solid #e1e1e1;
   margin-right: auto;
   margin-left: 0;
