@@ -1,49 +1,70 @@
-<!DOCTYPE html>
-<html lang='en'>
-<head>
-    <meta charset='UTF-8'>
-    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-    <title>Spotify Web API Tutorial</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel='stylesheet' type='text/css' href='/style.css'>
-</head>
-<body>
-    
-    <div class='container'>        
-        <form action=''>
-            
-            <input type='hidden' id='hidden_token'>
-            <div class='col-sm-6 form-group row mt-4 px-0'>
-                <label for='Genre' class='form-label col-sm-2'>Genre:</label>
-                <select name='' id='select_genre' class='form-control form-control-sm col-sm-10'>
-                    <option>Select...</option>                    
-                </select>
+<!doctype html>
+<html>
+  <head>
+    <title>Music Matchmaker</title>
+    <link rel="stylesheet" href="index.css"/>
+  </head>
+  <body>
+    <div class="body vcontainer">
+      <div>
+        <div class="vcontainer top">
+          <div id="header" class="hcontainer">
+            <div id="header-home" class="full center">
+              <div class="tleft">
+                <a class="h1 white header-item link" href="index.html"> Home </a>
+              </div>
             </div>
-            <div class='col-sm-6 form-group row px-0'>
-                <label for='Genre' class='form-label col-sm-2'>Playlists:</label>
-                <select name='' id='select_playlist' class='form-control form-control-sm col-sm-10'>
-                    <option>Select...</option>                    
-                </select>
-            </div>                  
-            <div class='col-sm-6 row form-group px-0'>
-                <button type='submit' id='btn_submit' class='btn btn-success col-sm-12'>Search</button>
-            </div>          
-        </form>        
-        <div class='row'>
-            <div class='col-sm-6 px-0'>
-                <div class='list-group song-list'>
-                    
-                </div>                                             
-            </div>
-            <div class='offset-md-1 col-sm-4' id='song-detail'>                
-            </div>
-        </div>   
-    </div>
 
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    
-    <script src='/app.js' type='text/javascript'></script>
-</body>
+            <div id="header-items" class="center hcontainer">
+              <a class="h2 white header-item link" href="listen.html"> Listen </a>
+              <a class="h2 white header-item link" href="groups.html"> Groups </a>
+              <a class="h2 white header-item link" href="profile.html"> Profile </a>
+            </div>
+          </div>
+          <div class="bar accent1"></div>
+        </div>
+      </div>
+      
+      <div id="content">
+
+        <!-- Put content here! -->
+        <div class="center">
+          <h1>Find your music match</h1>
+          <label for="search">Search:</label>
+          <input type="text" id="search" name="search" placeholder="Search for music, groups, or matches...">
+        </div>
+        
+        <div class="hcontainer">
+          <div class="card">
+            <h2>Discover your music match</h2>
+            <button>Search</button>
+          </div>
+          <div class="card">
+            <h2>Discover new music groups</h2>
+            <button>Search</button>
+          </div>
+          <div class="card">
+            <h2>Discover new songs</h2>
+            <button>Search</button>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="vcontainer bottom">
+
+        <div class="bar accent1"></div>
+
+        <div id="footer" class="full hcontainer">
+          <div class="item full center">
+          </div>
+          <div class="item full center">
+            <a class="white link" href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"> Made by Ben Kuchma, Corwin Lee, Cuong Nguyen, and Tuan Nguyen </a>
+          </div>
+          <div class="item full center">
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
 </html>

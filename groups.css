@@ -191,8 +191,8 @@
 }
 
 .grid2x2 > div {
-    display: flex; 
-    flex-basis: calc(50% - 40px);  
+    display: flex;
+    flex-basis: calc(50% - 40px);
     justify-content: center;
     flex-direction: column;
 }
@@ -215,8 +215,8 @@
     font-size: 30px !important;
 }
 
-.fa-star:hover {
-    color: #F8CA00;
+.yellow {
+    color: #F8CA00 !important;
 }
 
 .h3 {
