@@ -224,3 +224,66 @@
     font-size: 15px;
     font-family: Arial;
 }
+
+/* View container styles */
+.view-content {
+    width: 100%;
+    min-height: calc(100vh - 150px); /* Account for header and footer */
+    padding: 20px 0;
+}
+
+/* Cards for home view */
+.card {
+    width: 300px;
+    height: auto;
+    min-height: 200px;
+    border: 3px solid skyblue;
+    border-radius: 10px;
+    background-color: white;
+    padding: 20px;
+    margin: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.card h2 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.card button {
+    padding: 10px 20px;
+    background-color: skyblue;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.card button:hover {
+    background-color: darkcyan;
+}
+
+/* Responsive design for view containers */
+@media (max-width: 768px) {
+    .view-content {
+        padding: 10px;
+    }
+    
+    .card {
+        width: 80%;
+        min-height: 180px;
+        margin: 15px auto;
+    }
+}

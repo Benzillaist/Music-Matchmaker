@@ -1,113 +1,363 @@
 <!doctype html>
 <html>
   <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Music Matchmaker</title>
+    
+    <!-- Base Styles -->
     <link rel="stylesheet" href="main.css"/>
+    <link rel="stylesheet" href="index.css"/>
+    <link rel="stylesheet" href="listen.css"/>
+    <link rel="stylesheet" href="groups.css"/>
+    <link rel="stylesheet" href="responsive-helper.css" />
+    <link rel="stylesheet" href="js/chat.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+    <!-- Scripts -->
+    <script src="js/views.js" defer></script>
+    <script src="js/chat.js" defer></script>
+
+    <style>
+      /* Multi-view base styles */
+      .view-content {
+        display: none;
+      }
+      
+      #profile-view {
+        display: block;
+      }
+
+      /* Enhanced Profile Styles */
+      .profile-section {
+        margin: 2% 5%;
+        padding: 2rem;
+        background: white;
+        border: 3px solid skyblue;
+        border-radius: 10px;
+        min-height: 70vh;
+        box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+      }
+
+      .profile-pic-container {
+        width: 200px;
+        height: 200px;
+        border: 3px solid skyblue;
+        background: linear-gradient(45deg, darkcyan, #f8f9fa);
+        padding: 5px;
+        border-radius: 10px;
+        box-shadow: 0 0 15px rgba(135, 206, 235, 0.3);
+      }
+
+      .profile-pic {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 5px;
+      }
+
+      .bio-text {
+        font-style: italic;
+        background: rgba(135, 206, 235, 0.1);
+        padding: 1.5rem;
+        border-left: 4px solid darkcyan;
+        border-radius: 5px;
+        position: relative;
+        line-height: 1.6;
+        color: #2a2a2a;
+      }
+
+      .bio-text::before {
+        content: "🎧";
+        position: absolute;
+        left: -30px;
+        top: -15px;
+        font-size: 2rem;
+      }
+
+      .bio-highlight {
+        color: darkcyan;
+        text-decoration: underline wavy darkcyan;
+      }
+
+      .profile-stats {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem;
+        padding: 2rem 0;
+      }
+
+      .stat-item {
+        text-align: center;
+        padding: 1rem;
+        border: 2px solid skyblue;
+        border-radius: 10px;
+        background: rgba(135, 206, 235, 0.05);
+        color: #2a2a2a;
+      }
+
+      .genre-cloud {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        padding: 1rem;
+        border: 2px solid darkcyan;
+        border-radius: 10px;
+        background: rgba(0, 139, 139, 0.05);
+        margin: 2rem 0;
+      }
+
+      .genre-tag {
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        background: linear-gradient(45deg, darkcyan, skyblue);
+        font-weight: bold;
+        text-transform: uppercase;
+        font-size: 0.9rem;
+        color: white;
+      }
+
+      .activity-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1.5rem;
+        margin-top: 1.5rem;
+      }
+
+      .activity-card {
+        background: white;
+        border-radius: 12px;
+        padding: 1.5rem;
+        position: relative;
+        transition: transform 0.3s ease;
+        border: 2px solid transparent;
+        background-clip: padding-box;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+      }
+
+      .activity-card::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        margin: -2px;
+        border-radius: inherit;
+        background: linear-gradient(45deg, skyblue, darkcyan);
+      }
+
+      .activity-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(135, 206, 235, 0.15);
+      }
+
+      .activity-header {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 1rem;
+      }
+
+      .activity-icon {
+        width: 40px;
+        height: 40px;
+        background: linear-gradient(45deg, skyblue, darkcyan);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+      }
+
+      .activity-details {
+        flex-grow: 1;
+      }
+
+      .activity-user {
+        font-weight: 600;
+        color: #2a2a2a;
+        margin-bottom: 0.25rem;
+      }
+
+      .activity-description {
+        color: #666;
+        font-size: 0.9em;
+      }
+
+      .activity-time {
+        color: darkcyan;
+        font-size: 0.8em;
+        margin-top: 0.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .activity-time::before {
+        content: "🕒";
+        font-size: 0.9em;
+      }
+
+      @media (max-width: 768px) {
+        .profile-header {
+          grid-template-columns: 1fr;
+          text-align: center;
+        }
+        
+        .profile-pic-container {
+          margin: 0 auto;
+        }
+        
+        .profile-stats {
+          grid-template-columns: 1fr;
+        }
+        
+        .bio-text::before {
+          left: -15px;
+        }
+      }
+    </style>
   </head>
-  <body>
+
+  <body class="color2">
     <div class="body vcontainer">
-      <div>
-        <div class="vcontainer top">
-          <div id="header" class="hcontainer">
-            <div id="header-home" class="full center">
-              <div class="tleft">
-                <a class="h1 white header-item link" href="index.html"> Home </a>
-              </div>
-            </div>
-
-            <div id="header-items" class="center hcontainer">
-              <a class="h2 white header-item link" href="listen.html"> Listen </a>
-              <a class="h2 white header-item link" href="groups.html"> Groups </a>
-              <a class="h2 white header-item link" href="profile.html"> Profile </a>
+      <!-- Header -->
+      <div class="vcontainer top">
+        <div id="header" class="hcontainer">
+          <div id="header-home" class="full center">
+            <div class="tleft">
+              <button class="h1 white header-item link" onclick="switchView('home')">Home</button>
             </div>
           </div>
-          <div class="bar accent1"></div>
-        </div>
-      </div>
-      
-      <div id="content">
-        <!-- Profile Header -->
-        <div class="vcontainer" style="gap: 2rem; padding: 2rem;">
-          <div class="hcontainer center" style="gap: 2rem;">
-            <!-- Profile Picture -->
-            <img src="https://via.placeholder.com/150" alt="Profile Picture" 
-                 class="profile-pic" 
-                 style="border-radius: 50%; border: 3px solid var(--accent1);">
-            
-            <!-- User Info -->
-            <div class="vcontainer" style="gap: 0.5rem;">
-              <h1 class="white">@MusicMaster2024</h1>
-              <div class="hcontainer" style="gap: 1rem;">
-                <span class="white">🎵 128 Followers</span>
-                <span class="white">🎧 64 Following</span>
-              </div>
-            </div>
-          </div>
-      
-          <!-- Bio Section -->
-          <div class="vcontainer center" style="max-width: 600px;">
-            <p class="white" style="text-align: center;">
-              "Avid music lover specializing in rock and electronic genres. 
-              Always looking for new collaborators and listening buddies!"
-            </p>
-          </div>
-      
-          <!-- Stats Bar -->
-          <div class="hcontainer center" style="gap: 3rem; margin-top: 1rem;">
-            <div class="vcontainer center">
-              <span class="h2 accent1">42</span>
-              <span class="white">Groups</span>
-            </div>
-            <div class="vcontainer center">
-              <span class="h2 accent1">128</span>
-              <span class="white">Matches</span>
-            </div>
-            <div class="vcontainer center">
-              <span class="h2 accent1">24</span>
-              <span class="white">Sessions</span>
-            </div>
-          </div>
-      
-          <!-- Favorite Genres -->
-          <div class="vcontainer center" style="gap: 1rem; margin-top: 2rem;">
-            <h2 class="white">Favorite Genres</h2>
-            <div class="hcontainer" style="gap: 1rem; flex-wrap: wrap;">
-              <span class="genre-tag">Rock</span>
-              <span class="genre-tag">Electronic</span>
-              <span class="genre-tag">Jazz</span>
-              <span class="genre-tag">Classical</span>
-            </div>
-          </div>
-      
-          <!-- Recent Activity -->
-          <div class="vcontainer" style="margin-top: 3rem;">
-            <h2 class="white">Recent Activity</h2>
-            <div class="activity-item">
-              <span class="white">🎉 Joined "Electronic Beats Lovers" group</span>
-              <span class="accent1">2h ago</span>
-            </div>
-            <div class="activity-item">
-              <span class="white">🎵 Matched with @DJBassMaster</span>
-              <span class="accent1">5h ago</span>
-            </div>
+          <div id="header-items" class="center hcontainer">
+            <button class="h2 white header-item link" onclick="switchView('listen')">Listen</button>
+            <button class="h2 white header-item link" onclick="switchView('groups')">Groups</button>
+            <button class="h2 white header-item link" onclick="switchView('profile')">Profile</button>
           </div>
         </div>
-      </div>
-
-      <div class="vcontainer bottom">
-
         <div class="bar accent1"></div>
+      </div>
 
+      <!-- View Container -->
+      <div id="view-container">
+        <!-- Profile View -->
+        <div id="profile-view" class="view-content">
+          <div class="profile-section">
+            <div class="profile-header">
+              <div class="profile-pic-container">
+                <img src="images/student-pfp.jpg" class="profile-pic"
+                     alt="Student Profile"
+                     onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 200 200\'><rect width=\'100%\' height=\'100%\' fill=\'%23f8f9fa\'/><text x=\'50%\' y=\'55%\' font-size=\'80\' fill=\'%23007bff\' text-anchor=\'middle\'>🎵</text></svg>'">
+              </div>
+
+              <div class="vcontainer">
+                <h1 class="h1 dark-text">@MidnightCramJams</h1>
+                <div class="bio-text">
+                  <span class="bio-highlight">Professional all-nighter soundtrack curator</span> 🎶<br>
+                  BS in Spotify Archaeology ('25) 📚<br>
+                  Certified lecture hall head-bopper 🎧<br>
+                  Creator of "3am Lo-Fi or I Fail" playlist 📝<br>
+                  Researching <span class="bio-highlight">bass drops vs. all-nighters</span> 🔍<br>
+                  Founder of <span class="bio-highlight">Students Against Quiet Libraries</span> 📢<br>
+                  Currently surviving on: Coffee ☕ and BPM ⚡
+                </div>
+              </div>
+            </div>
+
+            <!-- Stats Section -->
+            <div class="profile-stats">
+              <div class="stat-item">
+                <div class="h2 dark-text">128</div>
+                <div class="dark-text">Followers</div>
+              </div>
+              <div class="stat-item">
+                <div class="h2 dark-text">64</div>
+                <div class="dark-text">Following</div>
+              </div>
+              <div class="stat-item">
+                <div class="h2 dark-text">24</div>
+                <div class="dark-text">Groups</div>
+              </div>
+            </div>
+
+            <div class="genre-cloud">
+              <span class="genre-tag">StudyCore</span>
+              <span class="genre-tag">Math Rock</span>
+              <span class="genre-tag">Coffeepop</span>
+              <span class="genre-tag">Synthwave</span>
+              <span class="genre-tag">Lo-Fi</span>
+              <span class="genre-tag">ADHDcore</span>
+            </div>
+
+            <!-- Recent Activity Section -->
+            <div class="vcontainer">
+              <h2 class="h2 dark-text">Recent Activity</h2>
+              <div class="activity-grid">
+                <div class="activity-card">
+                  <div class="activity-header">
+                    <div class="activity-icon">🎸</div>
+                    <div class="activity-details">
+                      <div class="activity-user">@DJBassMaster</div>
+                      <div class="activity-description">
+                        Joined group "Late Night Bass Warriors"
+                      </div>
+                      <div class="activity-time">2 hours ago</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="activity-card">
+                  <div class="activity-header">
+                    <div class="activity-icon">🎧</div>
+                    <div class="activity-details">
+                      <div class="activity-user">@SynthQueen</div>
+                      <div class="activity-description">
+                        Shared playlist "Midterm Meltdown Mix"
+                      </div>
+                      <div class="activity-time">5 hours ago</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="activity-card">
+                  <div class="activity-header">
+                    <div class="activity-icon">🎹</div>
+                    <div class="activity-details">
+                      <div class="activity-user">@VinylVibes</div>
+                      <div class="activity-description">
+                        Added 15 songs to "Study Session Grooves"
+                      </div>
+                      <div class="activity-time">1 day ago</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Other Views (Listen, Groups, Home) -->
+        <!-- ... maintain existing view content from main branch ... -->
+      </div>
+
+      <!-- Footer -->
+      <div class="vcontainer bottom">
+        <div class="bar accent1"></div>
         <div id="footer" class="full hcontainer">
           <div class="item full center">
-          </div>
-          <div class="item full center">
-            <a class="white link" href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"> Made by Ben Kuchma, Corwin Lee, Cuong Nguyen, and Tuan Nguyen </a>
-          </div>
-          <div class="item full center">
+            <a class="white link" href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"> 
+              Made by Ben Kuchma, Corwin Lee, Cuong Nguyen, and Tuan Nguyen 
+            </a>
           </div>
         </div>
       </div>
     </div>
+
+    <script>
+      // Initialize view system
+      document.addEventListener('DOMContentLoaded', function() {
+        initializeView();
+        // Activate profile view by default
+        switchView('profile');
+      });
+    </script>
   </body>
 </html>

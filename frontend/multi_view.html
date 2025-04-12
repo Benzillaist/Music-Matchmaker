@@ -1,0 +1,85 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-view App</title>
+    <link rel="stylesheet" href="index.css"/>
+    <!-- <script src = "app.js"></script> -->
+  </head>
+  <body>
+    <div class="body vcontainer">
+      <!-- Top Header Section -->
+      <div>
+        <div class="vcontainer top">
+          <div id="header" class="hcontainer">
+            <div id="header-home" class="full center">
+              <div class="tleft">
+                <button class="h1 white header-item link" onclick="navigateTo('/home')">Home</button>
+              </div>
+            </div>
+  
+            <div id="header-items" class="center hcontainer">
+              <button class="h2 white header-item link" onclick="navigateTo('/listen')">Listen</button>
+              <button class="h2 white header-item link" onclick="navigateTo('/groups')">Groups</button>
+              <button class="h2 white header-item link" onclick="navigateTo('/profile')">Profile</button>
+            </div>
+          </div>
+          <div class="bar accent1"></div>
+        </div>
+      </div>
+  
+      <!-- Main Content Area -->
+      <div id="view">
+        Loading...
+      </div>
+  
+      <!-- Footer -->
+      <div class="vcontainer bottom">
+        <div class="bar accent1"></div>
+        <div id="footer" class="full hcontainer">
+          <div class="item full center"></div>
+          <div class="item full center">
+            <a class="white link" href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">
+              Made by Ben Kuchma, Corwin Lee, Cuong Nguyen, and Tuan Nguyen
+            </a>
+          </div>
+          <div class="item full center"></div>
+        </div>
+      </div>
+    </div>
+  
+    <script>
+      const routes = {
+        "/home": "home.html",
+        "/listen": "listen.html",
+        "/groups": "groups.html",
+        "/profile": "profile.html",
+      };
+  
+      function navigateTo(path) {
+        history.pushState({}, "", path);
+        loadView(path);
+      }
+  
+      async function loadView(path) {
+        const page = routes[path] || "home.html";
+        try {
+          const res = await fetch(page);
+          const html = await res.text();
+          document.getElementById("view").innerHTML = html;
+        } catch (e) {
+          document.getElementById("view").innerHTML = "<h2>404 - Page not found</h2>";
+        }
+      }
+  
+      window.addEventListener("popstate", () => {
+        loadView(window.location.pathname);
+      });
+  
+      document.addEventListener("DOMContentLoaded", () => {
+        loadView(window.location.pathname || "/home");
+      });
+    </script>
+  </body>
+</html>
