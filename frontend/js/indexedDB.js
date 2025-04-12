@@ -55,7 +55,6 @@ export class DB {
         // TASK: Implement this method
         return new Promise((resolve, reject) => {
             request.onsuccess = function () {
-                console.log("Data: " + request.result);
                 resolve(request.result);
             };
             request.onerror = function () {

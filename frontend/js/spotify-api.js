@@ -38,7 +38,6 @@ const SpotifyAPI = (function() {
         });
 
         const data = await result.json();
-        console.log("Token: " + data.access_token);
         return data.access_token;
     }
 
@@ -67,12 +66,10 @@ const SpotifyAPI = (function() {
             });
 
             if(!result.ok) {
-                console.log(Object.keys(result));
                 throw new Error(`Result status: ${result.status}`);
             }
 
             const data = await result.json();
-            console.log("Me data: " + data);
             return data;
 
         } catch (error) {

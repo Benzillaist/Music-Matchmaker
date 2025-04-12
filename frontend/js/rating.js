@@ -11,9 +11,17 @@ document.addEventListener("DOMContentLoaded", async () => {
     // // Create UserDB
     var UserDB = new DB("Users");
 
-    // Temp test song IDs and user ID
-    const user_id = "43gj8934hvg782y-v39ygw8yf9gm7";
-    const song_ids = ["5C8ySsx3AT121g24uYR823", "2wqxcctWptasX4VnP2sRvV", "6QTGiIuNopQu1iV2aa0fDS", "3E7ZwUMJFqpsDOJzEkBrQ7", "5Ohlkv2NY6pOC9sHZMsUPV"];
+    // Load in fake data file that incldues the user ID and top songs
+    var user_id;
+    var song_ids;
+    async function loadFakeData() {
+        const fetch_json = await fetch("fake_data/users.json");
+        const fake_data = await fetch_json.json();
+        user_id = fake_data.user1.id;
+        song_ids = fake_data.user1.top_songs;
+    }
+    // const user_id = "43gj8934hvg782y-v39ygw8yf9gm7";
+    // const song_ids = ["5C8ySsx3AT121g24uYR823", "2wqxcctWptasX4VnP2sRvV", "6QTGiIuNopQu1iV2aa0fDS", "3E7ZwUMJFqpsDOJzEkBrQ7", "5Ohlkv2NY6pOC9sHZMsUPV"];
 
     let rating_num = 0;
 
@@ -89,6 +97,11 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
     }
 
-    addSongRatings();
+    async function main() {
+        await loadFakeData();
 
+        await addSongRatings();
+    }
+
+    main();
 });
