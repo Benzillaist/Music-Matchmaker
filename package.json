@@ -4,12 +4,15 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "start": "http-server . -p 3000 -c-1 -o -s"
     },
     "author": "",
     "license": "ISC",
     "dependencies": {
+        "@spotify/web-api-ts-sdk": "^1.2.0",
         "express": "^5.1.0",
+        "npm-start": "^1.4.2",
+        "spotify-web-api-js": "^1.5.2",
         "spotify-web-api-node": "^5.0.2"
     }
 }
