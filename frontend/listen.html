@@ -7,7 +7,14 @@
     <link rel="stylesheet" href="listen.css" />
     <link rel="stylesheet" href="js/chat.css" />
     <link rel="stylesheet" href="responsive-helper.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="js/views.js" defer></script>
     <style>
+      /* Ensure views don't conflict with each other */
+      .view-content {
+        display: none;
+      }
+      
       /* Additional fixes for chat container */
       .chat-container {
         display: flex;
@@ -80,121 +87,247 @@
       }
     </style>
   </head>
-  <body>
+  <body class="color2">
     <div class="body vcontainer">
       <div>
         <div class="vcontainer top">
           <div id="header" class="hcontainer">
             <div id="header-home" class="full center">
               <div class="tleft">
-                <a class="h1 white header-item link" href="index.html"> Home </a>
+                <button class="h1 white header-item link" onclick="switchView('home')"> Home </button>
               </div>
             </div>
 
             <div id="header-items" class="center hcontainer">
-              <a class="h2 white header-item link" href="listen.html"> Listen </a>
-              <a class="h2 white header-item link" href="groups.html"> Groups </a>
-              <a class="h2 white header-item link" href="profile.html"> Profile </a>
+              <button class="h2 white header-item link" onclick="switchView('listen')"> Listen </button>
+              <button class="h2 white header-item link" onclick="switchView('groups')"> Groups </button>
+              <button class="h2 white header-item link" onclick="switchView('profile')"> Profile </button>
             </div>
           </div>
           <div class="bar accent1"></div>
         </div>
       </div>
-
-      <!-- Main Content Section -->
-      <div id="content">
-        <div class="flex-container">
-          <main class="content-container">
-            <div class="general-container">
-              <!-- Genre Display -->
-              <div id="genre_display" class="genre-display">
-                <h2>Current Genre:</h2>
-                <p id="current_genre">No genre selected</p>
+      
+      <!-- View containers for different pages -->
+      <div id="view-container">
+        <!-- Home View -->
+        <div id="home-view" class="view-content">
+          <div class="center search-container">
+            <h1 class="white">Find your music match</h1>
+            <label for="search" class="white">Search:</label>
+            <input type="text" id="search" name="search" placeholder="Search for music, groups, or matches...">
+          </div>
+          
+          <div class="hcontainer center" style="flex-wrap: wrap; justify-content: center;">
+            <div class="card">
+              <h2>Discover your music match</h2>
+              <button onclick="switchView('listen')">Search</button>
+            </div>
+            <div class="card">
+              <h2>Discover new music groups</h2>
+              <button onclick="switchView('groups')">Search</button>
+            </div>
+            <div class="card">
+              <h2>Discover new songs</h2>
+              <button onclick="switchView('listen')">Search</button>
+            </div>
+          </div>
+        </div>
+      
+        <!-- Listen View - This is the main view in this page -->
+        <div id="listen-view" class="view-content">
+          <div class="flex-container">
+            <main class="content-container">
+              <div class="general-container">
+                <!-- Genre Display -->
+                <div id="genre_display" class="genre-display">
+                  <h2>Current Genre:</h2>
+                  <p id="current_genre">No genre selected</p>
+                </div>
+                <!-- Invite Member Button -->
+                <button id="invite_member_btn" class="invite-btn">
+                  Invite Member
+                </button>
+                <!-- Exit Session Button -->
+                <button id="exit_session_btn" class="invite-btn">Exit Session</button>
               </div>
-              <!-- Invite Member Button -->
-              <button id="invite_member_btn" class="invite-btn">
-                Invite Member
-              </button>
-              <!-- Exit Session Button -->
-              <button id="exit_session_btn" class="invite-btn">Exit Session</button>
+
+              <!-- Member Display Section -->
+              <div class="member-display">
+                <h2>Members in session:</h2>
+                <div class="member">
+                  <p><strong>Member 1 Username</strong></p>
+                </div>
+                <div class="member">
+                  <p><strong>Member 2 Username</strong></p>
+                </div>
+                <div class="member">
+                  <p><strong>Member 3 Username</strong></p>
+                </div>
+                <div class="member">
+                  <p><strong>Member 4 Username</strong></p>
+                </div>
+                <div class="member">
+                  <p><strong>Member 5 Username</strong></p>
+                </div>
+              </div>
+
+              <!-- Music Container Section -->
+              <div class="music-wrapper">
+                <div class="music-container">
+                  <h2>Music Queue</h2>
+                  <div class="music-item">
+                      <div class="music-info">Song 1 - Artist 1</div>
+                      <button class="remove-song-btn">Remove</button>
+                  </div>
+                  <div class="music-item">
+                      <div class="music-info">Song 2 - Artist 2</div>
+                      <button class="remove-song-btn">Remove</button>
+                  </div>
+                  <div class="music-item">
+                      <div class="music-info">Song 3 - Artist 3</div>
+                      <button class="remove-song-btn">Remove</button>
+                  </div>
+                  <div class="music-item">
+                      <div class="music-info">Song 4 - Artist 4</div>
+                      <button class="remove-song-btn">Remove</button>
+                  </div>
+                  <div class="music-item">
+                      <div class="music-info">Song 5 - Artist 5</div>
+                      <button class="remove-song-btn">Remove</button>
+                  </div>
+                  <div class="music-item">
+                      <div class="music-info">Song 6 - Artist 6</div>
+                      <button class="remove-song-btn">Remove</button>
+                  </div>
+                  <div class="music-item">
+                      <div class="music-info">Song 7 - Artist 7</div>
+                      <button class="remove-song-btn">Remove</button>
+                  </div>
+                  <div class="music-item">
+                      <div class="music-info">Song 8 - Artist 8</div>
+                      <button class="remove-song-btn">Remove</button>
+                  </div>
+                  <div class="music-item">
+                      <div class="music-info">Song 9 - Artist 9</div>
+                      <button class="remove-song-btn">Remove</button>
+                  </div>
+                </div>
+                <button id="add_song_btn">Add Song</button>
+              </div>
+
+              <!-- Chat Section -->
+              <div class="chat-container">
+                <h2>Chat</h2>
+                <div class="chat-messages" id="chat-messages">
+                  <!-- Chat messages will be displayed here dynamically -->
+                </div>
+                <div class="chat-input-container">
+                  <input type="text" id="chat-input" placeholder="Type a message..." />
+                  <button id="send-message-btn">Send</button>
+                </div>
+              </div>
+            </main>
+          </div>
+        </div>
+        
+        <!-- Groups View -->
+        <div id="groups-view" class="view-content">
+          <div id="content" class="hcontainer">
+            <div id="left-content" class="flex-content vcontainer">
+              <div id="group-info">
+                <div id="group-name" class="h1 tight-fit accent1-10 round5 background1 content-item">#1 Bruno Mars fanclub</div>
+                <div id="group-genres-box" class="h2 content-item hcontainer white">
+                  <div>Genres: </div>
+                  <div id="group-genres">Pop, R&B, Funk, Soul, Reggae, and Rock</div>
+                </div>
+                <div id="group-artists-box" class="h2 content-item hcontainer white">
+                  <div>Artists: </div>
+                  <div id="group-artists">Bruno Mars, Maroon 5, and Katy Perry</div>
+                </div>
+              </div>
+              <div id="playlist">
+                <iframe class="margin5" style="border-radius:12px" src="https://open.spotify.com/embed/playlist/37i9dQZF1E4vTHVDH1FT3Y?utm_source=generator&theme=0" width="90%" height="600" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+              </div>
             </div>
 
-            <!-- Member Display Section -->
-            <div class="member-display">
-              <h2>Members in session:</h2>
-              <div class="member">
-                <p><strong>Member 1 Username</strong></p>
-              </div>
-              <div class="member">
-                <p><strong>Member 2 Username</strong></p>
-              </div>
-              <div class="member">
-                <p><strong>Member 3 Username</strong></p>
-              </div>
-              <div class="member">
-                <p><strong>Member 4 Username</strong></p>
-              </div>
-              <div class="member">
-                <p><strong>Member 5 Username</strong></p>
-              </div>
-            </div>
+            <div id="right-content" class="flex-content vcontainer">
+              <div id="group-members" class="scroll-y margin5 accent1 round5">
+                <div class="group-member hcontainer margin2 grid2x2">
+                  <div class="mem-info white">
+                    <div class="hcontainer">
+                      <img src="images/default-pfp.png" class="member-pfp round20">
+                      <div class="member-name h3 white">Username 0</div>
+                    </div>
+                  </div>
 
-            <!-- Music Container Section -->
-            <div class="music-wrapper">
-              <div class="music-container">
-                <h2>Music Queue</h2>
-                <div class="music-item">
-                    <div class="music-info">Song 1 - Artist 1</div>
-                    <button class="remove-song-btn">Remove</button>
-                </div>
-                <div class="music-item">
-                    <div class="music-info">Song 2 - Artist 2</div>
-                    <button class="remove-song-btn">Remove</button>
-                </div>
-                <div class="music-item">
-                    <div class="music-info">Song 3 - Artist 3</div>
-                    <button class="remove-song-btn">Remove</button>
-                </div>
-                <div class="music-item">
-                    <div class="music-info">Song 4 - Artist 4</div>
-                    <button class="remove-song-btn">Remove</button>
-                </div>
-                <div class="music-item">
-                    <div class="music-info">Song 5 - Artist 5</div>
-                    <button class="remove-song-btn">Remove</button>
-                </div>
-                <div class="music-item">
-                    <div class="music-info">Song 6 - Artist 6</div>
-                    <button class="remove-song-btn">Remove</button>
-                </div>
-                <div class="music-item">
-                    <div class="music-info">Song 7 - Artist 7</div>
-                    <button class="remove-song-btn">Remove</button>
-                </div>
-                <div class="music-item">
-                    <div class="music-info">Song 8 - Artist 8</div>
-                    <button class="remove-song-btn">Remove</button>
-                </div>
-                <div class="music-item">
-                    <div class="music-info">Song 9 - Artist 9</div>
-                    <button class="remove-song-btn">Remove</button>
+                  <div class="mem-info white">
+                    <div class="member-info-title">
+                      Top Genres:
+                    </div>
+                    <div class="user-genres member-info">
+                      Pop, extra pop, hyperpop, poppy
+                    </div>
+                  </div>
                 </div>
               </div>
-              <button id="add_song_btn">Add Song</button>
-            </div>
 
-            <!-- Chat Section -->
-            <div class="chat-container">
-              <h2>Chat</h2>
-              <div class="chat-messages" id="chat-messages">
-                <!-- Chat messages will be displayed here dynamically -->
-              </div>
-              <div class="chat-input-container">
-                <input type="text" id="chat-input" placeholder="Type a message..." />
-                <button id="send-message-btn">Send</button>
+              <div id="ratings-box" class="scroll-y accent1 round5">
+                <div class="song vcontainer margin2">
+                  <div class="song-info white h3">
+                    Don't Stop Believing by Journey
+                  </div>
+                  <div class="rating-stars hcontainer">
+                    <span class="fa fa-star star"></span>
+                    <span class="fa fa-star star"></span>
+                    <span class="fa fa-star star"></span>
+                    <span class="fa fa-star star"></span>
+                    <span class="fa fa-star star"></span>
+                  </div>
+                </div>
               </div>
             </div>
-          </main>
+          </div>
+        </div>
+        
+        <!-- Profile View -->
+        <div id="profile-view" class="view-content">
+          <div class="vcontainer" style="gap: 2rem; padding: 2rem;">
+            <div class="hcontainer center" style="gap: 2rem;">
+              <!-- Profile Picture -->
+              <img src="https://via.placeholder.com/150" alt="Profile Picture" 
+                   class="profile-pic" 
+                   style="border-radius: 50%; border: 3px solid skyblue;">
+              
+              <!-- User Info -->
+              <div class="vcontainer" style="gap: 0.5rem;">
+                <h1 class="white">@MusicMaster2024</h1>
+                <div class="hcontainer" style="gap: 1rem;">
+                  <span class="white">🎵 128 Followers</span>
+                  <span class="white">🎧 64 Following</span>
+                </div>
+              </div>
+            </div>
+        
+            <!-- Bio Section -->
+            <div class="vcontainer center" style="max-width: 600px;">
+              <p class="white" style="text-align: center;">
+                "Avid music lover specializing in rock and electronic genres. 
+                Always looking for new collaborators and listening buddies!"
+              </p>
+            </div>
+        
+            <!-- Favorite Genres -->
+            <div class="vcontainer center" style="gap: 1rem; margin-top: 2rem;">
+              <h2 class="white">Favorite Genres</h2>
+              <div class="hcontainer" style="gap: 1rem; flex-wrap: wrap;">
+                <span class="genre-tag">Rock</span>
+                <span class="genre-tag">Electronic</span>
+                <span class="genre-tag">Jazz</span>
+                <span class="genre-tag">Classical</span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -215,5 +348,15 @@
 
     <!-- JavaScript for chat functionality -->
     <script src="js/chat.js"></script>
+    <!-- Initialize the view system -->
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        // Set the current view for this page
+        window.currentView = 'listen';
+        
+        // Initialize view
+        initializeView();
+      });
+    </script>
   </body>
 </html>
