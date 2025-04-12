@@ -1,16 +1,33 @@
 <!doctype html>
 <html>
   <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Music Matchmaker</title>
-    <link rel="stylesheet" href="main.css" />
-    <link rel="stylesheet" href="groups.css" />
+    
+    <!-- Base Styles -->
+    <link rel="stylesheet" href="main.css"/>
+    <link rel="stylesheet" href="index.css"/>
+    <link rel="stylesheet" href="listen.css"/>
+    <link rel="stylesheet" href="groups.css"/>
+    <link rel="stylesheet" href="responsive-helper.css" />
+    <link rel="stylesheet" href="js/chat.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+    <!-- Scripts -->
+    <script src="js/views.js" defer></script>
+    <script src="js/chat.js" defer></script>
+
     <style>
-      /* Profile Page Styles */
-      body {
-        background: white;
-        color: #2a2a2a;
+      /* Multi-view base styles */
+      .view-content {
+        display: none;
+      }
+      
+      #profile-view {
+        display: block;
       }
 
+      /* Enhanced Profile Styles */
       .profile-section {
         margin: 2% 5%;
         padding: 2rem;
@@ -19,10 +36,6 @@
         border-radius: 10px;
         min-height: 70vh;
         box-shadow: 0 2px 15px rgba(0,0,0,0.1);
-      }
-
-      #header {
-        background: rgb(50, 50, 50) !important;
       }
 
       .profile-pic-container {
@@ -103,11 +116,6 @@
         color: white;
       }
 
-      .dark-text {
-        color: #2a2a2a !important;
-      }
-
-      /* Enhanced Activity Cards */
       .activity-grid {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -208,119 +216,126 @@
       }
     </style>
   </head>
-  <body>
+
+  <body class="color2">
     <div class="body vcontainer">
       <!-- Header -->
       <div class="vcontainer top">
         <div id="header" class="hcontainer">
           <div id="header-home" class="full center">
             <div class="tleft">
-              <a class="h1 white header-item link" href="index.html"> Home </a>
+              <button class="h1 white header-item link" onclick="switchView('home')">Home</button>
             </div>
           </div>
           <div id="header-items" class="center hcontainer">
-            <a class="h2 white header-item link" href="listen.html"> Listen </a>
-            <a class="h2 white header-item link" href="groups.html"> Groups </a>
-            <a class="h2 white header-item link" href="profile.html"> Profile </a>
+            <button class="h2 white header-item link" onclick="switchView('listen')">Listen</button>
+            <button class="h2 white header-item link" onclick="switchView('groups')">Groups</button>
+            <button class="h2 white header-item link" onclick="switchView('profile')">Profile</button>
           </div>
         </div>
         <div class="bar accent1"></div>
       </div>
 
-      <!-- Profile Content -->
-      <div id="content">
-        <div class="profile-section">
-          <div class="profile-header">
-            <div class="profile-pic-container">
-              <img src="images/student-pfp.jpg" class="profile-pic"
-                   alt="Student Profile"
-                   onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 200 200\'><rect width=\'100%\' height=\'100%\' fill=\'%23f8f9fa\'/><text x=\'50%\' y=\'55%\' font-size=\'80\' fill=\'%23007bff\' text-anchor=\'middle\'>🎵</text></svg>'">
+      <!-- View Container -->
+      <div id="view-container">
+        <!-- Profile View -->
+        <div id="profile-view" class="view-content">
+          <div class="profile-section">
+            <div class="profile-header">
+              <div class="profile-pic-container">
+                <img src="images/student-pfp.jpg" class="profile-pic"
+                     alt="Student Profile"
+                     onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 200 200\'><rect width=\'100%\' height=\'100%\' fill=\'%23f8f9fa\'/><text x=\'50%\' y=\'55%\' font-size=\'80\' fill=\'%23007bff\' text-anchor=\'middle\'>🎵</text></svg>'">
+              </div>
+
+              <div class="vcontainer">
+                <h1 class="h1 dark-text">@MidnightCramJams</h1>
+                <div class="bio-text">
+                  <span class="bio-highlight">Professional all-nighter soundtrack curator</span> 🎶<br>
+                  BS in Spotify Archaeology ('25) 📚<br>
+                  Certified lecture hall head-bopper 🎧<br>
+                  Creator of "3am Lo-Fi or I Fail" playlist 📝<br>
+                  Researching <span class="bio-highlight">bass drops vs. all-nighters</span> 🔍<br>
+                  Founder of <span class="bio-highlight">Students Against Quiet Libraries</span> 📢<br>
+                  Currently surviving on: Coffee ☕ and BPM ⚡
+                </div>
+              </div>
             </div>
 
+            <!-- Stats Section -->
+            <div class="profile-stats">
+              <div class="stat-item">
+                <div class="h2 dark-text">128</div>
+                <div class="dark-text">Followers</div>
+              </div>
+              <div class="stat-item">
+                <div class="h2 dark-text">64</div>
+                <div class="dark-text">Following</div>
+              </div>
+              <div class="stat-item">
+                <div class="h2 dark-text">24</div>
+                <div class="dark-text">Groups</div>
+              </div>
+            </div>
+
+            <div class="genre-cloud">
+              <span class="genre-tag">StudyCore</span>
+              <span class="genre-tag">Math Rock</span>
+              <span class="genre-tag">Coffeepop</span>
+              <span class="genre-tag">Synthwave</span>
+              <span class="genre-tag">Lo-Fi</span>
+              <span class="genre-tag">ADHDcore</span>
+            </div>
+
+            <!-- Recent Activity Section -->
             <div class="vcontainer">
-              <h1 class="h1 dark-text">@MidnightCramJams</h1>
-              <div class="bio-text">
-                <span class="bio-highlight">Professional all-nighter soundtrack curator</span> 🎶<br>
-                BS in Spotify Archaeology ('25) 📚<br>
-                Certified lecture hall head-bopper 🎧<br>
-                Creator of "3am Lo-Fi or I Fail" playlist 📝<br>
-                Researching <span class="bio-highlight">bass drops vs. all-nighters</span> 🔍<br>
-                Founder of <span class="bio-highlight">Students Against Quiet Libraries</span> 📢<br>
-                Currently surviving on: Coffee ☕ and BPM ⚡
-              </div>
-            </div>
-          </div>
-
-          <!-- Stats Section -->
-          <div class="profile-stats">
-            <div class="stat-item">
-              <div class="h2 dark-text">128</div>
-              <div class="dark-text">Followers</div>
-            </div>
-            <div class="stat-item">
-              <div class="h2 dark-text">64</div>
-              <div class="dark-text">Following</div>
-            </div>
-            <div class="stat-item">
-              <div class="h2 dark-text">24</div>
-              <div class="dark-text">Groups</div>
-            </div>
-          </div>
-
-          <div class="genre-cloud">
-            <span class="genre-tag">StudyCore</span>
-            <span class="genre-tag">Math Rock</span>
-            <span class="genre-tag">Coffeepop</span>
-            <span class="genre-tag">Synthwave</span>
-            <span class="genre-tag">Lo-Fi</span>
-            <span class="genre-tag">ADHDcore</span>
-          </div>
-
-          <!-- Recent Activity Section -->
-          <div class="vcontainer">
-            <h2 class="h2 dark-text">Recent Activity</h2>
-            <div class="activity-grid">
-              <div class="activity-card">
-                <div class="activity-header">
-                  <div class="activity-icon">🎸</div>
-                  <div class="activity-details">
-                    <div class="activity-user">@DJBassMaster</div>
-                    <div class="activity-description">
-                      Joined group "Late Night Bass Warriors"
+              <h2 class="h2 dark-text">Recent Activity</h2>
+              <div class="activity-grid">
+                <div class="activity-card">
+                  <div class="activity-header">
+                    <div class="activity-icon">🎸</div>
+                    <div class="activity-details">
+                      <div class="activity-user">@DJBassMaster</div>
+                      <div class="activity-description">
+                        Joined group "Late Night Bass Warriors"
+                      </div>
+                      <div class="activity-time">2 hours ago</div>
                     </div>
-                    <div class="activity-time">2 hours ago</div>
                   </div>
                 </div>
-              </div>
 
-              <div class="activity-card">
-                <div class="activity-header">
-                  <div class="activity-icon">🎧</div>
-                  <div class="activity-details">
-                    <div class="activity-user">@SynthQueen</div>
-                    <div class="activity-description">
-                      Shared playlist "Midterm Meltdown Mix"
+                <div class="activity-card">
+                  <div class="activity-header">
+                    <div class="activity-icon">🎧</div>
+                    <div class="activity-details">
+                      <div class="activity-user">@SynthQueen</div>
+                      <div class="activity-description">
+                        Shared playlist "Midterm Meltdown Mix"
+                      </div>
+                      <div class="activity-time">5 hours ago</div>
                     </div>
-                    <div class="activity-time">5 hours ago</div>
                   </div>
                 </div>
-              </div>
 
-              <div class="activity-card">
-                <div class="activity-header">
-                  <div class="activity-icon">🎹</div>
-                  <div class="activity-details">
-                    <div class="activity-user">@VinylVibes</div>
-                    <div class="activity-description">
-                      Added 15 songs to "Study Session Grooves"
+                <div class="activity-card">
+                  <div class="activity-header">
+                    <div class="activity-icon">🎹</div>
+                    <div class="activity-details">
+                      <div class="activity-user">@VinylVibes</div>
+                      <div class="activity-description">
+                        Added 15 songs to "Study Session Grooves"
+                      </div>
+                      <div class="activity-time">1 day ago</div>
                     </div>
-                    <div class="activity-time">1 day ago</div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
+
+        <!-- Other Views (Listen, Groups, Home) -->
+        <!-- ... maintain existing view content from main branch ... -->
       </div>
 
       <!-- Footer -->
@@ -335,5 +350,14 @@
         </div>
       </div>
     </div>
+
+    <script>
+      // Initialize view system
+      document.addEventListener('DOMContentLoaded', function() {
+        initializeView();
+        // Activate profile view by default
+        switchView('profile');
+      });
+    </script>
   </body>
 </html>

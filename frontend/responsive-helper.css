@@ -1,30 +1,74 @@
 /* responsive-helper.css - Fix for header responsive issues in listen.html */
 
+/* Add header button styling with navy blue color scheme */
+#header .header-item.link {
+  background-color: #0a3d62; /* Deep navy blue base color */
+  border: 2px solid #1e6091; /* Slightly lighter navy as border */
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+}
+
+#header .header-item.link:hover {
+  background-color: #1e6091; /* Lighter navy blue on hover */
+  box-shadow: 0 0 8px rgba(30, 96, 145, 0.6); /* Subtle glow effect */
+  transform: translateY(-2px); /* Slight lift effect */
+}
+
 /* Target the header hcontainer in listen page for small screens */
 @media screen and (max-width: 768px) {
   /* Make header stack vertically on small screens */
   #header.hcontainer {
     flex-direction: column;
     height: auto;
+    min-height: 100px;
     padding: 10px 0;
   }
   
   /* Ensure header home link is centered and full width */
   #header-home.full.center {
     width: 100%;
-    margin: 10px 0;
+    margin: 5px 0;
+    justify-content: center !important;
+  }
+  
+  #header-home .tleft {
+    text-align: center !important;
+    width: 100%;
   }
   
   /* Make header items display properly on small screens */
   #header-items.center.hcontainer {
     width: 100%;
-    justify-content: space-around;
+    justify-content: center !important;
     margin: 5px 0;
+    flex-wrap: wrap; /* Allow wrapping to prevent overflow */
+    padding: 0;
+  }
+  
+  /* Ensure each header item fits properly */
+  .header-item {
+    margin: 5px;
+    padding: 5px 10px;
+    font-size: 24px !important; /* Slightly smaller font */
+    border-radius: 8px; /* Rounded corners for buttons */
+  }
+  
+  /* Adjust header item size for very small screens */
+  @media screen and (max-width: 400px) {
+    .header-item {
+      font-size: 20px !important;
+      margin: 3px;
+      padding: 5px 8px;
+    }
+    
+    .h2.white.header-item {
+      font-size: 20px !important; /* Even smaller for very small devices */
+    }
   }
   
   /* Ensure content flows properly below the responsive header */
   #content {
-    margin-top: 10px;
+    margin-top: 120px; /* Increased margin to account for taller header */
   }
   
   /* Make the flex container and its content responsive */
@@ -84,15 +128,87 @@
     min-width: 0 !important;
     flex: 1 !important;
   }
+
+  /* GROUP PAGE RESPONSIVE STYLES - SMALL SCREENS */
+  #left-content, #right-content {
+    flex: 1 1 100% !important;
+    min-width: 300px !important;
+  }
+
+  /* Fix group content layout */
+  #content.hcontainer {
+    flex-direction: column;
+    width: 95% !important;
+    margin: 120px auto 80px auto !important;
+  }
+
+  /* Group info responsive layout */
+  #group-info {
+    width: 95% !important;
+    margin: 0 auto !important;
+  }
+
+  #group-name {
+    font-size: 24px !important;
+    margin: 2% !important;
+    padding: 5px !important;
+  }
+
+  #group-genres-box, #group-artists-box {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    margin: 5px !important;
+  }
+
+  /* Make playlist responsive */
+  #playlist {
+    width: 100% !important;
+    display: flex !important;
+    justify-content: center !important;
+  }
+
+  #playlist iframe {
+    width: 95% !important;
+    height: 380px !important;
+    margin: 10px auto !important;
+  }
+
+  /* Member grid responsiveness */
+  .grid2x2 > div {
+    flex-basis: 100% !important;
+  }
+
+  #group-members, #ratings-box {
+    max-height: 350px !important;
+  }
+
+  /* HOME PAGE RESPONSIVE STYLES - SMALL SCREENS */
+  .card {
+    width: 90% !important;
+    min-height: 200px !important;
+    margin: 10px auto !important;
+  }
 }
 
 /* Medium screens adjustments */
 @media screen and (min-width: 769px) and (max-width: 1024px) {
-  /* Adjust header for medium screens */
+  /* Fix header for medium screens */
   #header.hcontainer {
-    padding: 5px 15px;
+    justify-content: space-between;
+    padding: 0 10px;
   }
   
+  #header-items {
+    flex-wrap: nowrap;
+  }
+  
+  .header-item {
+    margin: 0 8px; /* Smaller margins between buttons */
+    font-size: 26px !important; /* Slightly smaller font */
+    border-radius: 8px; /* Rounded corners for buttons */
+    padding: 5px 15px; /* More horizontal padding for better button shape */
+  }
+
   /* Make member-display, music-wrapper, and chat-container consistent height */
   .member-display, .music-wrapper, .chat-container {
     max-height: 420px !important;
@@ -125,6 +241,38 @@
     min-width: 70px !important;
     flex-shrink: 0 !important;
     white-space: nowrap !important;
+  }
+
+  /* GROUP PAGE RESPONSIVE STYLES - MEDIUM SCREENS */
+  .flex-content {
+    flex: 1 1 400px !important;
+    min-width: 400px !important;
+  }
+
+  /* Content layout for group page */
+  #content.hcontainer {
+    flex-wrap: wrap !important;
+    margin-top: 100px !important;
+    margin-bottom: 80px !important;
+    justify-content: space-around !important;
+  }
+
+  /* Adjust playlist size */
+  #playlist iframe {
+    height: 450px !important;
+    width: 95% !important;
+  }
+
+  /* Improve member grid layout */
+  .grid2x2 > div {
+    flex-basis: calc(50% - 20px) !important;
+  }
+
+  /* HOME PAGE RESPONSIVE STYLES - MEDIUM SCREENS */
+  .card {
+    width: 260px !important;
+    min-height: 280px !important;
+    margin: 15px !important;
   }
 }
 
@@ -173,4 +321,71 @@
     min-width: 0 !important;
     flex: 1 !important;
   }
+
+  /* Header button styling for large screens */
+  .header-item {
+    border-radius: 8px; /* Rounded corners for buttons */
+    padding: 5px 20px; /* More horizontal padding for better button shape */
+  }
+
+  /* GROUP PAGE RESPONSIVE STYLES - LARGE SCREENS */
+  .flex-content {
+    flex: 1 1 500px;
+    min-width: 500px;
+  }
+
+  /* Home page cards on large screens */
+  .card {
+    width: 300px;
+    margin: 20px;
+  }
+
+  /* Fix top margin to account for fixed header */
+  #content {
+    margin-top: 75px !important;
+    margin-bottom: 75px !important;
+  }
+}
+
+/* Fix card layout for all screens to ensure responsiveness */
+@media screen and (max-width: 1200px) {
+  .hcontainer > .card {
+    margin: 10px auto !important;
+  }
+}
+
+/* Ensure view containers look good on all sizes */
+.view-content {
+  width: 100% !important;
+  padding: 0 !important;
+  box-sizing: border-box !important;
+}
+
+/* Fix for header on all screens to avoid overlap */
+.top {
+  z-index: 100 !important;
+  width: 100%; /* Ensure full width */
+  overflow: visible; /* Prevent clipping */
+}
+
+/* Improve header responsiveness across all pages */
+#header {
+  box-sizing: border-box; /* Include padding in width calculation */
+  width: 100% !important; /* Ensure it's exactly 100% */
+  overflow: visible; /* Prevent header items from being clipped */
+}
+
+/* Fix for profile page layout */
+#profile-view .hcontainer {
+  flex-wrap: wrap !important;
+}
+
+/* Genre tags responsiveness */
+.genre-tag {
+  display: inline-block !important;
+  background-color: skyblue !important;
+  color: white !important;
+  padding: 5px 10px !important;
+  margin: 5px !important;
+  border-radius: 20px !important;
 }
