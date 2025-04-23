@@ -1,4 +1,5 @@
 import {SpotifyAPI} from "./spotify-api.js"
+import {SpotifyAPI} from "./spotify-api2.js"
 import {DB} from "./indexedDB.js";
 
 document.addEventListener("DOMContentLoaded", async () => {

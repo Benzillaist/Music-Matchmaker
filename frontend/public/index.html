@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Public</title>
+    </head>
+    <body>
+        <h1>Authenticate with spotify below</h1>
+        <button id="auth-button" onclick="authenticateSpotify()">Authenticate</button>
+        <button id="user-button" onclick="getUser()">Get user</button>
+        <input type="text" id="song-id">
+        <button id="track-button" onclick="findTrack()">Find track</button>
+        <div id="spotify-info"></div>
+
+        <script>
+            async function getTest() {
+                const request = await fetch(`/test`);
+                console.log(request);
+            }
+
+
+            async function authenticateSpotify() {
+                const authRequest = await fetch(`/spotifyAuth`).then((url) => {
+                    return url.json()});
+                const authUrl = authRequest.url;
+                window.location.replace(authUrl);
+            }
+
+            async function getUser() {
+                const user = await fetch(`/getMe`);
+
+                console.log(`user: ${user}`);
+
+                if(user.status === 404) {
+                    document.getElementById("spotify-info").innerHTML = "Error accessing user's details";
+                }
+
+                if(user.status === 200) {
+                    const userInfo = await user.json();
+                    const html = JSON.stringify(userInfo);
+                    document.getElementById("spotify-info").innerHTML = html;
+                }
+            }
+
+            async function findTrack() {
+
+            }
+
+
+        </script>
+    </body>
+</html>
