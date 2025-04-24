@@ -2,26 +2,41 @@ export class DB {
     constructor(DBName) {
         this.DBName = DBName;
         this.OSName = "data";
+
+        console.log("constructor: " + this.OSName);
     }
 
     async openDatabase() {
+        let DBName = this.DBName;
+        let OSName = this.OSName;
+
         return new Promise((resolve, reject) => {
             if (this.DBName === "") {
                 reject("Database name cannot be empty.");
                 return;
             }
 
-            let request = indexedDB.open("test", 1);
-            request.onupgradeneeded = function (event) {
+            let request = indexedDB.open(DBName, 1);
+
+            request.onupgradeneeded = (event) => {
                 let db = event.target.result;
-                console.log(db.objectStoreNames.contains(String(this.OSName)));
-                if (!db.objectStoreNames.contains(String(this.OSName))) {
-                    console.log(`OS ${this.OSName} does not exist`)
-                    db.createObjectStore(String(this.OSName));
+
+                console.log("contains onupgradeneeded: " + db.objectStoreNames.contains(String(OSName)));
+
+                if (!db.objectStoreNames.contains(String(OSName))) {
+                    db.createObjectStore(String(OSName));
                 }
-            };
+
+                console.log("contains onupgradeneeded: " + db.objectStoreNames.contains(String(OSName)));
+
+
+            }
             request.onsuccess = function (event) {
-                resolve(event.target.result);
+                let db = event.target.result;
+
+                console.log("contains onsuccess: " + db.objectStoreNames.contains(String(OSName)));
+
+                resolve(db);
             };
             request.onerror = function (event) {
                 reject(event.target.error);
@@ -30,7 +45,9 @@ export class DB {
     }
 
     async saveData(key, data) {
+        console.log("saveData: " + this.OSName);
         const db = await this.openDatabase();
+        console.log("OS names: " + Object.keys(db.objectStoreNames));
         const tx = db.transaction(this.OSName, "readwrite");
         const store = tx.objectStore(this.OSName);
         store.put(data, key);
