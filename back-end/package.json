@@ -4,5 +4,6 @@
     "express": "^5.1.0",
     "express-request-id": "^3.0.0",
     "spotify-web-api-node": "^5.0.2"
-  }
+  },
+  "type": "module"
 }
