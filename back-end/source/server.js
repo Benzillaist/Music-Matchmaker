@@ -12,10 +12,10 @@ class Server {
     configureMiddleware() {
 
         // TESTING PAGE: UNCOMMENT TO LOAD
-        this.app.use(express.static("../frontend/public"));
+        // this.app.use(express.static("../frontend/public"));
 
         // DEV PAGE: COMMENT THE FOLLOWING LINE WHEN USING TESTING PAGE
-        // this.app.use(express.static("../frontend"));
+        this.app.use(express.static("../frontend"));
 
         this.app.use(express.json());
     }
