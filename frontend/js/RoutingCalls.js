@@ -29,9 +29,6 @@ export async function _createGroup(groupname, user_ids) {
 }
 
 export async function _updateGroup(group) {
-    console.log(`group: ${group}`);
-    console.log(`group key: ${Object.keys(group)}`);
-    console.log(`group id: ${group.id}`);
     const update_group_request = await fetch(`/v1/groups/update`, {
         method: "PUT",
         headers: {
