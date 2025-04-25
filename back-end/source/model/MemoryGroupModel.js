@@ -6,9 +6,11 @@ class _MemoryGroupModel {
     }
 
     async create(group) {
-        if(this.groups.some((g) => g.id === group.id)) {
-            throw new Error(`Group with id=${group.id} already exists, no new group added`);
-        }
+        group.id = _MemoryGroupModel.id++;
+        // if(this.groups.some((g) => g.id === group.id)) {
+        //     throw new Error(`Group with id=${group.id} already exists, no new group added`);
+        // }
+        group.ratings = [];
         this.groups.push(group);
         return group;
     }

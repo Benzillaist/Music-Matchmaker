@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en">
     <head>
+        <script src="./RoutingCalls.js"></script>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Public</title>
@@ -8,98 +9,114 @@
     <body>
         <h1>Authenticate with spotify below</h1>
         <div>
-            <button id="auth-button" onclick="authenticateSpotify()">Authenticate</button>
-            <button id="user-button" onclick="getUser()">Get user</button>
             <h3>User info:</h3>
+            <button id="auth-button" onclick="authenticateSpotify()">Authenticate</button>
+            <button id="user-button" onclick="getMe()">Get user</button>
             <div id="spotify-info"></div>
         </div>
         <div>
+            <h3>Track info:</h3>
             <input type="text" id="song-id">
             <button id="track-button" onclick="findTrack()">Find track</button>
-            <h3>Track info:</h3>
             <div id="track-info"></div>
         </div>
         <div>
+            <h3>Artist info:</h3>
             <input type="text" id="artist-id">
             <button id="artist-button" onclick="findArtist()">Find artist</button>
-            <h3>Artist info:</h3>
             <div id="artist-info"></div>
         </div>
         <div>
-            <input type="text" id="playlist-id">
-            <button id="playlist-button" onclick="findPlaylist()">Find playlist</button>
             <h3>Playlist info:</h3>
+            <input type="text" id="playlist-id">
+            <button id="find-playlist-button" onclick="findPlaylist()">Find playlist</button>
             <div id="playlist-info"></div>
         </div>
-        
+        <div>
+            <h3>New playlist info:</h3>
+            <input type="text" id="create-playlist">
+            <button id="create-playlist-button" onclick="createPlaylist()">Create playlist</button>
+            <div id="new-playlist-info"></div>
+        </div>
+        <div>
+            <h3>Updated:</h3>
+            <input type="text" id="add-playlist-id" placeholder="Playlist id">
+            <input type="text" id="add-track-id" placeholder="Track id">
+            <button id="add-track-button" onclick="addTrack()">Add song</button>
+            <div id="add-track-info"></div>
+        </div>
+        <div>
+            <h3>Top tracks:</h3>
+            <button id="top-tracks-button" onclick="topTracks()">Get top tracks</button>
+            <div id="top-tracks-info"></div>
+        </div>
+
+        <div>
+            <h3>Groups info:</h3>
+            <button id="get-groups" onclick="getGroups()">Get groups</button>
+            <div id="groups-info"></div>
+        </div>
+        <div>
+            <h3>Add group</h3>
+            <input type="text" id="create-group-name" placeholder="Group name">
+            <input type="text" id="create-group-users" placeholder="User ids">
+            <button id="create-group" onclick="createGroup()">Add group</button>
+            <div id="create-group-info"></div>
+        </div>
 
         <script>
 
-            async function authenticateSpotify() {
-                const authRequest = await fetch(`/v1/spotifyAuth`).then((url) => {
-                    return url.json()});
-                const authUrl = authRequest.url;
-                window.location.replace(authUrl);
+            async function createGroup() {
+                const groupname = document.getElementById("create-group-name").value;
+                const user_ids = document.getElementById("create-group-users").value.replace(/ /g, '').split(',');
+                return await _createGroup(groupname, user_ids);
             }
 
-            async function getUser() {
-                const user = await fetch(`/v1/getMe`);
+            async function getGroups() {
+                return await _getGroups();
+            }
 
-                if(user.status === 404) {
-                    document.getElementById("spotify-info").innerHTML = "Error accessing user's details";
-                }
+            // ==========================
+            // SPOTIFY
+            // ==========================
 
-                if(user.status === 200) {
-                    const userInfo = await user.json();
-                    document.getElementById("spotify-info").innerHTML = JSON.stringify(userInfo);
-                }
+            async function topTracks() {
+                return await _topTracks();
+            }
+
+            async function addTrack() {
+                const playlist_id = document.getElementById("add-playlist-id").value;
+                const track_id = document.getElementById("add-track-id").value;
+                return await _addTrack(playlist_id, track_id);
+            }
+
+            async function authenticateSpotify() {
+                await _authenticateSpotify();
+            }
+
+            async function getMe() {
+                return await _getMe();
             }
 
             async function findTrack() {
                 var song_id = document.getElementById("song-id").value;
-
-                const trackRequest = await fetch(`/v1/findTrack/${song_id}`);
-
-                if(trackRequest.status === 400) {
-                    document.getElementById("track-info").innerHTML = "Error accessing track's details";
-                }
-
-                if(trackRequest.status === 200) {
-                    const trackInfo = await trackRequest.json();
-                    document.getElementById("track-info").innerHTML = JSON.stringify(trackInfo);
-                }
+                return await _findTrack(song_id);
             }
 
             async function findArtist() {
                 var artist_id = document.getElementById("artist-id").value;
-
-                const artistRequest = await fetch(`/v1/findArtist/${artist_id}`);
-
-                if(artistRequest.status === 400) {
-                    document.getElementById("artist-info").innerHTML = "Error accessing artist's details";
-                }
-
-                if(artistRequest.status === 200) {
-                    const artistInfo = await artistRequest.json();
-                    document.getElementById("artist-info").innerHTML = JSON.stringify(artistInfo);
-                }
+                return await _findArtist(artist_id);
             }
 
             async function findPlaylist() {
                 var playlist_id = document.getElementById("playlist-id").value;
-
-                const playlistRequest = await fetch(`/v1/findPlaylist/${playlist_id}`);
-
-                if(playlistRequest.status === 400) {
-                    document.getElementById("playlist-info").innerHTML = "Error accessing playlist's details";
-                }
-
-                if(playlistRequest.status === 200) {
-                    const playlistInfo = await playlistRequest.json();
-                    document.getElementById("playlist-info").innerHTML = JSON.stringify(playlistInfo);
-                }
+                return await _findPlaylist(playlist_id);
             }
 
+            async function createPlaylist() {
+                const playlist_name = document.getElementById("create-playlist").value;
+                return await _createPlaylist(playlist_name);
+            }
 
         </script>
     </body>

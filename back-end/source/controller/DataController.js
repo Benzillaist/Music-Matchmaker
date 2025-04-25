@@ -21,7 +21,7 @@ class DataController {
             return res.status(400).json({error: "Add user request incomplete"});
         }
 
-        req.body.username = req.body.id;
+        req.body.displayName = req.body.spotifyName;
         req.body.groupId = null;
 
         const user = await this.userModel.create(req.body);
@@ -73,7 +73,7 @@ class DataController {
     }
 
     async addGroup(req, res) {
-        if(!req.body || !req.body.id || !req.body.groupname || !req.body.userids || !req.body.playlistid) {
+        if(!req.body || !req.body.groupname || !req.body.user_ids || !req.body.playlist_id) {
             return res.status(400).json({error: "Add group request incomplete"});
         }
 
@@ -92,22 +92,22 @@ class DataController {
     }
 
     async updateGroup(req, res) {
-        if(!req.body || !req.body.group || !req.body.group.id) {
+        if(!req.body) {
             return res.status(400).json({error: "Update group request incomplete"});
         }
 
-        const group = req.body.group;
+        const group = req.body;
 
         await this.groupModel.update(group);
         res.json(group);
     }
 
     async deleteGroup(req, res) {
-        if(!req.body || !req.body.group || !req.body.group.id) {
+        if(!req.body || !req.body.id) {
             return res.status(400).json({error: "Delete group request incomplete"});
         }
 
-        await this.groupModel.delete(req.body.group);
+        await this.groupModel.delete(req.body);
         res.json(await this.groupModel.read());
     }
 
