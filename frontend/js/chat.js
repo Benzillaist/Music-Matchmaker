@@ -24,6 +24,127 @@ document.addEventListener('DOMContentLoaded', () => {
   let db;
   const DB_NAME = 'musicMatchmakerChat';
   const STORE_NAME = 'messages';
+  
+  // Backend API URL - adjust to match existing backend endpoints
+  const API_URL = '/v1/chat'; // Change this to match your backend route pattern
+
+  // Add connection status indicator
+  const connectionStatus = document.createElement('div');
+  connectionStatus.className = 'connection-status';
+  connectionStatus.textContent = 'Connecting...';
+  
+  // Add to DOM when chat is ready
+  setTimeout(() => {
+    if (chatMessagesContainer && chatMessagesContainer.parentNode) {
+      chatMessagesContainer.parentNode.appendChild(connectionStatus);
+    }
+  }, 100);
+
+  // CRUD API Functions with proper endpoint paths
+  // CREATE - Post message to API with correct path
+  async function postMessageToAPI(message) {
+    try {
+      const response = await fetch(API_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(message)
+      });
+      
+      if (!response.ok) {
+        throw new Error(`API Error: ${response.status}`);
+      }
+      
+      connectionStatus.textContent = 'Message sent';
+
+      return await response.json();
+    } catch (error) {
+      console.error('Failed to post message to API:', error);
+      connectionStatus.classList.add('offline');
+      // If API fails, fall back to local storage
+      await saveMessage(message);
+      return message;
+    }
+  }
+
+  // READ - Fetch messages from API with correct path
+  async function fetchMessagesFromAPI() {
+    try {
+      const response = await fetch(API_URL);
+      
+      if (!response.ok) {
+        throw new Error(`API Error: ${response.status}`);
+      }
+      
+
+      return await response.json();
+    } catch (error) {
+      console.error('Failed to fetch messages from API:', error);
+      connectionStatus.classList.add('offline');
+      // If API fails, fall back to local storage
+      return getLocalMessages();
+    }
+  }
+
+  // UPDATE - Update message in API with CORS handling
+  async function updateMessageInAPI(id, updatedContent) {
+    try {
+      const response = await fetch(`${API_URL}/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({ content: updatedContent })
+      });
+      
+      if (!response.ok) {
+        throw new Error(`API Error: ${response.status}`);
+      }
+      
+      connectionStatus.textContent = 'Message updated';
+
+      
+      if (response.ok) {
+        // Set edited status in response object
+        const responseData = await response.json();
+        responseData.edited = true;
+        return responseData;
+      }
+      
+    } catch (error) {
+      console.error(`Failed to update message ${id} in API:`, error);
+      connectionStatus.classList.add('error');
+      return null;
+    }
+  }
+
+  // DELETE - Delete message from API with standardized URL pattern
+  async function deleteMessageFromAPI(id) {
+    try {
+      // Fixed URL to match the pattern of other API calls
+      const response = await fetch(`${API_URL}/${id}`, {
+        method: 'DELETE',
+        headers: {
+          'Accept': 'application/json'
+        }
+      });
+      
+      if (!response.ok) {
+        throw new Error(`API Error: ${response.status}`);
+      }
+      
+      connectionStatus.textContent = 'Message deleted';
+
+      return true;
+    } catch (error) {
+      console.error(`Failed to delete message ${id} from API:`, error);
+      connectionStatus.classList.add('error');
+      return false;
+    }
+  }
 
   // Initialize IndexedDB
   function initDB() {
@@ -85,8 +206,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Get the 5 most recent messages
-  function getRecentMessages() {
+  // Get messages from local IndexedDB (renamed from getRecentMessages for clarity)
+  function getLocalMessages() {
     return new Promise((resolve, reject) => {
       if (!db) {
         reject(new Error('Database not initialized'));
@@ -121,20 +242,60 @@ document.addEventListener('DOMContentLoaded', () => {
           reject(event.target.error);
         };
       } catch (error) {
-        console.error('Error in getRecentMessages:', error);
+        console.error('Error in getLocalMessages:', error);
         reject(error);
       }
     });
   }
 
-  // Create and display message element
+  // Get recent messages (now tries API first, then falls back to local)
+  async function getRecentMessages() {
+    try {
+      return await fetchMessagesFromAPI();
+    } catch (error) {
+      console.warn('Falling back to local messages:', error);
+      return await getLocalMessages();
+    }
+  }
+
+  // Create and display message element - updated to add edit/delete controls
   function createMessageElement(message) {
     const messageDiv = document.createElement('div');
     messageDiv.classList.add('message');
     
+    // Make sure message has an ID property - crucial for edit/delete
+    const messageId = message.id || `local-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+    messageDiv.dataset.messageId = messageId;
+    
     // Add appropriate class based on sender
     if (message.userId === currentUser.id) {
       messageDiv.classList.add('message-self');
+      
+      // Add edit/delete controls for own messages
+      const controlsElement = document.createElement('div');
+      controlsElement.classList.add('message-controls');
+      
+      const editBtn = document.createElement('button');
+      editBtn.classList.add('edit-btn');
+      editBtn.innerHTML = '✏️';
+      editBtn.title = 'Edit';
+      editBtn.onclick = (e) => {
+        e.stopPropagation();
+        editMessage(messageId);
+      };
+      
+      const deleteBtn = document.createElement('button');
+      deleteBtn.classList.add('delete-btn');
+      deleteBtn.innerHTML = '🗑️';
+      deleteBtn.title = 'Delete';
+      deleteBtn.onclick = (e) => {
+        e.stopPropagation();
+        deleteMessage(messageId);
+      };
+      
+      controlsElement.appendChild(editBtn);
+      controlsElement.appendChild(deleteBtn);
+      messageDiv.appendChild(controlsElement);
     } else {
       messageDiv.classList.add('message-others');
     }
@@ -149,13 +310,92 @@ document.addEventListener('DOMContentLoaded', () => {
     
     const timestampElement = document.createElement('div');
     timestampElement.classList.add('timestamp');
-    timestampElement.textContent = formatTimestamp(message.timestamp);
+    
+    // Add edited indicator if the message has been edited
+    if (message.edited) {
+      const editedIndicator = document.createElement('span');
+      editedIndicator.classList.add('edited-indicator');
+      editedIndicator.textContent = ' (edited)';
+      timestampElement.appendChild(editedIndicator);
+    }
+    
+    timestampElement.appendChild(document.createTextNode(formatTimestamp(message.timestamp)));
     
     messageDiv.appendChild(senderElement);
     messageDiv.appendChild(contentElement);
     messageDiv.appendChild(timestampElement);
     
     return messageDiv;
+  }
+
+  // Edit message function - improved to handle errors better
+  async function editMessage(id) {
+    console.log(`Attempting to edit message with ID: ${id}`);
+    const messageElement = document.querySelector(`.message[data-message-id="${id}"]`);
+    if (!messageElement) {
+      console.error(`Message element with ID ${id} not found`);
+      return;
+    }
+    
+    const contentElement = messageElement.querySelector('.content');
+    if (!contentElement) {
+      console.error('Content element not found');
+      return;
+    }
+    
+    const currentContent = contentElement.textContent;
+    const newContent = prompt('Edit your message:', currentContent);
+    
+    if (newContent !== null && newContent !== currentContent) {
+      try {
+        console.log(`Updating message ${id} with content: ${newContent}`);
+        const updatedMessage = await updateMessageInAPI(id, newContent);
+        
+        if (updatedMessage) {
+          contentElement.textContent = updatedMessage.content || newContent;
+          
+          // Add edited indicator if not already present
+          if (!messageElement.querySelector('.edited-indicator')) {
+            const editedIndicator = document.createElement('span');
+            editedIndicator.classList.add('edited-indicator');
+            editedIndicator.textContent = ' (edited)';
+            
+            const timestampElement = messageElement.querySelector('.timestamp');
+            if (timestampElement) {
+              timestampElement.prepend(editedIndicator);
+            }
+          }
+        }
+      } catch (error) {
+        console.error('Failed to edit message:', error);
+        alert('Could not update message. Please try again.');
+      }
+    }
+  }
+
+  // Delete message function - improved with better logging
+  async function deleteMessage(id) {
+    console.log(`Attempting to delete message with ID: ${id}`);
+    if (confirm('Are you sure you want to delete this message?')) {
+      try {
+        const success = await deleteMessageFromAPI(id);
+        console.log(`Delete API response for message ${id}: ${success}`);
+        
+        if (success) {
+          const messageElement = document.querySelector(`.message[data-message-id="${id}"]`);
+          if (messageElement) {
+            messageElement.remove();
+          } else {
+            console.warn(`Message element with ID ${id} not found for deletion`);
+          }
+        } else {
+          alert('Could not delete message. Please try again.');
+        }
+      } catch (error) {
+        console.error('Failed to delete message:', error);
+        alert('Could not delete message. Please try again.');
+      }
+    }
   }
 
   // Format timestamp
@@ -181,7 +421,7 @@ document.addEventListener('DOMContentLoaded', () => {
     chatMessagesContainer.scrollTop = chatMessagesContainer.scrollHeight;
   }
 
-  // Send a new message
+  // Send a new message - updated to use API with better error handling
   async function sendMessage(content) {
     if (!content || !content.trim()) return;
     
@@ -193,13 +433,27 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     
     try {
-      await saveMessage(message);
-      const messages = await getRecentMessages();
-      displayMessages(messages);
-      chatInput.value = '';
+      // Try to send via API first
+      const result = await postMessageToAPI(message);
+      if (result) {
+        chatInput.value = '';
+        const messages = await getRecentMessages();
+        displayMessages(messages);
+      } else {
+        throw new Error('Failed to post message');
+      }
     } catch (error) {
       console.error('Error sending message:', error);
-      alert('Failed to send message. Please try again.');
+      // If API fails, at least show the message locally
+      try {
+        await saveMessage(message);
+        chatInput.value = '';
+        const messages = await getLocalMessages();
+        displayMessages(messages);
+        alert('Message saved locally (offline mode)');
+      } catch (localError) {
+        alert('Failed to send message. Please try again.');
+      }
     }
   }
 
@@ -237,13 +491,25 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Initialize app
+  // Initialize app - updated to check server connectivity
   async function init() {
     try {
       await initDB();
       
-      // Add some initial demo messages if there aren't any
-      const messages = await getRecentMessages();
+      // Try to fetch messages from API first
+      try {
+        const apiMessages = await fetchMessagesFromAPI();
+        if (apiMessages && apiMessages.length > 0) {
+          displayMessages(apiMessages);
+          console.log('Successfully loaded messages from API');
+          return; // Exit if API works
+        }
+      } catch (error) {
+        console.warn('Could not connect to API, using local storage:', error);
+      }
+      
+      // Fall back to local storage if API fails
+      const messages = await getLocalMessages();
       
       if (messages.length === 0) {
         // Add 3 demo messages
@@ -253,13 +519,14 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       
       // Display messages
-      const updatedMessages = await getRecentMessages();
+      const updatedMessages = await getLocalMessages();
       displayMessages(updatedMessages);
       
       // For demo purposes: Add a new message every 30 seconds
       setInterval(async () => {
         try {
-          await saveMessage(generateDemoMessage());
+          const demoMessage = generateDemoMessage();
+          await postMessageToAPI(demoMessage); // Try API first
           const latestMessages = await getRecentMessages();
           displayMessages(latestMessages);
         } catch (error) {

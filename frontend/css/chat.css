@@ -1,0 +1,312 @@
+/* Message controls styling */
+.message-controls {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  display: flex;
+  gap: 5px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.message:hover .message-controls {
+  opacity: 1;
+}
+
+.edit-btn, .delete-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 2px;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.edit-btn:hover, .delete-btn:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Connection status styling */
+.connection-status {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  font-size: 0; /* Hide text by setting font size to 0 */
+  padding: 8px; /* Adjusted padding for a cleaner look without text */
+  width: 8px; /* Set specific width for the indicator */
+  height: 8px; /* Set specific height for the indicator */
+  border-radius: 50%; /* Make it a circle */
+  background-color: #4CAF50; /* Default to green */
+  z-index: 200;
+  transition: background-color 0.3s ease; /* Smooth color transitions */
+}
+
+/* Additional status indicator states that will be applied via JavaScript */
+.connection-status.offline {
+  background-color: #FF9800; /* Orange for offline status */
+}
+
+.connection-status.error {
+  background-color: #F44336; /* Red for error status */
+}
+
+/* Chat Container Styles */
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  height: auto;
+  width: 100%;
+  position: relative;
+  min-height: 450px;
+  padding-bottom: 130px;
+  overflow: hidden;
+}
+
+.chat-container h2 {
+  position: sticky;
+  top: 0;
+  padding: 15px;
+  margin: 0;
+  font-size: 30px;
+  font-weight: 700;
+  border-bottom: 2px solid skyblue;
+  z-index: 5;
+}
+
+/* Chat Messages Area */
+.chat-messages {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow-y: auto;
+  padding: 15px;
+  height: 420px;
+  gap: 10px;
+  padding-bottom: 60px;
+  border-radius: 6px;
+  background-color: rgba(0, 0, 0, 0.05);
+  width: 100%;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+  
+  /* Hide scrollbars but maintain scroll functionality */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+/* Hide scrollbar for WebKit browsers (Chrome, Safari) */
+.chat-messages::-webkit-scrollbar {
+  display: none;
+}
+
+/* Individual Message Styles */
+.message {
+  position: relative;
+  margin-bottom: 10px;
+  padding: 12px 15px;
+  border-radius: 16px;
+  max-width: 80%;
+  word-break: break-word;
+  font-size: 16px;
+  background-color: rgba(255, 255, 255, 0.05);
+  word-wrap: break-word;
+}
+
+.message-self {
+  background-color: rgba(76, 175, 80, 0.2);
+  align-self: flex-end;
+  margin-left: auto;
+  margin-right: 0;
+}
+
+.message-others {
+  background-color: rgba(33, 150, 243, 0.2);
+  align-self: flex-start;
+  margin-right: auto;
+  margin-left: 0;
+}
+
+.sender {
+  font-weight: bold;
+  margin-bottom: 5px;
+  font-size: 18px;
+}
+
+.content {
+  margin-bottom: 5px;
+  word-wrap: break-word;
+  font-size: 16px;
+}
+
+.timestamp {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.6);
+  text-align: right;
+}
+
+.edited-indicator {
+  font-style: italic;
+  opacity: 0.7;
+  font-size: 12px;
+}
+
+/* Chat Input Area */
+.chat-input-container {
+  display: flex;
+  padding: 15px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 70px;
+  align-items: center;
+  
+  /* Fixed positioning at bottom of container */
+  position: absolute;
+  bottom: 10px;
+  left: 0;
+  z-index: 100;
+  
+  /* Add a subtle shadow and backdrop blur for better visibility */
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(3px);
+}
+
+#chat-input {
+  flex: 1;
+  min-width: 0;
+  padding: 12px 15px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+  margin-right: 10px;
+  min-height: 45px;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+#send-message-btn {
+  padding: 12px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  white-space: nowrap;
+  height: 45px;
+  font-size: 16px;
+  min-width: 80px;
+  transition: background-color 0.3s;
+}
+
+#send-message-btn:hover {
+  background-color: #45a049;
+}
+
+/* Media query for smaller screens */
+@media (max-width: 768px) {
+  .chat-container {
+    min-height: 300px;
+    padding-bottom: 70px;
+  }
+  
+  .chat-messages {
+    height: 250px;
+    padding: 10px;
+    padding-bottom: 50px;
+  }
+  
+  .message {
+    max-width: 90%;
+    padding: 10px 12px;
+  }
+  
+  .chat-input-container {
+    padding: 8px 10px;
+    min-height: 60px;
+    bottom: 0;
+  }
+  
+  #chat-input {
+    padding: 8px 12px;
+    margin-right: 8px;
+    min-height: 40px;
+  }
+  
+  #send-message-btn {
+    min-width: 60px;
+    padding: 8px 12px;
+    font-size: 14px;
+    height: 40px;
+  }
+  
+  .sender {
+    font-size: 16px;
+  }
+  
+  .content {
+    font-size: 14px;
+  }
+  
+  .timestamp {
+    font-size: 12px;
+  }
+}
+
+/* Media query for medium screens */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .chat-container {
+    padding-bottom: 120px;
+    margin-top: -10px;
+  }
+  
+  .chat-messages {
+    height: 320px;
+    padding: 10px 15px;
+    padding-bottom: 60px;
+  }
+  
+  .chat-input-container {
+    padding: 12px 8px;
+    min-height: 60px;
+    bottom: 15px;
+  }
+  
+  #chat-input {
+    padding: 10px;
+    min-height: 40px;
+  }
+  
+  #send-message-btn {
+    min-width: 70px;
+    padding: 10px 12px;
+    height: 40px;
+  }
+}
+
+/* Media query for larger screens */
+@media (min-width: 1025px) {
+  .chat-messages {
+    height: 380px;
+    padding: 20px;
+    padding-bottom: 60px;
+  }
+  
+  .chat-input-container {
+    padding: 15px 20px;
+  }
+  
+  #chat-input {
+    padding: 12px 20px;
+  }
+  
+  #send-message-btn {
+    padding: 12px 25px;
+  }
+}
