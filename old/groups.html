@@ -2,6 +2,9 @@
 <html>
   <head>
     <title>Music Matchmaker</title>
+    <!-- Scripts -->
+    <script type="module" src="js/rating.js"></script>
+
     <link rel="stylesheet" href="main.css" />
     <link rel="stylesheet" href="groups.css" />
     <link rel="stylesheet" href="listen.css" />
@@ -18,7 +21,7 @@
         min-height: 450px; /* Reduced from 500px */
         max-height: 450px; /* Reduced from 500px to match other containers better */
       }
-      
+
       .chat-messages {
         flex: 1;
         overflow-y: auto;
@@ -26,12 +29,12 @@
         min-height: 320px; /* Reduced from 350px */
         max-height: 330px; /* Reduced from 380px */
       }
-      
+
       /* Make all containers have consistent heights */
       .member-display, .music-wrapper, .chat-container {
         max-height: 450px; /* Consistent height for all containers */
       }
-      
+
       /* Chat input container settings */
       .chat-input-container {
         margin-top: auto;
@@ -40,18 +43,18 @@
         padding: 10px; /* Reduced from 15px */
         box-sizing: border-box;
       }
-      
+
       /* Fix message alignment */
       .message-self {
         margin-left: auto;
         margin-right: 0;
       }
-      
+
       .message-others {
         margin-right: auto;
         margin-left: 0;
       }
-      
+
       /* Fix button visibility */
       #send-message-btn {
         padding: 8px 15px; /* Reduced from 10px 20px */
@@ -61,26 +64,26 @@
         height: auto;
         white-space: nowrap;
       }
-      
+
       #chat-input {
         flex: 1;
         min-width: 0;
         padding: 8px; /* Reduced from 10px */
         box-sizing: border-box;
       }
-      
+
       /* Ensure the button is visible on all screen sizes */
       @media screen and (max-width: 768px) {
         .chat-input-container {
           padding: 8px; /* Reduced from 10px */
         }
-        
+
         #send-message-btn {
           padding: 6px 10px; /* Reduced from 8px 12px */
           min-width: 60px;
         }
       }
-      
+
       /* Ensure views don't conflict with each other */
       .view-content {
         display: none;
@@ -107,7 +110,6 @@
           <div class="bar accent1"></div>
         </div>
       </div>
-      
       <!-- View containers for different pages -->
       <div id="view-container">
         <!-- Home View -->
@@ -128,7 +130,7 @@
             </div>
           </div>
         </div>
-        
+
         <!-- Listen View -->
         <div id="listen-view" class="view-content">
           <div class="flex-container">
@@ -141,7 +143,7 @@
                 <button id="invite_member_btn" class="invite-btn">Invite Member</button>
                 <button id="exit_session_btn" class="invite-btn">Exit Session</button>
               </div>
-              
+
               <div class="member-display">
                 <h2>Members in session:</h2>
                 <div class="member">
@@ -209,7 +211,6 @@
             </main>
           </div>
         </div>
-        
         <!-- Groups View - This is the main view in this page -->
         <div id="groups-view" class="view-content">
           <div id="content" class="hcontainer">
@@ -268,8 +269,117 @@
                     </div>
                   </div>
                 </div>
-                
-                <!-- More group members... -->
+
+                <div class="group-member hcontainer margin2 grid2x2">
+                  <div class="mem-info white">
+                    <div class="hcontainer">
+                      <img src="images/default-pfp.png" class="member-pfp round20">
+                      <div class="member-name h3 white">Username 0</div>
+                    </div>
+                  </div>
+
+                  <div class="mem-info white">
+                    <div class="member-info-title">
+                      Top Genres:
+                    </div>
+                    <div class="user-genres member-info">
+                      Pop, extra pop, hyperpop, poppy, opo, and hop on pop
+                    </div>
+                  </div>
+
+                  <div class="mem-info white">
+                    <div class="member-info white">
+                      <a href="mailto:user_email1@gmail.com" class="white">user_email1@gmail.com</a>
+                    </div>
+
+                    <div class="member-info white">
+                      test-phone-number
+                    </div>
+                  </div>
+
+                  <div class="mem-info white">
+                    <div class="member-info-title">
+                      Top Artists:
+                    </div>
+                    <div class="user-genres member-info">
+                      Literally just Bruno Mars
+                    </div>
+                  </div>
+                </div>
+
+                <div class="group-member hcontainer margin2 grid2x2">
+                  <div class="mem-info white">
+                    <div class="hcontainer">
+                      <img src="images/default-pfp.png" class="member-pfp round20">
+                      <div class="member-name h3 white">Username 1</div>
+                    </div>
+                  </div>
+
+                  <div class="mem-info white">
+                    <div class="member-info-title">
+                      Top Genres:
+                    </div>
+                    <div class="user-genres member-info">
+                      Pop, extra pop, hyperpop, poppy, opo, and hop on pop
+                    </div>
+                  </div>
+
+                  <div class="mem-info white">
+                    <div class="member-info white">
+                      <a href="mailto:user_email1@gmail.com" class="white">user_email1@gmail.com</a>
+                    </div>
+
+                    <div class="member-info white">
+                      test-phone-number
+                    </div>
+                  </div>
+
+                  <div class="mem-info white">
+                    <div class="member-info-title">
+                      Top Artists:
+                    </div>
+                    <div class="user-genres member-info">
+                      Literally just Bruno Mars
+                    </div>
+                  </div>
+                </div>
+
+                <div class="group-member hcontainer margin2 grid2x2">
+                  <div class="mem-info white">
+                    <div class="hcontainer">
+                      <img src="images/default-pfp.png" class="member-pfp round20">
+                      <div class="member-name h3 white">Username 2</div>
+                    </div>
+                  </div>
+
+                  <div class="mem-info white">
+                    <div class="member-info-title">
+                      Top Genres:
+                    </div>
+                    <div class="user-genres member-info">
+                      Pop, extra pop, hyperpop, poppy, opo, and hop on pop
+                    </div>
+                  </div>
+
+                  <div class="mem-info white">
+                    <div class="member-info white">
+                      <a href="mailto:user_email1@gmail.com" class="white">user_email1@gmail.com</a>
+                    </div>
+
+                    <div class="member-info white">
+                      test-phone-number
+                    </div>
+                  </div>
+
+                  <div class="mem-info white">
+                    <div class="member-info-title">
+                      Top Artists:
+                    </div>
+                    <div class="user-genres member-info">
+                      Literally just Bruno Mars
+                    </div>
+                  </div>
+                </div>
               </div>
 
               <div id="ratings-box" class="scroll-y accent1 round5">
@@ -291,15 +401,15 @@
             </div>
           </div>
         </div>
-        
+
         <!-- Profile View -->
         <div id="profile-view" class="view-content">
           <div class="vcontainer" style="gap: 2rem; padding: 2rem;">
             <div class="hcontainer center" style="gap: 2rem;">
-              <img src="https://via.placeholder.com/150" alt="Profile Picture" 
-                   class="profile-pic" 
+              <img src="https://via.placeholder.com/150" alt="Profile Picture"
+                   class="profile-pic"
                    style="border-radius: 50%; border: 3px solid var(--accent1);">
-              
+
               <div class="vcontainer" style="gap: 0.5rem;">
                 <h1 class="white">@MusicMaster2024</h1>
                 <div class="hcontainer" style="gap: 1rem;">
@@ -308,14 +418,14 @@
                 </div>
               </div>
             </div>
-        
+
             <div class="vcontainer center" style="max-width: 600px;">
               <p class="white" style="text-align: center;">
-                "Avid music lover specializing in rock and electronic genres. 
+                "Avid music lover specializing in rock and electronic genres.
                 Always looking for new collaborators and listening buddies!"
               </p>
             </div>
-        
+
             <div class="vcontainer center" style="gap: 1rem; margin-top: 2rem;">
               <h2 class="white">Favorite Genres</h2>
               <div class="hcontainer" style="gap: 1rem; flex-wrap: wrap;">
@@ -350,7 +460,7 @@
         // Hide all views first
         const views = document.querySelectorAll('.view-content');
         views.forEach(view => view.style.display = 'none');
-        
+
         // Show groups view by default
         document.getElementById('groups-view').style.display = 'block';
       });

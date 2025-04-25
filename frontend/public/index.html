@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <script src="./RoutingCalls.js"></script>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Public</title>
+    </head>
+    <body>
+        <h1>Authenticate with spotify below</h1>
+        <div>
+            <h3>User info:</h3>
+            <button id="auth-button" onclick="authenticateSpotify()">Authenticate</button>
+            <button id="user-button" onclick="getMe()">Get user</button>
+            <div id="spotify-info"></div>
+        </div>
+        <div>
+            <h3>Track info:</h3>
+            <input type="text" id="song-id">
+            <button id="track-button" onclick="findTrack()">Find track</button>
+            <div id="track-info"></div>
+        </div>
+        <div>
+            <h3>Artist info:</h3>
+            <input type="text" id="artist-id">
+            <button id="artist-button" onclick="findArtist()">Find artist</button>
+            <div id="artist-info"></div>
+        </div>
+        <div>
+            <h3>Playlist info:</h3>
+            <input type="text" id="playlist-id">
+            <button id="find-playlist-button" onclick="findPlaylist()">Find playlist</button>
+            <div id="playlist-info"></div>
+        </div>
+        <div>
+            <h3>New playlist info:</h3>
+            <input type="text" id="create-playlist">
+            <button id="create-playlist-button" onclick="createPlaylist()">Create playlist</button>
+            <div id="new-playlist-info"></div>
+        </div>
+        <div>
+            <h3>Updated:</h3>
+            <input type="text" id="add-playlist-id" placeholder="Playlist id">
+            <input type="text" id="add-track-id" placeholder="Track id">
+            <button id="add-track-button" onclick="addTrack()">Add song</button>
+            <div id="add-track-info"></div>
+        </div>
+        <div>
+            <h3>Top tracks:</h3>
+            <button id="top-tracks-button" onclick="topTracks()">Get top tracks</button>
+            <div id="top-tracks-info"></div>
+        </div>
+
+        <div>
+            <h3>Groups info:</h3>
+            <button id="get-groups" onclick="getGroups()">Get groups</button>
+            <div id="groups-info"></div>
+        </div>
+        <div>
+            <h3>Add group</h3>
+            <input type="text" id="create-group-name" placeholder="Group name">
+            <input type="text" id="create-group-users" placeholder="User ids">
+            <button id="create-group" onclick="createGroup()">Add group</button>
+            <div id="create-group-info"></div>
+        </div>
+
+        <script>
+
+            async function createGroup() {
+                const groupname = document.getElementById("create-group-name").value;
+                const user_ids = document.getElementById("create-group-users").value.replace(/ /g, '').split(',');
+                return await _createGroup(groupname, user_ids);
+            }
+
+            async function getGroups() {
+                return await _getGroups();
+            }
+
+            // ==========================
+            // SPOTIFY
+            // ==========================
+
+            async function topTracks() {
+                return await _topTracks();
+            }
+
+            async function addTrack() {
+                const playlist_id = document.getElementById("add-playlist-id").value;
+                const track_id = document.getElementById("add-track-id").value;
+                return await _addTrack(playlist_id, track_id);
+            }
+
+            async function authenticateSpotify() {
+                await _authenticateSpotify();
+            }
+
+            async function getMe() {
+                return await _getMe();
+            }
+
+            async function findTrack() {
+                var song_id = document.getElementById("song-id").value;
+                return await _findTrack(song_id);
+            }
+
+            async function findArtist() {
+                var artist_id = document.getElementById("artist-id").value;
+                return await _findArtist(artist_id);
+            }
+
+            async function findPlaylist() {
+                var playlist_id = document.getElementById("playlist-id").value;
+                return await _findPlaylist(playlist_id);
+            }
+
+            async function createPlaylist() {
+                const playlist_name = document.getElementById("create-playlist").value;
+                return await _createPlaylist(playlist_name);
+            }
+
+        </script>
+    </body>
+</html>
