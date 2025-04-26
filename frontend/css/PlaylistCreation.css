@@ -1,0 +1,37 @@
+/* Playlist container */
+#playlist {
+  margin-top: 20px;
+  background-color: #333;
+  padding: 15px;
+  border-radius: 8px;
+}
+
+/* Playlist title */
+#playlist h3 {
+  font-size: 1.5rem;
+  color: #00bfff; /* bright blue */
+  margin-bottom: 10px;
+}
+
+/* Playlist items */
+#playlist ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+#playlist li {
+  background-color: #444;
+  margin: 8px 0;
+  padding: 10px 15px;
+  border-radius: 5px;
+  font-size: 1.1rem;
+  color: white;
+  transition: background-color 0.3s;
+}
+
+/* Hover effect for playlist items */
+#playlist li:hover {
+  background-color: #555;
+  cursor: pointer;
+}
