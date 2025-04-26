@@ -1,13 +1,15 @@
 import MemoryUserModel from "./MemoryUserModel.js";
 import MemoryGroupModel from "./MemoryGroupModel.js";
+import MessageModel from "./MessageModel.js";
 
 class _ModelSwitch {
   async getModel(model = "inMemory") {
-    if(model === "inMemory") {
-        return (MemoryUserModel, MemoryGroupModel);
-    } else {
-        return (MemoryUserModel, MemoryGroupModel);
-    }
+    // Return objects with all three models
+    return {
+      userModel: MemoryUserModel,
+      groupModel:  MemoryGroupModel,
+      messageModel: new MessageModel()
+    };
   }
 }
 
