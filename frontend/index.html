@@ -13,10 +13,12 @@
     <link rel="stylesheet" href="css/PlaylistCreation.css" />
     <link rel="stylesheet" href="js/chat.css" />
     <link rel="stylesheet" href="css/chat.css">
-
+    <link rel="stylesheet" href="css/profile.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script type="module" src="js/rating.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="js/views.js" defer></script>
+    <script type="module" src="js/profile.js" defer></script>
     <style>
       /* Ensure views don't conflict with each other */
       .view-content {
@@ -328,46 +330,128 @@
           </div>
         </div>
 
-        <!-- Profile View -->
-        <div id="profile-view" class="view-content">
-          <div class="vcontainer" style="gap: 2rem; padding: 2rem;">
-            <div class="hcontainer center" style="gap: 2rem;">
-              <!-- Profile Picture -->
-              <img src="https://via.placeholder.com/150" alt="Profile Picture"
-                   class="profile-pic"
-                   style="border-radius: 50%; border: 3px solid skyblue;">
+<!-- Profile View -->
+<div id="profile-view" class="view-content">
+  <div class="profile-container">
 
-              <!-- User Info -->
-              <div class="vcontainer" style="gap: 0.5rem;">
-                <h1 class="white">@MusicMaster2024</h1>
-                <div class="hcontainer" style="gap: 1rem;">
-                  <span class="white">🎵 128 Followers</span>
-                  <span class="white">🎧 64 Following</span>
-                </div>
-              </div>
+    <!-- Profile Header Card -->
+    <div class="profile-card header-card">
+      <div class="profile-content">
+
+        <!-- Avatar + Badge -->
+        <div class="profile-image-container">
+          <img
+            id="profile-pic"
+            src="https://i.scdn.co/image/ab67616d00001e02ff9ca10b55ce82ae553c8228"
+            alt="Profile Picture"
+            class="profile-image"
+            onerror="this.src='images/default-pfp.png'"
+          />
+          <button
+            class="profile-badge"
+            type="button"
+            aria-label="Open Spotify profile"
+            onclick="window.open('#', '_blank')"
+          >
+            <i class="fa fa-spotify" aria-hidden="true"></i>
+          </button>
+        </div>
+
+        <!-- Display Name & Stats -->
+        <div class="profile-info">
+          <h1 id="display-name" class="profile-name">@JaneDoe</h1>
+          <div class="profile-stats">
+            <div class="stat-item">
+              <span id="followers-count" class="stat-number">5,432</span>
+              <span class="stat-label">Followers</span>
             </div>
-
-            <!-- Bio Section -->
-            <div class="vcontainer center" style="max-width: 600px;">
-              <p class="white" style="text-align: center;">
-                "Avid music lover specializing in rock and electronic genres.
-                Always looking for new collaborators and listening buddies!"
-              </p>
-            </div>
-
-            <!-- Favorite Genres -->
-            <div class="vcontainer center" style="gap: 1rem; margin-top: 2rem;">
-              <h2 class="white">Favorite Genres</h2>
-              <div class="hcontainer" style="gap: 1rem; flex-wrap: wrap;">
-                <span class="genre-tag">Rock</span>
-                <span class="genre-tag">Electronic</span>
-                <span class="genre-tag">Jazz</span>
-                <span class="genre-tag">Classical</span>
-              </div>
+            <div class="stat-item">
+              <span id="following-count" class="stat-number">123</span>
+              <span class="stat-label">Following</span>
             </div>
           </div>
         </div>
+
       </div>
+    </div>
+
+    <!-- Top Genres Card -->
+    <div class="profile-card">
+      <h2 class="card-title">
+        <i class="fa fa-music card-icon"></i>
+        Top Genres
+      </h2>
+      <div class="genre-grid">
+        <span class="genre-item">Pop</span>
+        <span class="genre-item">Rock</span>
+        <span class="genre-item">Hip Hop</span>
+        <span class="genre-item">Electronic</span>
+        <span class="genre-item">Jazz</span>
+      </div>
+    </div>
+
+    <!-- Top Artists Card -->
+    <div class="profile-card">
+      <h2 class="card-title">
+        <i class="fa fa-users card-icon"></i>
+        Top Artists
+      </h2>
+      <div class="artist-grid">
+
+        <!-- Artist #1 -->
+        <div class="artist-card">
+          <img
+            class="artist-image"
+            src="https://i.scdn.co/image/ab6761610000e5ebc36dd9eb55fb0db4911bc25d"
+            alt="Flume"
+            onerror="this.src='images/default-pfp.png'"
+          />
+          <div class="artist-info">
+            <h3 class="artist-name">Flume</h3>
+            <div class="artist-stats">
+              <span class="artist-stat">
+                <i class="fa fa-users"></i>
+                <span class="stat-number">1.2M</span> Followers
+              </span>
+              <span class="artist-stat">
+                <i class="fa fa-star"></i>
+                <span class="stat-number">88</span> Popularity
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Artist #2 -->
+        <div class="artist-card">
+          <img
+            class="artist-image"
+            src="https://i.scdn.co/image/ab6761610000e5ebfbe071f5bc42f38d3485a29a"
+            alt="Tame Impala"
+            onerror="this.src='images/default-pfp.png'"
+          />
+          <div class="artist-info">
+            <h3 class="artist-name">Tame Impala</h3>
+            <div class="artist-stats">
+              <span class="artist-stat">
+                <i class="fa fa-users"></i>
+                <span class="stat-number">3.4M</span> Followers
+              </span>
+              <span class="artist-stat">
+                <i class="fa fa-star"></i>
+                <span class="stat-number">92</span> Popularity
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- (Repeat up to 5 artists total…) -->
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
 
       <div class="vcontainer bottom">
         <div class="bar accent1"></div>
