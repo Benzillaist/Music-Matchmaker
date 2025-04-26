@@ -115,6 +115,35 @@ class TaskRoutes {
             await DataController.clearGroup(req, res);
         });
 
+        // ======================================
+        // ============= CHAT DATA ==============
+        // ======================================
+
+        // GET all messages
+        this.router.get("/chat", async (req, res) => {
+            await DataController.getAllMessages(req, res);
+        });
+
+        // POST a new message
+        this.router.post("/chat", async (req, res) => {
+            await DataController.addMessage(req, res);
+        });
+
+        // GET a specific message
+        this.router.get("/chat/:id", async (req, res) => {
+            await DataController.getMessage(req, res);
+        });
+
+        // UPDATE a message
+        this.router.put("/chat/:id", async (req, res) => {
+            await DataController.updateMessage(req, res);
+        });
+
+        // DELETE a message
+        this.router.delete("/chat/:id", async (req, res) => {
+            await DataController.deleteMessage(req, res);
+        });
+
         // Redirects
 
         // this.router.post("/MM", async (req, res) => {
