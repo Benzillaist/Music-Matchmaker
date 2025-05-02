@@ -2,15 +2,38 @@ import "dotenv/config.js"
 import express from "express"
 import SpotifyController from "../controller/SpotifyController.js"
 import DataController from "../controller/DataController.js"
+import {
+    register,
+    login,
+    logout,
+    getWebapp,
+} from "../controller/AuthController.js"
+import { isAuthenticated } from "../auth/middleware.js";
 
 
-class TaskRoutes {
+class Routes {
     constructor() {
         this.router = express.Router();
         this.initializeRoutes();
     }
 
     initializeRoutes() {
+
+        // =====================================
+        // ===== NAVIGATION + AUTH ROUTING =====
+        // =====================================
+
+        // Login + auth routes
+
+        this.router.post("/register", register)
+        this.router.post("/login", login);
+        this.router.get("/logout", logout);
+
+        // Protected routes
+
+        this.router.get("/webapp", isAuthenticated, getWebapp);
+
+
         // =====================================
         // ===== SPOTIFY API AUTHORIZATION =====
         // =====================================
@@ -156,4 +179,4 @@ class TaskRoutes {
     }
 }
 
-export default new TaskRoutes().getRouter();
+export default new Routes().getRouter();

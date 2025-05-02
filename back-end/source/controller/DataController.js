@@ -2,7 +2,7 @@ import ModelSwitch from "../model/ModelSwitch.js"
 
 class DataController {
     constructor() {
-        ModelSwitch.getModel().then((models) => {
+        ModelSwitch.getModel("sqlite-fresh").then((models) => {
             this.userModel = models.userModel;
             this.groupModel = models.groupModel;
             this.messageModel = models.messageModel; // Add message model
@@ -19,11 +19,10 @@ class DataController {
     }
 
     async addUser(req, res) {
-        if(!req.body || !req.body.id || !req.body.spotifyName || !req.body.pfp) {
+        if(!req.body || !req.body.id || !req.body.username || !req.body.pfp || !req.body.password) {
             return res.status(400).json({error: "Add user request incomplete"});
         }
 
-        req.body.displayName = req.body.spotifyName;
         req.body.groupId = null;
 
         const user = await this.userModel.create(req.body);
@@ -70,16 +69,27 @@ class DataController {
     // ===============================
 
     async getAllGroups(req, res) {
-        const groups = await this.groupModel.read();
+        var groups = await this.groupModel.read();
+
+        for(let i = 0; i < groups.length; i++) {
+            groups[i].user_ids = JSON.parse(groups[i].user_ids).user_ids;
+            groups[i].ratings = JSON.parse(groups[i].ratings).ratings;
+        }
+
         res.json({groups});
     }
 
     async addGroup(req, res) {
-        if(!req.body || !req.body.groupname || !req.body.user_ids || !req.body.playlist_id) {
+
+        if(!req.body || !req.body.group_name || !req.body.user_ids || !req.body.playlist_id) {
             return res.status(400).json({error: "Add group request incomplete"});
         }
 
-        const group = await this.groupModel.create(req.body);
+        req.body.ratings = JSON.stringify({"ratings": []});
+
+        var group = await this.groupModel.create(req.body);
+
+        group.ratings = JSON.parse(group.ratings).ratings;
 
         return res.status(201).json(group);
     }
@@ -89,7 +99,13 @@ class DataController {
             return res.status(400).json({error: "Get group request incomplete"});
         }
 
-        const group = await this.groupModel.read(req.params.id);
+        var group = await this.groupModel.read(req.params.id);
+
+        group.user_ids = JSON.parse(group.user_ids).user_ids;
+        group.ratings = JSON.parse(group.ratings).ratings;
+
+        console.log("getGroup:", group);
+
         res.json({group});
     }
 
@@ -98,9 +114,13 @@ class DataController {
             return res.status(400).json({error: "Update group request incomplete"});
         }
 
-        const group = req.body;
+        var group = req.body;
+
+        group.user_ids = JSON.stringify({"user_ids": group.user_ids})
+        group.ratings = JSON.stringify({"ratings": group.ratings});
 
         await this.groupModel.update(group);
+
         res.json(group);
     }
 

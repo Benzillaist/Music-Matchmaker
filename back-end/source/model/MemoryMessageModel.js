@@ -1,4 +1,4 @@
-class MessageModel {
+class _MemoryMessageModel {
     constructor() {
         this.messages = [];
     }
@@ -55,4 +55,6 @@ class MessageModel {
     }
 }
 
-export default MessageModel;
+const MemoryMessageModel = new _MemoryMessageModel();
+
+export default MemoryMessageModel;

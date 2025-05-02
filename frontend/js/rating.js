@@ -1,10 +1,9 @@
-import {SpotifyAPI} from "./spotify-api.js"
-import {DB} from "./indexedDB.js";
-import {_authenticateSpotify, _topTracks, _createGroup, _addTrack, _findTrack, _updateGroup} from "./RoutingCalls.js"
+import {_authenticateSpotify, _topTracks, _createGroup, _addTrack, _findTrack, _updateGroup, _getGroups} from "./RoutingCalls.js"
 
 
 
 document.addEventListener("DOMContentLoaded", async () => {
+
     function switchView(viewName) {
         // Check if we have that view in the current page
         const viewElement = document.getElementById(`${viewName}-view`);
@@ -132,7 +131,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                     document.getElementById(`r${target_id}-s${j}`).classList.remove("yellow");
                 }
             });
-            star.addEventListener("click", (event) => {
+            star.addEventListener("click", async (event) => {
                 const target_id = Number(event.target.id[1]);
                 const star_num = Number(event.target.id[4]) + 1;
 
@@ -144,6 +143,8 @@ document.addEventListener("DOMContentLoaded", async () => {
                 group.ratings[track_index].total_rating = group.ratings[track_index].total_rating + star_num;
 
                 _updateGroup(group);
+
+                console.log("getGroups:", await _getGroups());
 
                 if((group.ratings[track_index].total_rating / group.ratings[track_index].n_votes) >= 4) {
                     _addTrack(group.playlist_id, song_id);
