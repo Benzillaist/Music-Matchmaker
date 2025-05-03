@@ -6,13 +6,9 @@ const sequelize = new Sequelize({
 });
 
 const User = sequelize.define("User", {
-    id: {
-        type: DataTypes.STRING,
-        primaryKey: true,
-    },
     username: {
         type: DataTypes.STRING,
-        allowNull: false,
+        primaryKey: true,
     },
     password: {
         type: DataTypes.STRING,
@@ -20,7 +16,7 @@ const User = sequelize.define("User", {
     },
     pfp: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
     },
     groupId: {
         type: DataTypes.UUID,

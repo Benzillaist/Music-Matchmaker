@@ -32,8 +32,6 @@ function switchView(viewName) {
   // Otherwise, switch views within the current page
   
   // Hide all views
-  console.log("Test1");
-  console.log("currentView:", currentView);
   const views = document.querySelectorAll('.view-content');
   views.forEach(view => {
     view.style.display = 'none';
@@ -51,7 +49,6 @@ function switchView(viewName) {
     headerItemsElement.style.display = 'flex';
   }
   
-  console.log("viewElement:", viewElement);
   // Show the selected view
   viewElement.style.display = 'block';
   
@@ -190,3 +187,10 @@ document.addEventListener('DOMContentLoaded', () => {
     link.style.cursor = 'pointer';
   });
 });
+
+async function _authenticateSpotify() {
+  const authRequest = await fetch(`/v1/spotifyAuth`).then((url) => {
+      return url.json()});
+  const authUrl = authRequest.url;
+  window.location.replace(authUrl);
+}

@@ -1,4 +1,5 @@
 import ModelSwitch from "../model/ModelSwitch.js"
+import bcrypt from "bcryptjs"
 
 class DataController {
     constructor() {
@@ -19,7 +20,7 @@ class DataController {
     }
 
     async addUser(req, res) {
-        if(!req.body || !req.body.id || !req.body.username || !req.body.pfp || !req.body.password) {
+        if(!req.body || !req.body.username || !req.body.pfp || !req.body.password) {
             return res.status(400).json({error: "Add user request incomplete"});
         }
 
@@ -103,8 +104,6 @@ class DataController {
 
         group.user_ids = JSON.parse(group.user_ids).user_ids;
         group.ratings = JSON.parse(group.ratings).ratings;
-
-        console.log("getGroup:", group);
 
         res.json({group});
     }

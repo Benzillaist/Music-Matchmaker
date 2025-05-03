@@ -59,6 +59,7 @@ class SpotifyController {
             this.spotifyApi.setRefreshToken(refreshToken);
     
             console.log(accessToken, refreshToken);
+
             res.redirect('/?view=home');
     
             setInterval(async () => {
@@ -68,7 +69,7 @@ class SpotifyController {
             }, 1000 * expiresIn / 2);
         }).catch(error => {
             console.error("Error:", error);
-            res.redirect('/?view=auth');
+            // res.redirect('/?view=auth');
             res.error("Error getting spotifyApi access token")
         })
     }

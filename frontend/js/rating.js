@@ -43,21 +43,23 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     async function authenticateSpotify() {
+        console.log("Test");
         await _authenticateSpotify();
     }
 
     async function loadGroupPage() {
-        switchView('groups');
         main();
     }
 
     const groupPageButton = document.getElementById("group-page-button");
-    const authButton = document.getElementById("auth-button");
-    authButton.addEventListener("click", authenticateSpotify);
+    // const authButton = document.getElementById("auth-button");
+    // authButton.addEventListener("click", authenticateSpotify);
     groupPageButton.addEventListener("click", loadGroupPage);
 
+    // document.getElementById('auth-button').onclick = await _authenticateSpotify();
 
-    const ratingBox = document.getElementById("ratings-box");
+
+    // const ratingBox = document.getElementById("ratings-box");
 
 
     var user_id;
@@ -143,8 +145,6 @@ document.addEventListener("DOMContentLoaded", async () => {
                 group.ratings[track_index].total_rating = group.ratings[track_index].total_rating + star_num;
 
                 _updateGroup(group);
-
-                console.log("getGroups:", await _getGroups());
 
                 if((group.ratings[track_index].total_rating / group.ratings[track_index].n_votes) >= 4) {
                     _addTrack(group.playlist_id, song_id);

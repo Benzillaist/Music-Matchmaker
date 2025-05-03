@@ -2,12 +2,6 @@ import "dotenv/config.js"
 import express from "express"
 import SpotifyController from "../controller/SpotifyController.js"
 import DataController from "../controller/DataController.js"
-import {
-    register,
-    login,
-    logout,
-    getWebapp,
-} from "../controller/AuthController.js"
 import { isAuthenticated } from "../auth/middleware.js";
 
 
@@ -25,13 +19,35 @@ class Routes {
 
         // Login + auth routes
 
-        this.router.post("/register", register)
-        this.router.post("/login", login);
-        this.router.get("/logout", logout);
+        // this.router.post("/register", async (req, res) => {
+        //     await register();
+        // });
 
-        // Protected routes
+        // this.router.post("/login", async (req, res) => {
+        //     await login();
+        // });
 
-        this.router.get("/webapp", isAuthenticated, getWebapp);
+        this.router.post("/register", async (req, res) => {
+            console.log("DataController", DataController);
+            await DataController.register(req, res);
+        });
+            // DataController.register);
+        // async(req, res) => {
+        //     await DataController.register(req, res);
+        // });
+
+        // this.router.post("/login", DataController.login);
+        this.router.post("/login", async (req, res) => {
+            console.log("DataController", DataController);
+            await DataController.login(req, res);
+        });
+        // async(req, res) => {
+        //     await DataController.login(req, res);
+        // });
+
+        this.router.post("/logout", async(req, res) => {
+            await DataController.logout(req, res);
+        });
 
 
         // =====================================
