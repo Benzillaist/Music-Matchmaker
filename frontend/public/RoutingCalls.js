@@ -1,10 +1,9 @@
-async function _createGroup(groupname, user_ids) {
+async function _createGroup(group_name, user_ids) {
+    const new_playlist = await _createPlaylist(`${group_name}\'s playlist`);
 
-    const new_playlist = await _createPlaylist(`${groupname}\'s playlist`);
-
-    const playlist_json = JSON.stringify({
-        "groupname": groupname,
-        "user_ids": user_ids,
+    const group_json = JSON.stringify({
+        "group_name": group_name,
+        "user_ids": JSON.stringify({"user_ids": user_ids}),
         "playlist_id": new_playlist.id
     });
 
@@ -13,7 +12,7 @@ async function _createGroup(groupname, user_ids) {
         headers: {
             "Content-Type": "application/json",
         },
-        body: playlist_json,
+        body: group_json,
     });
 
     if(new_group_request.status === 404) {
@@ -23,6 +22,27 @@ async function _createGroup(groupname, user_ids) {
 
     if(new_group_request.status === 201) {
         const group_info = await new_group_request.json();
+        document.getElementById("create-group-info").innerHTML = JSON.stringify(group_info);
+        return group_info;
+    }
+}
+
+async function _updateGroup(group) {
+    const update_group_request = await fetch(`/v1/groups/update`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(group),
+    })
+
+    if(update_group_request.status === 404) {
+        document.getElementById("create-group-info").innerHTML = "Error creating group";
+        return;
+    }
+
+    if(update_group_request.status === 200) {
+        const group_info = await update_group_request.json();
         document.getElementById("create-group-info").innerHTML = JSON.stringify(group_info);
         return group_info;
     }
@@ -174,7 +194,7 @@ async function _createPlaylist(playlist_name) {
         const playlistInfo = await playlistRequest.json();
         const playlist_id = playlistInfo.body.id;
 
-        // document.getElementById("playlist-info").innerHTML = JSON.stringify(playlistInfo);
+        document.getElementById("playlist-info").innerHTML = JSON.stringify(playlistInfo);
         
         document.getElementById("new-playlist-info").innerHTML = `
         <iframe style="border-radius:12px" 

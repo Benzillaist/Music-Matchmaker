@@ -2,15 +2,59 @@ import "dotenv/config.js"
 import express from "express"
 import SpotifyController from "../controller/SpotifyController.js"
 import DataController from "../controller/DataController.js"
+import AuthController from "../controller/AuthController.js"
+import { isAuthenticated } from "../auth/middleware.js";
 
 
-class TaskRoutes {
+class Routes {
     constructor() {
         this.router = express.Router();
         this.initializeRoutes();
     }
 
     initializeRoutes() {
+
+        // =====================================
+        // ===== NAVIGATION + AUTH ROUTING =====
+        // =====================================
+
+        // Login + auth routes
+
+        // this.router.post("/register", async (req, res) => {
+        //     await register();
+        // });
+
+        // this.router.post("/login", async (req, res) => {
+        //     await login();
+        // });
+
+        this.router.post("/register", async (req, res) => {
+            console.log("AuthController", AuthController);
+            await AuthController.register(req, res);
+        });
+            // DataController.register);
+        // async(req, res) => {
+        //     await DataController.register(req, res);
+        // });
+
+        // this.router.post("/login", DataController.login);
+        this.router.post("/login", async (req, res) => {
+            console.log("AuthController", AuthController);
+            await AuthController.login(req, res, async () => {
+                const urlReq = await SpotifyController.spotifyAuth(req, res);
+                console.log("urlReq:", urlReq);
+                res.json(urlReq);
+            });
+        });
+        // async(req, res) => {
+        //     await DataController.login(req, res);
+        // });
+
+        this.router.post("/logout", async(req, res) => {
+            await AuthController.logout(req, res);
+        });
+
+
         // =====================================
         // ===== SPOTIFY API AUTHORIZATION =====
         // =====================================
@@ -156,4 +200,4 @@ class TaskRoutes {
     }
 }
 
-export default new TaskRoutes().getRouter();
+export default new Routes().getRouter();

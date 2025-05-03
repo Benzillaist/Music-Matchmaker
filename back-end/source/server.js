@@ -1,6 +1,10 @@
 // const express = require('express');
+import dotenv from "dotenv"
 import express from "express"
-import TaskRoutes from "./routes/TaskRoutes.js"
+import session from "express-session"
+import passport from "passport";
+import routes from "./routes/Routes.js"
+import env from "./auth/env.js"
 
 class Server {
     constructor() {
@@ -9,19 +13,34 @@ class Server {
         this.setupRoutes();
     }
 
+
     configureMiddleware() {
 
         // TESTING PAGE: UNCOMMENT TO LOAD
-        //this.app.use(express.static("../frontend/public"));
+        // this.app.use(express.static("../frontend/public"));
 
         // DEV PAGE: COMMENT THE FOLLOWING LINE WHEN USING TESTING PAGE
         this.app.use(express.static("../frontend"));
 
+        // Add session / needed auth stuff
+        this.app.use(express.urlencoded({extended: false}));
+
+        this.app.use(
+            session({
+                secret: env.SESSION_SECRET,
+                resave: false,
+                saveUninitialized: false,
+            })
+        );
+
         this.app.use(express.json());
+
+        this.app.use(passport.initialize());
+        this.app.use(passport.session());
     }
 
     setupRoutes() {
-        this.app.use("/v1", TaskRoutes);
+        this.app.use("/v1", routes);
     }
 
     start(port = 3000) {

@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="css/chat.css">
     <link rel="stylesheet" href="css/profile.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script type="module" src="js/indexAuth.js"></script>
     <script type="module" src="js/rating.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="js/views.js" defer></script>
@@ -77,10 +78,10 @@
             </div>
 
             <div id="header-items" class="center hcontainer">
-              <button class="h2 white header-item link" id="auth-button"> Authenticate </button>
-              <button class="h2 white header-item link" onclick="switchView('listen')"> Listen </button>
+              <!-- <button class="h2 white header-item link" id="auth-button"> Authenticate </button> -->
+              <button class="h2 white header-item link" id="listen-page-button" onclick="switchView('listen')"> Listen </button>
               <button class="h2 white header-item link" id="group-page-button" onclick="switchView('groups')"> Groups </button>
-              <button class="h2 white header-item link" onclick="switchView('profile')"> Profile </button>
+              <button class="h2 white header-item link" id="provile-page-button" onclick="switchView('profile')"> Profile </button>
             </div>
           </div>
           <div class="bar accent1"></div>
@@ -89,6 +90,58 @@
 
       <!-- View containers for different pages -->
       <div id="view-container">
+        <!-- Login / signup view - This is the view a new or returning user sees -->
+          <!-- <div>
+            <div class="hcontainer">
+              <div class="flex-content hcontainer center">
+                  <div id="auth-view" class="view-content">
+                    <button id="auth-button" onclick="_authenticateSpotify()" 
+                    class="h1 tight-fit accent1-10 round5 background1 center button margin10 padding5"> 
+                    Authenticate </button>
+                </div>
+            </div>
+          </div> -->
+          <div id="auth-view" class="view-content">
+            <div class="hcontainer">
+              <div id="content" class="hcontainer">
+                <div class="flex-content hcontainer center">
+                  <div class="vcontainer accent1 wp50 round5 padding5">
+                    <div class="h1 tight-fit accent1-10 round5 background1 center"> Register </div>
+                    <div class="padding5"></div>
+                    <div class="padding10">
+                      <label class="h2 background2 round5 padding5">Username</label>
+                      <input id="register-username" type="text" placeholder="" class="h3 margin10">
+                    </div>
+                    <div class="padding10">
+                      <label class="h2 background2 round5 padding5">Username</label>
+                      <input id="register-password" type="text" placeholder="" class="h3 margin10">
+                    </div>
+                    <div>
+                      <button id="register-button" class="h2 background2 round5 noshadow button">Click to register</button>
+                    </div>
+                  </div>
+                </div>
+                <div class="flex-content hcontainer center">
+                  <div class="vcontainer accent1 wp50 round5 padding5">
+                    <div class="h1 tight-fit accent1-10 round5 background1 center"> Sign in </div>
+                    <div class="padding5"></div>
+                    <div class="padding10">
+                      <label class="h2 background2 round5 padding5">Username</label>
+                      <input id="sign-in-username" type="text" placeholder="" class="h3 margin10">
+                    </div>
+                    <div class="padding10">
+                      <label class="h2 background2 round5 padding5">Password</label>
+                      <input id="sign-in-password" type="text" placeholder="" class="h3 margin10">
+                    </div>
+                    <div>
+                      <button id="login-button" class="h2 background2 round5 noshadow button">Click to authenticate</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
         <!-- Home View - This is the main view in this page -->
         <div id="home-view" class="view-content">
           <div class="center search-container">
@@ -187,7 +240,7 @@
           <div id="content" class="hcontainer">
             <div id="left-content" class="flex-content vcontainer">
               <div id="group-info">
-                <div id="group-name" class="h1 tight-fit accent1-10 round5 background1 content-item">#1 Bruno Mars fanclub</div>
+                <div id="group-name" class="h1 tight-fit accent1-10 round5 background1 content-item">Fake group</div>
                 <div id="group-genres-box" class="h2 content-item hcontainer white">
                   <div>Genres: </div>
                   <div id="group-genres">Pop, R&B, Funk, Soul, Reggae, and Rock</div>
@@ -474,7 +527,7 @@
     <script>
       document.addEventListener('DOMContentLoaded', function() {
         // Explicitly set the current view for this page to home
-        window.currentView = 'home';
+        window.currentView = 'auth';
 
         // Force home view as default for index.html
         const urlParams = new URLSearchParams(window.location.search);
@@ -483,15 +536,15 @@
         // If no view parameter or on index page directly, ensure home view is active
         if (!viewParam || window.location.pathname.endsWith('index.html') || window.location.pathname.endsWith('/')) {
           // Make sure home view is visible
-          const homeView = document.getElementById('home-view');
-          if (homeView) {
+          const authView = document.getElementById('auth-view');
+          if (authView) {
             // Hide all views first
             const views = document.querySelectorAll('.view-content');
             views.forEach(view => {
               view.style.display = 'none';
             });
             // Show home view
-            homeView.style.display = 'block';
+            authView.style.display = 'block';
           }
         }
 

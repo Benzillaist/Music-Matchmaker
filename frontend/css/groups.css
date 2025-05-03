@@ -28,6 +28,26 @@
     margin: 20%;
 }
 
+.padding1 {
+    padding: 1%;
+}
+
+.padding2 {
+    padding: 2%;
+}
+
+.padding5 {
+    padding: 5%;
+}
+
+.padding10 {
+    padding: 10%;
+}
+
+.padding20 {
+    padding: 20%;
+}
+
 .round5 {
     border-radius: 5px;
 }
@@ -286,4 +306,98 @@
         min-height: 180px;
         margin: 15px auto;
     }
+}
+
+.wp10 {
+    width: 10% !important;
+}
+
+.wp20 {
+    width: 20% !important;
+}
+
+.wp30 {
+    width: 30% !important;
+}
+
+.wp40 {
+    width: 40% !important;
+}
+
+.wp50 {
+    width: 50% !important;
+}
+
+.wp60 {
+    width: 60% !important;
+}
+
+.wp70 {
+    width: 70% !important;
+}
+
+.wp80 {
+    width: 80% !important;
+}
+
+.wp90 {
+    width: 90% !important;
+}
+
+.wp100 {
+    width: 100% !important;
+}
+
+.hp10 {
+    height: 10% !important;
+}
+
+.hp20 {
+    height: 20% !important;
+}
+
+.hp30 {
+    height: 30% !important;
+}
+
+.hp40 {
+    height: 40% !important;
+}
+
+.hp50 {
+    height: 50% !important;
+}
+
+.hp60 {
+    height: 60% !important;
+}
+
+.hp70 {
+    height: 70% !important;
+}
+
+.hp80 {
+    height: 80% !important;
+}
+
+.hp90 {
+    height: 90% !important;
+}
+
+.hp100 {
+    height: 100% !important;
+}
+
+.center2 {
+    display: flex;
+    justify-content: center;
+}
+
+.noshadow {
+    box-shadow: none !important;
+}
+
+.button:hover {
+    transform: scale(1.1);
+    cursor: pointer;
 }

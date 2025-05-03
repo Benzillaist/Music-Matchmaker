@@ -4,10 +4,11 @@
  */
 
 // Store current view state
-let currentView = 'home'; // Default view for index.html
+let currentView = 'auth'; // Default view for index.html
 
 // Maps view names to their respective HTML files for fallback navigation
 const viewToFileMap = {
+  'auth': 'nope.html',
   'home': 'index.html',
   'listen': 'listen.html',
   'groups': 'groups.html',
@@ -35,6 +36,18 @@ function switchView(viewName) {
   views.forEach(view => {
     view.style.display = 'none';
   });
+
+  // show / hide header
+  const headerHomeElement = document.getElementById('header-home');
+  const headerItemsElement = document.getElementById('header-items');
+
+  if(viewName === "auth") {
+    headerHomeElement.style.display = 'none';
+    headerItemsElement.style.display = 'none';
+  } else {
+    headerHomeElement.style.display = 'flex';
+    headerItemsElement.style.display = 'flex';
+  }
   
   // Show the selected view
   viewElement.style.display = 'block';
@@ -64,7 +77,7 @@ window.addEventListener('popstate', (event) => {
     switchView(event.state.view);
   } else {
     // Default to home if no state is available
-    switchView('home');
+    switchView('auth');
   }
 });
 
@@ -83,7 +96,9 @@ function initializeView() {
   const currentPage = currentPath.substring(currentPath.lastIndexOf('/') + 1);
   
   // Set appropriate default view based on current page
-  if (currentPage === 'index.html' || currentPage === '') {
+  if (currentPage === 'auth.html' || currentPage === '') {
+    window.currentView = 'auth';
+  } else if (currentPage === 'index.html') {
     window.currentView = 'home';
   } else if (currentPage === 'listen.html') {
     window.currentView = 'listen';
@@ -92,13 +107,25 @@ function initializeView() {
   } else if (currentPage === 'profile.html') {
     window.currentView = 'profile';
   }
+
+  // show / hide header
+  const headerHomeElement = document.getElementById('header-home');
+  const headerItemsElement = document.getElementById('header-items');
+
+  if(currentPage !== "auth") {
+    headerHomeElement.style.display = 'none';
+    headerItemsElement.style.display = 'none';
+  } else {
+    headerHomeElement.style.display = 'flex';
+    headerItemsElement.style.display = 'flex';
+  }
   
   // Use URL parameter if available, otherwise use default
   if (viewParam && document.getElementById(`${viewParam}-view`)) {
     switchView(viewParam);
   } else {
     // Default to the current page's main view
-    switchView(window.currentView || 'home');
+    switchView(window.currentView || 'auth');
   }
 }
 
@@ -160,3 +187,10 @@ document.addEventListener('DOMContentLoaded', () => {
     link.style.cursor = 'pointer';
   });
 });
+
+async function _authenticateSpotify() {
+  const authRequest = await fetch(`/v1/spotifyAuth`).then((url) => {
+      return url.json()});
+  const authUrl = authRequest.url;
+  window.location.replace(authUrl);
+}

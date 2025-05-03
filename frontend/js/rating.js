@@ -1,10 +1,9 @@
-import {SpotifyAPI} from "./spotify-api.js"
-import {DB} from "./indexedDB.js";
-import {_authenticateSpotify, _topTracks, _createGroup, _addTrack, _findTrack, _updateGroup} from "./RoutingCalls.js"
+import {_authenticateSpotify, _topTracks, _createGroup, _addTrack, _findTrack, _updateGroup, _getGroups} from "./RoutingCalls.js"
 
 
 
 document.addEventListener("DOMContentLoaded", async () => {
+
     function switchView(viewName) {
         // Check if we have that view in the current page
         const viewElement = document.getElementById(`${viewName}-view`);
@@ -44,21 +43,23 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     async function authenticateSpotify() {
+        console.log("Test");
         await _authenticateSpotify();
     }
 
     async function loadGroupPage() {
-        switchView('groups');
         main();
     }
 
     const groupPageButton = document.getElementById("group-page-button");
-    const authButton = document.getElementById("auth-button");
-    authButton.addEventListener("click", authenticateSpotify);
+    // const authButton = document.getElementById("auth-button");
+    // authButton.addEventListener("click", authenticateSpotify);
     groupPageButton.addEventListener("click", loadGroupPage);
 
+    // document.getElementById('auth-button').onclick = await _authenticateSpotify();
 
-    const ratingBox = document.getElementById("ratings-box");
+
+    // const ratingBox = document.getElementById("ratings-box");
 
 
     var user_id;
@@ -132,7 +133,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                     document.getElementById(`r${target_id}-s${j}`).classList.remove("yellow");
                 }
             });
-            star.addEventListener("click", (event) => {
+            star.addEventListener("click", async (event) => {
                 const target_id = Number(event.target.id[1]);
                 const star_num = Number(event.target.id[4]) + 1;
 
