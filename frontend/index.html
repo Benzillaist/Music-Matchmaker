@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="css/chat.css">
     <link rel="stylesheet" href="css/profile.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script type="module" src="js/indexAuth.js"></script>
     <script type="module" src="js/rating.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="js/views.js" defer></script>
@@ -90,17 +91,17 @@
       <!-- View containers for different pages -->
       <div id="view-container">
         <!-- Login / signup view - This is the view a new or returning user sees -->
-          <div>
+          <!-- <div>
             <div class="hcontainer">
-                <div class="flex-content hcontainer center">
-                  <!-- <div class="vcontainer wp50 round5 padding5"> -->
-                    <div id="auth-view" class="view-content">
-                      <button id="auth-button" onclick="_authenticateSpotify()" class="h1 tight-fit accent1-10 round5 background1 center button margin10 padding5"> Register </button>
-                  <!-- </div> -->
+              <div class="flex-content hcontainer center">
+                  <div id="auth-view" class="view-content">
+                    <button id="auth-button" onclick="_authenticateSpotify()" 
+                    class="h1 tight-fit accent1-10 round5 background1 center button margin10 padding5"> 
+                    Authenticate </button>
                 </div>
             </div>
-          </div>
-          <!-- <div>
+          </div> -->
+          <div id="auth-view" class="view-content">
             <div class="hcontainer">
               <div id="content" class="hcontainer">
                 <div class="flex-content hcontainer center">
@@ -116,7 +117,7 @@
                       <input id="register-password" type="text" placeholder="" class="h3 margin10">
                     </div>
                     <div>
-                      <button id="register-button" class="h2 background2 round5 noshadow button">Authenticate</button>
+                      <button id="register-button" class="h2 background2 round5 noshadow button">Click to register</button>
                     </div>
                   </div>
                 </div>
@@ -133,13 +134,13 @@
                       <input id="sign-in-password" type="text" placeholder="" class="h3 margin10">
                     </div>
                     <div>
-                      <button id="login-button" class="h2 background2 round5 noshadow button">Go</button>
+                      <button id="login-button" class="h2 background2 round5 noshadow button">Click to authenticate</button>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div> -->
+          </div>
         </div>
         <!-- Home View - This is the main view in this page -->
         <div id="home-view" class="view-content">
@@ -239,7 +240,7 @@
           <div id="content" class="hcontainer">
             <div id="left-content" class="flex-content vcontainer">
               <div id="group-info">
-                <div id="group-name" class="h1 tight-fit accent1-10 round5 background1 content-item">#1 Bruno Mars fanclub</div>
+                <div id="group-name" class="h1 tight-fit accent1-10 round5 background1 content-item">Fake group</div>
                 <div id="group-genres-box" class="h2 content-item hcontainer white">
                   <div>Genres: </div>
                   <div id="group-genres">Pop, R&B, Funk, Soul, Reggae, and Rock</div>

@@ -2,6 +2,7 @@
 import dotenv from "dotenv"
 import express from "express"
 import session from "express-session"
+import passport from "passport";
 import routes from "./routes/Routes.js"
 import env from "./auth/env.js"
 
@@ -33,6 +34,9 @@ class Server {
         );
 
         this.app.use(express.json());
+
+        this.app.use(passport.initialize());
+        this.app.use(passport.session());
     }
 
     setupRoutes() {

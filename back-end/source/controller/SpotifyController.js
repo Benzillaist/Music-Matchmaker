@@ -69,7 +69,7 @@ class SpotifyController {
             }, 1000 * expiresIn / 2);
         }).catch(error => {
             console.error("Error:", error);
-            // res.redirect('/?view=auth');
+            res.redirect('/?view=auth');
             res.error("Error getting spotifyApi access token")
         })
     }

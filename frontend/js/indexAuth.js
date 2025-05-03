@@ -1,50 +1,47 @@
-// import {_authenticateSpotify} from "./RoutingCalls.js"
+import {_authenticateSpotify} from "./RoutingCalls.js"
 
 
-// class AuthController {
-//   constructor () {
+export async function register() {
 
-//   }
+  // 1. check whether user exists
+  // 2. make user
+  // 3. if successfull creation --> authenticate with spotify
+  // 4. navigate to homepagefetch
 
-// async function register() {
+  const username = document.getElementById("register-username").value;
+  const password = document.getElementById("register-password").value;
+  const response = await fetch("/v1/register", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ username, password }),
+  });
 
-//   // 1. check whether user exists
-//   // 2. make user
-//   // 3. if successfull creation --> authenticate with spotify
-//   // 4. navigate to homepagefetch
+  const data = await response.json();
+  alert(data.message);
+}
 
-//   const username = document.getElementById("register-username").value;
-//   const password = document.getElementById("register-password").value;
-//   const response = await ("/v1/register", {
-//     method: "POST",
-//     headers: { "Content-Type": "application/json" },
-//     body: JSON.stringify({ username, password }),
-//   });
-//   const data = await response.json();
-//   console.log(JSON.stringify(data, null, 2));
-//   alert(data.message);
-// }
-
-// async function login() {
-//   const username = document.getElementById("sign-in-username").value;
-//   const password = document.getElementById("sign-in-password").value;
-//   const response = await fetch("/v1/login", {
-//     method: "POST",
-//     headers: { "Content-Type": "application/json" },
-//     body: JSON.stringify({ username, password }),
-//   });
-//   const data = await response.json();
-//   console.log(JSON.stringify(data, null, 2));
+export async function login() {
+  const username = document.getElementById("sign-in-username").value;
+  const password = document.getElementById("sign-in-password").value;
+  const response = await fetch("/v1/login", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ username, password }),
+  });
+  const data = await response.json();
 //   alert(data.message);
 
-//   if(data.status === 200) {
-//     _authenticateSpotify();
-//   }
-// }
 
-// document.getElementById("register-button").addEventListener("click", register);
-// document.getElementById("login-button").addEventListener("click", login);
+  if(response.status === 200) {
+    window.location.replace(data.url);
+  }
 
-// }
+  if(response.status === 401) {
+    alert("Incorrect username/password");
+  }
+}
+
+document.getElementById("register-button").addEventListener("click", register);
+document.getElementById("login-button").addEventListener("click", login);
 
 // export default new AuthController;

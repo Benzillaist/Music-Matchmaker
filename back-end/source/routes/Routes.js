@@ -2,6 +2,7 @@ import "dotenv/config.js"
 import express from "express"
 import SpotifyController from "../controller/SpotifyController.js"
 import DataController from "../controller/DataController.js"
+import AuthController from "../controller/AuthController.js"
 import { isAuthenticated } from "../auth/middleware.js";
 
 
@@ -28,8 +29,8 @@ class Routes {
         // });
 
         this.router.post("/register", async (req, res) => {
-            console.log("DataController", DataController);
-            await DataController.register(req, res);
+            console.log("AuthController", AuthController);
+            await AuthController.register(req, res);
         });
             // DataController.register);
         // async(req, res) => {
@@ -38,15 +39,19 @@ class Routes {
 
         // this.router.post("/login", DataController.login);
         this.router.post("/login", async (req, res) => {
-            console.log("DataController", DataController);
-            await DataController.login(req, res);
+            console.log("AuthController", AuthController);
+            await AuthController.login(req, res, async () => {
+                const urlReq = await SpotifyController.spotifyAuth(req, res);
+                console.log("urlReq:", urlReq);
+                res.json(urlReq);
+            });
         });
         // async(req, res) => {
         //     await DataController.login(req, res);
         // });
 
         this.router.post("/logout", async(req, res) => {
-            await DataController.logout(req, res);
+            await AuthController.logout(req, res);
         });
 
 
