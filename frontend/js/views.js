@@ -18,8 +18,32 @@ const viewToFileMap = {
 /**
  * Switch between different views
  * @param {string} viewName - Name of the view to switch to
+ * @param {boolean} skipAuthCheck - Whether to skip authentication check
  */
-function switchView(viewName) {
+function switchView(viewName, skipAuthCheck = false) {
+  console.log(`Attempting to switch to view: ${viewName}, skipAuthCheck: ${skipAuthCheck}`);
+  
+  // Enhanced authentication check with fallback
+  if (!skipAuthCheck && viewName !== 'auth') {
+    let isAuthenticated = false;
+    
+    // First try to use authUtils if available
+    if (window.authUtils && typeof window.authUtils.isAuthenticated === 'function') {
+      isAuthenticated = window.authUtils.isAuthenticated();
+      console.log(`Authentication check using authUtils: ${isAuthenticated}`);
+    } else {
+      // Fallback to basic localStorage check if authUtils is not available
+      const userStr = localStorage.getItem('currentUser');
+      isAuthenticated = userStr !== null;
+      console.log(`Fallback authentication check: ${isAuthenticated} (authUtils not available)`);
+    }
+    
+    if (!isAuthenticated) {
+      console.log('User not authenticated. Redirecting to auth view.');
+      viewName = 'auth'; // Force redirect to auth view
+    }
+  }
+  
   // Check if we have that view in the current page
   const viewElement = document.getElementById(`${viewName}-view`);
   
