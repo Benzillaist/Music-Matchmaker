@@ -67,7 +67,16 @@ function switchView(viewName) {
   if (contentArea) {
     contentArea.style.display = 'block';
   }
+  
+  // Initialize specific view functionality if needed
+  if (viewName === 'profile' && window.initProfileFunctionality) {
+    console.log('Initializing profile functionality from switchView');
+    window.initProfileFunctionality();
+  }
 }
+
+// Make switchView function available globally
+window.switchView = switchView;
 
 /**
  * Handle browser back/forward navigation

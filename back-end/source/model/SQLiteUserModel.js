@@ -18,6 +18,10 @@ const User = sequelize.define("User", {
         type: DataTypes.STRING,
         allowNull: true,
     },
+    autobio: {
+        type: DataTypes.TEXT,
+        allowNull: true,
+    },
     groupId: {
         type: DataTypes.UUID,
         allowNull: true,

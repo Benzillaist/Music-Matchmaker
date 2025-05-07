@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const STORE_NAME = 'messages';
   
   // Backend API URL - adjust to match existing backend endpoints
-  const API_URL = '/v1/chat'; // Change this to match your backend route pattern
+  const API_URL = '/v1/chat'; // Fixed to match the backend routes
 
   // Add connection status indicator
   const connectionStatus = document.createElement('div');
@@ -75,27 +75,46 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // READ - Fetch messages from API with correct path
+  // READ - Fetch messages from API
   async function fetchMessagesFromAPI() {
     try {
+      console.log("Fetching messages from:", API_URL);
       const response = await fetch(API_URL);
       
       if (!response.ok) {
+        console.error(`API Error: ${response.status} - ${response.statusText}`);
         throw new Error(`API Error: ${response.status}`);
       }
       
       connectionStatus.textContent = 'Connected';
       connectionStatus.classList.remove('offline');
       
-      // Parse response - might contain SQLite model objects
+      // Parse response
       const data = await response.json();
+      console.log("Raw data from API:", data);
       
-      // Handle SQLite model structure if needed
-      if (Array.isArray(data) && data.length > 0 && data[0].dataValues) {
-        return data.map(item => item.dataValues || item);
+      // Force refresh of messages from server by adding timestamp
+      const refreshParam = `?t=${Date.now()}`;
+      fetch(`${API_URL}${refreshParam}`).catch(e => console.log('Refresh request sent'));
+      
+      // Handle different response formats from Sequelize/SQLite
+      if (Array.isArray(data)) {
+        // Direct array of messages
+        return data;
+      } else if (data && Array.isArray(data.dataValues)) {
+        // Array wrapped in dataValues property
+        return data.dataValues;
+      } else if (data && typeof data === 'object') {
+        // Check for nested arrays in object properties
+        for (const key in data) {
+          if (Array.isArray(data[key])) {
+            return data[key];
+          }
+        }
       }
       
-      return data;
+      // No messages found in any expected format
+      return [];
     } catch (error) {
       console.error('Failed to fetch messages from API:', error);
       connectionStatus.classList.add('offline');
@@ -487,42 +506,107 @@ document.addEventListener('DOMContentLoaded', () => {
     return `${hours}:${minutes}`;
   }
 
-  // Display messages in the chat container
+  // Display messages in the chat container with improved handling of Sequelize objects
   function displayMessages(messages) {
     if (!chatMessagesContainer) return;
     
+    console.log("Displaying messages:", messages);
     chatMessagesContainer.innerHTML = '';
     
-    // Ensure messages are sorted by timestamp (oldest first)
-    const sortedMessages = [...messages].sort((a, b) => a.timestamp - b.timestamp);
+    // Handle empty or invalid messages array
+    if (!messages || !Array.isArray(messages) || messages.length === 0) {
+      console.log("No messages to display");
+      const noMessagesDiv = document.createElement('div');
+      noMessagesDiv.className = 'no-messages';
+      noMessagesDiv.textContent = 'No messages yet. Start the conversation!';
+      chatMessagesContainer.appendChild(noMessagesDiv);
+      return;
+    }
     
-    sortedMessages.forEach(message => {
-      const messageElement = createMessageElement(message);
-      chatMessagesContainer.appendChild(messageElement);
-    });
-    
-    // Scroll to bottom to show the newest messages
-    chatMessagesContainer.scrollTop = chatMessagesContainer.scrollHeight;
+    try {
+      // Get current date for timestamp comparisons
+      const now = new Date();
+      const today = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
+      const yesterday = today - 86400000; // Subtract one day in milliseconds
+      
+      // Ensure messages are sorted by timestamp (oldest first)
+      const sortedMessages = [...messages].sort((a, b) => {
+        // Handle Sequelize model objects if present
+        const timestampA = a.dataValues ? a.dataValues.timestamp : a.timestamp;
+        const timestampB = b.dataValues ? b.dataValues.timestamp : b.timestamp;
+        return timestampA - timestampB;
+      });
+      
+      // Filter to only show recent messages (from today and yesterday)
+      const recentMessages = sortedMessages.filter(msg => {
+        const timestamp = msg.dataValues ? msg.dataValues.timestamp : msg.timestamp;
+        return timestamp >= yesterday;
+      });
+      
+      // Use recent messages if available, otherwise use all messages
+      const messagesToDisplay = recentMessages.length > 0 ? recentMessages : sortedMessages;
+      
+      // If we have a lot of messages, only show the most recent ones
+      const limitedMessages = messagesToDisplay.length > 50 
+        ? messagesToDisplay.slice(messagesToDisplay.length - 50) 
+        : messagesToDisplay;
+      
+      console.log(`Displaying ${limitedMessages.length} messages out of ${messages.length} total messages`);
+      
+      limitedMessages.forEach(rawMessage => {
+        // Handle Sequelize model objects if present
+        const message = rawMessage.dataValues ? rawMessage.dataValues : rawMessage;
+        
+        // Skip invalid messages
+        if (!message || !message.content) {
+          console.warn("Skipping invalid message:", rawMessage);
+          return;
+        }
+        
+        const messageElement = createMessageElement(message);
+        chatMessagesContainer.appendChild(messageElement);
+      });
+      
+      // Scroll to bottom to show the newest messages
+      chatMessagesContainer.scrollTop = chatMessagesContainer.scrollHeight;
+    } catch (error) {
+      console.error("Error displaying messages:", error);
+      // Show error in chat container
+      chatMessagesContainer.innerHTML = `
+        <div style="color: red; text-align: center; padding: 20px;">
+          <p>Error displaying messages. Please try refreshing the page.</p>
+          <p>Error: ${error.message || 'Unknown error'}</p>
+        </div>
+      `;
+    }
   }
 
-  // Send a new message - updated to use API with better error handling
+  // Send a new message - updated to immediately refresh messages after sending
   async function sendMessage(content) {
     if (!content || !content.trim()) return;
     
     const message = {
-      content: content,
+      content: content.trim(),
       userId: currentUser.id,
       userName: currentUser.name,
       timestamp: Date.now()
     };
     
     try {
-      // Try to send via API first
+      // First clear the input field so the user gets immediate feedback
+      chatInput.value = '';
+      
+      // Try to send via API
       const result = await postMessageToAPI(message);
       if (result) {
-        chatInput.value = '';
-        const messages = await getRecentMessages();
-        displayMessages(messages);
+        console.log("Message sent successfully:", result);
+        
+        // Wait a brief moment to ensure message is stored in DB
+        setTimeout(async () => {
+          // Force refresh messages from server after sending
+          const messages = await fetchMessagesFromAPI();
+          displayMessages(messages);
+        }, 300);
       } else {
         throw new Error('Failed to post message');
       }
@@ -531,7 +615,6 @@ document.addEventListener('DOMContentLoaded', () => {
       // If API fails, at least show the message locally
       try {
         await saveMessage(message);
-        chatInput.value = '';
         const messages = await getLocalMessages();
         displayMessages(messages);
         alert('Message saved locally (offline mode)');
@@ -609,7 +692,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (error) {
           console.error('Error adding demo message:', error);
         }
-      }, 5000); 
+      }, 100000); 
       
     } catch (error) {
       console.error('Error initializing chat:', error);

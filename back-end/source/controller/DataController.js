@@ -25,6 +25,10 @@ class DataController {
         }
 
         req.body.groupId = null;
+        // Set autobio to empty string if not provided
+        if (req.body.autobio === undefined) {
+            req.body.autobio = "";
+        }
 
         const user = await this.userModel.create(req.body);
 
@@ -46,6 +50,15 @@ class DataController {
         }
 
         const user = req.body.user;
+        
+        // Ensure autobio field is included in the update
+        if(user.autobio === undefined) {
+            // If not provided, don't overwrite existing autobio
+            const existingUser = await this.userModel.read(user.id);
+            if(existingUser && existingUser.autobio) {
+                user.autobio = existingUser.autobio;
+            }
+        }
 
         await this.userModel.update(user);
         res.json(user);
@@ -144,6 +157,8 @@ class DataController {
     async getAllMessages(req, res) {
         try {
             const messages = await this.messageModel.read();
+            console.log("Sending messages to client:", messages);
+            // Return consistent array format
             return res.status(200).json(messages);
         } catch (error) {
             console.error("Error fetching messages:", error);

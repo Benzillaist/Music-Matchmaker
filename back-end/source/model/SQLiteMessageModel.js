@@ -59,10 +59,10 @@ class _SQLiteMessageModel {
         if (id) {
             return await Message.findByPk(id);
         }
-        // Return all messages sorted by timestamp (oldest first)
+        // Return only the 50 most recent messages sorted by timestamp (newest first)
         return await Message.findAll({
-            order: [['timestamp', 'ASC']], // Changed from DESC to ASC
-            limit: 100 // Limit to prevent excessive data transfer
+            order: [['timestamp', 'DESC']], 
+            limit: 50 // Reduced from 100 to 50 to save space
         });
     }
 
