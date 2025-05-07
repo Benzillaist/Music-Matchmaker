@@ -36,10 +36,14 @@ class _SQLiteGroupModel {
 
     async init(fresh = false) {
         await sequelize.authenticate();
-        await sequelize.sync({force: true});
-
-        if(fresh) {
+        
+        if (fresh) {
+            // Only use force:true when explicitly asked to reset the database
+            await sequelize.sync({force: true});
             await this.delete();
+        } else {
+            // Normal startup - don't drop tables
+            await sequelize.sync({force: false});
         }
     }
 

@@ -5,6 +5,7 @@ import session from "express-session"
 import passport from "passport";
 import routes from "./routes/Routes.js"
 import env from "./auth/env.js"
+import ModelSwitch from "./model/ModelSwitch.js"
 
 class Server {
     constructor() {
@@ -13,6 +14,27 @@ class Server {
         this.setupRoutes();
     }
 
+    // Initialize database before starting server
+    async initialize() {
+        try {
+            console.log("Initializing database models...");
+            const models = await ModelSwitch.getModel("sqlite");
+            
+            // Set to false to preserve existing data
+            // Only set to true when you need to rebuild the database schema
+            const forceRebuild = false;
+            
+            await models.userModel.init(forceRebuild);
+            await models.groupModel.init(false);
+            await models.messageModel.init(false);
+            
+            console.log("Database initialization complete!");
+            return true;
+        } catch (error) {
+            console.error("Database initialization failed:", error);
+            return false;
+        }
+    }
 
     configureMiddleware() {
 
@@ -52,4 +74,16 @@ class Server {
 
 console.log("Starting server...");
 const server = new Server();
-server.start();
+
+// Initialize DB then start server
+server.initialize().then(success => {
+    if (success) {
+        server.start();
+    } else {
+        console.error("Server startup aborted due to database initialization failure");
+        process.exit(1);
+    }
+}).catch(error => {
+    console.error("Failed to initialize server:", error);
+    process.exit(1);
+});

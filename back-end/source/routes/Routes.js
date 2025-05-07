@@ -3,13 +3,22 @@ import express from "express"
 import SpotifyController from "../controller/SpotifyController.js"
 import DataController from "../controller/DataController.js"
 import AuthController from "../controller/AuthController.js"
-import { isAuthenticated } from "../auth/middleware.js";
-
+import { isAuthenticated } from "../auth/middleware.js"
+import ModelSwitch from "../model/ModelSwitch.js"
 
 class Routes {
     constructor() {
         this.router = express.Router();
+        this.initializeController();
         this.initializeRoutes();
+    }
+
+    async initializeController() {
+        // Initialize DataController with SQLite models
+        const models = await ModelSwitch.getModel("sqlite");
+        DataController.userModel = models.userModel;
+        DataController.groupModel = models.groupModel;
+        DataController.messageModel = models.messageModel;
     }
 
     initializeRoutes() {
@@ -163,27 +172,48 @@ class Routes {
         // ============= CHAT DATA ==============
         // ======================================
 
-        // GET all messages
-        this.router.get("/chat", async (req, res) => {
+        // GET all messages - mapped to match frontend API_URL
+        this.router.get("/v1/chat", async (req, res) => {
             await DataController.getAllMessages(req, res);
         });
 
         // POST a new message
-        this.router.post("/chat", async (req, res) => {
+        this.router.post("/v1/chat", async (req, res) => {
             await DataController.addMessage(req, res);
         });
 
         // GET a specific message
-        this.router.get("/chat/:id", async (req, res) => {
+        this.router.get("/v1/chat/:id", async (req, res) => {
             await DataController.getMessage(req, res);
         });
 
         // UPDATE a message
-        this.router.put("/chat/:id", async (req, res) => {
+        this.router.put("/v1/chat/:id", async (req, res) => {
             await DataController.updateMessage(req, res);
         });
 
         // DELETE a message
+        this.router.delete("/v1/chat/:id", async (req, res) => {
+            await DataController.deleteMessage(req, res);
+        });
+
+        // Keep the original chat routes for backwards compatibility
+        this.router.get("/chat", async (req, res) => {
+            await DataController.getAllMessages(req, res);
+        });
+
+        this.router.post("/chat", async (req, res) => {
+            await DataController.addMessage(req, res);
+        });
+
+        this.router.get("/chat/:id", async (req, res) => {
+            await DataController.getMessage(req, res);
+        });
+
+        this.router.put("/chat/:id", async (req, res) => {
+            await DataController.updateMessage(req, res);
+        });
+
         this.router.delete("/chat/:id", async (req, res) => {
             await DataController.deleteMessage(req, res);
         });

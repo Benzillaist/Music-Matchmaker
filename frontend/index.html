@@ -11,7 +11,6 @@
     <link rel="stylesheet" href="css/groups.css"/>
     <link rel="stylesheet" href="css/responsive-helper.css" />
     <link rel="stylesheet" href="css/PlaylistCreation.css" />
-    <link rel="stylesheet" href="js/chat.css" />
     <link rel="stylesheet" href="css/chat.css">
     <link rel="stylesheet" href="css/profile.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -425,6 +424,25 @@
           </div>
         </div>
 
+      </div>
+    </div>
+
+    <!-- Autobio Card -->
+    <div class="profile-card">
+      <h2 class="card-title">
+        <i class="fa fa-pencil card-icon"></i>
+        About Me
+      </h2>
+      <div class="autobio-container">
+        <div id="autobio-display" class="autobio-text"></div>
+        <div id="autobio-edit-container" style="display: none;">
+          <textarea id="autobio-input" class="autobio-input" placeholder="Tell us about yourself..."></textarea>
+          <div class="autobio-actions">
+            <button id="save-autobio" class="autobio-btn">Save</button>
+            <button id="cancel-autobio" class="autobio-btn">Cancel</button>
+          </div>
+        </div>
+        <button id="edit-autobio" class="edit-autobio-btn">Edit Bio</button>
       </div>
     </div>
 

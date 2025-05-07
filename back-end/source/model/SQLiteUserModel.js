@@ -18,6 +18,10 @@ const User = sequelize.define("User", {
         type: DataTypes.STRING,
         allowNull: true,
     },
+    autobio: {
+        type: DataTypes.TEXT,
+        allowNull: true,
+    },
     groupId: {
         type: DataTypes.UUID,
         allowNull: true,
@@ -31,10 +35,14 @@ class _SQLiteUserModel {
 
     async init(fresh = false) {
         await sequelize.authenticate();
-        await sequelize.sync({force: true});
-
-        if(fresh) {
+        
+        if (fresh) {
+            // Only use force:true when explicitly asked to reset the database
+            await sequelize.sync({force: true});
             await this.delete();
+        } else {
+            // Normal startup - don't drop tables
+            await sequelize.sync({force: false});
         }
     }
 

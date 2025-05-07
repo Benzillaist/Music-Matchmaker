@@ -224,4 +224,110 @@
     .profile-image { width: 140px; height: 140px; }
     .profile-stats { flex-direction: column; gap: 1rem; }
   }
-  
+
+  /* Autobio Container Styles */
+.autobio-container {
+  position: relative;
+  padding: 5px 0;
+}
+
+.autobio-text {
+  padding: 15px;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: var(--text-primary);
+  border-radius: 8px;
+  line-height: 1.6;
+  margin-bottom: 10px;
+  min-height: 80px;
+  white-space: pre-wrap;
+}
+
+.autobio-input {
+  width: 100%;
+  min-height: 150px;
+  padding: 15px;
+  border: 2px solid var(--accent);
+  background-color: rgba(255, 255, 255, 0.1);
+  color: var(--text-primary);
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 1rem;
+  line-height: 1.5;
+  margin-bottom: 15px;
+  resize: vertical;
+}
+
+.autobio-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-bottom: 15px;
+}
+
+.autobio-btn {
+  padding: 8px 16px;
+  background-color: var(--accent);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s;
+}
+
+.autobio-btn:hover {
+  background-color: var(--accent-dk);
+}
+
+.edit-autobio-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: transparent;
+  color: var(--accent);
+  border: none;
+  font-size: 0.9rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+.edit-autobio-btn:hover {
+  background-color: rgba(52, 152, 219, 0.1);
+}
+
+/* Notification Styles */
+.notification {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  padding: 15px 25px;
+  border-radius: 8px;
+  color: white;
+  font-weight: bold;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  z-index: 1000;
+  display: none;
+  animation: slide-in 0.3s ease-out;
+}
+
+.notification.success {
+  background-color: #2ecc71;
+}
+
+.notification.error {
+  background-color: #e74c3c;
+}
+
+@keyframes slide-in {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
