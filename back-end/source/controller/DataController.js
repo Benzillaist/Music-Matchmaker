@@ -45,23 +45,46 @@ class DataController {
     }
 
     async updateUser(req, res) {
-        if(!req.body || !req.body.user || !req.body.user.id) {
-            return res.status(400).json({error: "Update user request incomplete"});
-        }
-
-        const user = req.body.user;
-        
-        // Ensure autobio field is included in the update
-        if(user.autobio === undefined) {
-            // If not provided, don't overwrite existing autobio
-            const existingUser = await this.userModel.read(user.id);
-            if(existingUser && existingUser.autobio) {
-                user.autobio = existingUser.autobio;
+        try {
+            // Check if request is valid
+            if(!req.body || !req.body.user || !req.body.user.id) {
+                return res.status(400).json({error: "Update user request incomplete"});
             }
-        }
 
-        await this.userModel.update(user);
-        res.json(user);
+            // Check if userModel is initialized
+            if (!this.userModel) {
+                console.error("User model not initialized");
+                return res.status(500).json({error: "Database not ready. Please try again."});
+            }
+
+            const user = req.body.user;
+            console.log("Updating user:", user);
+            
+            // Ensure autobio field is included in the update
+            if(user.autobio === undefined) {
+                // If not provided, don't overwrite existing autobio
+                const existingUser = await this.userModel.read(user.id);
+                if(existingUser && existingUser.autobio) {
+                    user.autobio = existingUser.autobio;
+                }
+            }
+
+            // Update user in database
+            const updatedUser = await this.userModel.update(user);
+            
+            if (!updatedUser) {
+                return res.status(404).json({error: "User not found or update failed"});
+            }
+            
+            console.log("User updated successfully:", updatedUser);
+            return res.status(200).json(updatedUser);
+        } catch (error) {
+            console.error("Error updating user:", error);
+            return res.status(500).json({
+                error: "Failed to update user",
+                details: error.message
+            });
+        }
     }
 
     async deleteUser(req, res) {
@@ -76,6 +99,52 @@ class DataController {
     async clearUsers(req, res) {
         await this.userModel.delete();
         res.json(await this.userModel.read());
+    }
+
+    // Add a specific method for user registration with password hashing
+    async registerUser(req, res) {
+        try {
+            if(!req.body || !req.body.username || !req.body.password) {
+                return res.status(400).json({error: "Registration requires username and password"});
+            }
+
+            // Check if username already exists
+            const existingUser = await this.userModel.read(req.body.username);
+            if (existingUser) {
+                return res.status(409).json({error: "Username already exists"});
+            }
+
+            // Hash the password
+            const salt = await bcrypt.genSalt(10);
+            const hashedPassword = await bcrypt.hash(req.body.password, salt);
+
+            // Prepare user object
+            const newUser = {
+                username: req.body.username,
+                password: hashedPassword,
+                pfp: req.body.pfp || "default-profile.png", // Default profile picture
+                autobio: req.body.autobio || "",
+                groupId: null
+            };
+
+            // Create the user
+            const user = await this.userModel.create(newUser);
+            
+            // Remove password before sending response
+            const userResponse = {...user};
+            delete userResponse.password;
+
+            return res.status(201).json({
+                message: "User registered successfully",
+                user: userResponse
+            });
+        } catch (error) {
+            console.error("Registration error:", error);
+            return res.status(500).json({
+                error: "Failed to register user",
+                details: error.message
+            });
+        }
     }
 
     // ===============================

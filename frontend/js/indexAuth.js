@@ -24,18 +24,38 @@ export async function login() {
   const username = document.getElementById("sign-in-username").value;
   const password = document.getElementById("sign-in-password").value;
   
+  // Validate inputs
+  if (!username || !password) {
+    alert('Please enter both username and password');
+    return;
+  }
+  
   try {
-    // Create mock user data instead of making actual API call
-    const mockUserData = {
-      username: username || 'demo_user',
-      pfp: 'images/default-pfp.png',
-      autobio: 'This is a sample bio for the demo user. Edit this to customize your profile!',
-      id: username || 'demo_user'
-    };
+    // Make an actual API call to verify credentials
+    const response = await fetch("/v1/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username, password }),
+    });
     
-    // Store mock user data in localStorage
-    localStorage.setItem('currentUser', JSON.stringify(mockUserData));
-    console.log('User data stored in localStorage:', mockUserData);
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message || 'Invalid credentials');
+    }
+    
+    // After successful authentication, get the user data
+    const userResponse = await fetch(`/v1/users/get/${username}`);
+    if (!userResponse.ok) {
+      throw new Error('Failed to get user data');
+    }
+    
+    const userData = await userResponse.json();
+    const user = userData.user || userData;
+    
+    // Store user data in localStorage (without password)
+    delete user.password;
+    localStorage.setItem('currentUser', JSON.stringify(user));
+    console.log('User logged in successfully:', user);
     
     // Redirect to home page by switching view
     if (typeof switchView === 'function') {
@@ -46,7 +66,7 @@ export async function login() {
     }
   } catch (error) {
     console.error('Error during login:', error);
-    alert('Login failed. Please try again.');
+    alert('Login failed: ' + (error.message || 'Please try again'));
   }
 }
 

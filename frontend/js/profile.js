@@ -88,7 +88,7 @@ function initProfileFunctionality() {
      */
     async function loadUserProfile(username) {
         try {
-            // Fix the API endpoint path to match the backend routes
+            // Update the API endpoint path to include the /v1 prefix to match other endpoints
             const response = await fetch(`/v1/users/get/${username}`);
             
             if (!response.ok) {
@@ -183,12 +183,12 @@ function initProfileFunctionality() {
             
             // Update the user object with new autobio
             const userToUpdate = {
-                id: currentUser.username,
-                username: currentUser.username,
+                id: currentUser.username, // Backend controller checks for 'id', but uses username as value
+                username: currentUser.username, // Still include username for the model
                 autobio: newAutobio
             };
             
-            // Send update to server - Fix the endpoint URL to match backend routes
+            // The API endpoint is correct, just need to fix the request format
             const response = await fetch('/v1/users/update', {
                 method: 'PUT',
                 headers: {

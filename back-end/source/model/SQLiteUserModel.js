@@ -58,7 +58,8 @@ class _SQLiteUserModel {
     }
 
     async update(user) {
-        const useru = await User.findByPk(user.id);
+        // Changed from user.id to user.username to match the primaryKey
+        const useru = await User.findByPk(user.username);
 
         if(!useru) {
             return null;
@@ -74,7 +75,8 @@ class _SQLiteUserModel {
             return;
         }
 
-        await User.destroy({where: {id: user.id}});
+        // Changed from user.id to user.username to match the primaryKey
+        await User.destroy({where: {username: user.username}});
         return user;
     }
 }

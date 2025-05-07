@@ -37,12 +37,12 @@ class AuthController {
         const { username, password } = req.body;
         const user = await this.userModel.read(username);
         if (!user || !(await bcrypt.compare(password, user.password))) {
-        return res.status(401).json(this.factoryResponse(401, "Invalid credentials"));
+            return res.status(401).json(this.factoryResponse(401, "Invalid credentials"));
         }
     
         req.login(user, async (err) =>
             // res.redirect('/?view=home')
-            err ? await next(false) : awaitnext(true)
+            err ? await next(false) : await next(true)
             // err ? next(err) : res.json(this.factoryResponse(200, "Login successful"))
         );
     };
