@@ -10,6 +10,11 @@ class _ModelSwitch {
   async getModel(model = "sqlite") {
     // Return objects with all three models
     if(model === "sqlite") {
+      // Initialize the models but don't reset the database
+      await SQLiteUserModel.init(false);
+      await SQLiteMessageModel.init(false);
+      await SQLiteGroupModel.init(false);
+      
       return {
         userModel: SQLiteUserModel,
         groupModel: SQLiteGroupModel,

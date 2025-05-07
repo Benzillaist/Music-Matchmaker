@@ -44,6 +44,11 @@ document.addEventListener('DOMContentLoaded', () => {
   // CREATE - Post message to API with correct path
   async function postMessageToAPI(message) {
     try {
+      // Make sure we have all required fields for SQLite model
+      if (!message.id) {
+        message.id = `msg-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+      }
+      
       const response = await fetch(API_URL, {
         method: 'POST',
         headers: {
@@ -58,6 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       
       connectionStatus.textContent = 'Message sent';
+      connectionStatus.classList.remove('offline');
 
       return await response.json();
     } catch (error) {
@@ -78,8 +84,18 @@ document.addEventListener('DOMContentLoaded', () => {
         throw new Error(`API Error: ${response.status}`);
       }
       
-
-      return await response.json();
+      connectionStatus.textContent = 'Connected';
+      connectionStatus.classList.remove('offline');
+      
+      // Parse response - might contain SQLite model objects
+      const data = await response.json();
+      
+      // Handle SQLite model structure if needed
+      if (Array.isArray(data) && data.length > 0 && data[0].dataValues) {
+        return data.map(item => item.dataValues || item);
+      }
+      
+      return data;
     } catch (error) {
       console.error('Failed to fetch messages from API:', error);
       connectionStatus.classList.add('offline');
@@ -88,35 +104,93 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // UPDATE - Update message in API with CORS handling
-  async function updateMessageInAPI(id, updatedContent) {
+  // UPDATE - Update message in API with improved error handling and retry functionality
+  async function updateMessageInAPI(id, updatedContent, retryCount = 0) {
     try {
+      console.log(`Updating message ${id} in API, attempt: ${retryCount + 1}`);
+      
+      // First get the existing message to update
+      const existingMessage = await fetchMessageById(id);
+      
+      if (!existingMessage) {
+        throw new Error(`Message not found: ${id}`);
+      }
+      
+      // Prepare update payload
+      const updatePayload = {
+        ...existingMessage,
+        content: updatedContent,
+        edited: true
+      };
+      
+      // Add timestamp for when the edit occurred
+      updatePayload.lastEditTimestamp = Date.now();
+      
+      console.log(`Sending update request for message ${id}:`, updatePayload);
+      
       const response = await fetch(`${API_URL}/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json'
         },
-        body: JSON.stringify({ content: updatedContent })
+        body: JSON.stringify(updatePayload)
       });
+      
+      // Handle HTTP error status
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`API Error: ${response.status} - ${errorText}`);
+      }
+      
+      connectionStatus.textContent = 'Message updated';
+      connectionStatus.classList.remove('offline', 'error');
+
+      // Parse response - might contain SQLite model object
+      const responseData = await response.json();
+      console.log(`Received update response:`, responseData);
+      
+      // Handle SQLite model structure if needed
+      if (responseData && responseData.dataValues) {
+        return responseData.dataValues;
+      }
+      
+      return responseData;
+    } catch (error) {
+      console.error(`Failed to update message ${id} in API:`, error);
+      connectionStatus.classList.add('error');
+      
+      // Implement retry logic (max 2 retries)
+      if (retryCount < 2) {
+        console.log(`Retrying update for message ${id}, attempt ${retryCount + 2}...`);
+        // Wait a short time before retrying
+        await new Promise(resolve => setTimeout(resolve, 800));
+        return updateMessageInAPI(id, updatedContent, retryCount + 1);
+      }
+      
+      return null;
+    }
+  }
+  
+  // Helper function to fetch a single message by ID
+  async function fetchMessageById(id) {
+    try {
+      const response = await fetch(`${API_URL}/${id}`);
       
       if (!response.ok) {
         throw new Error(`API Error: ${response.status}`);
       }
       
-      connectionStatus.textContent = 'Message updated';
-
+      const data = await response.json();
       
-      if (response.ok) {
-        // Set edited status in response object
-        const responseData = await response.json();
-        responseData.edited = true;
-        return responseData;
+      // Handle SQLite model structure if needed
+      if (data && data.dataValues) {
+        return data.dataValues;
       }
       
+      return data;
     } catch (error) {
-      console.error(`Failed to update message ${id} in API:`, error);
-      connectionStatus.classList.add('error');
+      console.error(`Failed to fetch message ${id}:`, error);
       return null;
     }
   }
@@ -328,7 +402,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return messageDiv;
   }
 
-  // Edit message function - improved to handle errors better
+  // Edit message function - improved to handle errors better and refresh messages
   async function editMessage(id) {
     console.log(`Attempting to edit message with ID: ${id}`);
     const messageElement = document.querySelector(`.message[data-message-id="${id}"]`);
@@ -352,19 +426,26 @@ document.addEventListener('DOMContentLoaded', () => {
         const updatedMessage = await updateMessageInAPI(id, newContent);
         
         if (updatedMessage) {
-          contentElement.textContent = updatedMessage.content || newContent;
+          console.log("Message successfully updated in database:", updatedMessage);
           
-          // Add edited indicator if not already present
-          if (!messageElement.querySelector('.edited-indicator')) {
-            const editedIndicator = document.createElement('span');
-            editedIndicator.classList.add('edited-indicator');
-            editedIndicator.textContent = ' (edited)';
-            
-            const timestampElement = messageElement.querySelector('.timestamp');
-            if (timestampElement) {
-              timestampElement.prepend(editedIndicator);
+          // Instead of just updating the local element, refresh all messages
+          // This ensures we have the latest data including the edited flag
+          const messages = await getRecentMessages();
+          displayMessages(messages);
+          
+          // Highlight the edited message briefly
+          setTimeout(() => {
+            const updatedElement = document.querySelector(`.message[data-message-id="${id}"]`);
+            if (updatedElement) {
+              updatedElement.classList.add('message-highlight');
+              setTimeout(() => {
+                updatedElement.classList.remove('message-highlight');
+              }, 1500);
             }
-          }
+          }, 100);
+        } else {
+          console.error("No response received after update");
+          alert('Update may have failed. Please check and try again.');
         }
       } catch (error) {
         console.error('Failed to edit message:', error);
@@ -412,12 +493,15 @@ document.addEventListener('DOMContentLoaded', () => {
     
     chatMessagesContainer.innerHTML = '';
     
-    messages.forEach(message => {
+    // Ensure messages are sorted by timestamp (oldest first)
+    const sortedMessages = [...messages].sort((a, b) => a.timestamp - b.timestamp);
+    
+    sortedMessages.forEach(message => {
       const messageElement = createMessageElement(message);
       chatMessagesContainer.appendChild(messageElement);
     });
     
-    // Scroll to bottom
+    // Scroll to bottom to show the newest messages
     chatMessagesContainer.scrollTop = chatMessagesContainer.scrollHeight;
   }
 
@@ -491,7 +575,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Initialize app - updated to check server connectivity
+  // Initialize app - updated to add demo messages every 5 seconds
   async function init() {
     try {
       await initDB();
@@ -499,40 +583,33 @@ document.addEventListener('DOMContentLoaded', () => {
       // Try to fetch messages from API first
       try {
         const apiMessages = await fetchMessagesFromAPI();
-        if (apiMessages && apiMessages.length > 0) {
-          displayMessages(apiMessages);
-          console.log('Successfully loaded messages from API');
-          return; // Exit if API works
-        }
+        console.log('API messages received:', apiMessages.length);
+        displayMessages(apiMessages);
+        connectionStatus.textContent = 'Connected to server';
+        connectionStatus.classList.remove('offline', 'error');
       } catch (error) {
         console.warn('Could not connect to API, using local storage:', error);
+        connectionStatus.textContent = 'Offline - using local storage';
+        connectionStatus.classList.add('offline');
+        connectionStatus.classList.remove('error');
+        
+        // Fall back to local storage if API fails
+        const messages = await getLocalMessages();
+        displayMessages(messages);
       }
       
-      // Fall back to local storage if API fails
-      const messages = await getLocalMessages();
-      
-      if (messages.length === 0) {
-        // Add 3 demo messages
-        for (let i = 0; i < 3; i++) {
-          await saveMessage(generateDemoMessage());
-        }
-      }
-      
-      // Display messages
-      const updatedMessages = await getLocalMessages();
-      displayMessages(updatedMessages);
-      
-      // For demo purposes: Add a new message every 30 seconds
+      // Add a demo message every 5 seconds
       setInterval(async () => {
         try {
           const demoMessage = generateDemoMessage();
-          await postMessageToAPI(demoMessage); // Try API first
+          console.log('Adding demo message:', demoMessage);
+          await postMessageToAPI(demoMessage);
           const latestMessages = await getRecentMessages();
           displayMessages(latestMessages);
         } catch (error) {
-          console.error('Error in demo message interval:', error);
+          console.error('Error adding demo message:', error);
         }
-      }, 30000);
+      }, 5000); 
       
     } catch (error) {
       console.error('Error initializing chat:', error);

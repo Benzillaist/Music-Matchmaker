@@ -3,7 +3,7 @@ import bcrypt from "bcryptjs"
 
 class DataController {
     constructor() {
-        ModelSwitch.getModel("sqlite-fresh").then((models) => {
+        ModelSwitch.getModel("sqlite").then((models) => {
             this.userModel = models.userModel;
             this.groupModel = models.groupModel;
             this.messageModel = models.messageModel; // Add message model
@@ -143,12 +143,11 @@ class DataController {
 
     async getAllMessages(req, res) {
         try {
-            // If you have a message model
             const messages = await this.messageModel.read();
-            res.json(messages);
+            return res.status(200).json(messages);
         } catch (error) {
-            console.error("Error getting messages:", error);
-            res.status(500).json({ error: "Failed to retrieve messages" });
+            console.error("Error fetching messages:", error);
+            return res.status(500).json({ error: "Failed to fetch messages" });
         }
     }
 
@@ -166,7 +165,6 @@ class DataController {
                 id: req.body.id || `msg-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
             };
 
-            // If you have a message model
             const savedMessage = await this.messageModel.create(message);
             return res.status(201).json(savedMessage);
         } catch (error) {
@@ -177,60 +175,92 @@ class DataController {
 
     async getMessage(req, res) {
         try {
-            if (!req.params || !req.params.id) {
-                return res.status(400).json({ error: "Message ID required" });
+            const messageId = req.params.id;
+            if (!messageId) {
+                return res.status(400).json({ error: "Message ID is required" });
             }
 
-            // If you have a message model
-            const message = await this.messageModel.read(req.params.id);
+            const message = await this.messageModel.read(messageId);
             if (!message) {
                 return res.status(404).json({ error: "Message not found" });
             }
-            
-            res.json(message);
+
+            return res.status(200).json(message);
         } catch (error) {
-            console.error("Error getting message:", error);
-            res.status(500).json({ error: "Failed to retrieve message" });
+            console.error("Error fetching message:", error);
+            res.status(500).json({ error: "Failed to fetch message" });
         }
     }
 
     async updateMessage(req, res) {
         try {
-            if (!req.params || !req.params.id || !req.body || !req.body.content) {
-                return res.status(400).json({ error: "Update message request incomplete" });
+            const messageId = req.params.id;
+            if (!messageId) {
+                return res.status(400).json({ error: "Message ID is required" });
             }
 
-            // If you have a message model
-            const message = await this.messageModel.read(req.params.id);
-            if (!message) {
+            if (!req.body) {
+                return res.status(400).json({ error: "Message data is required" });
+            }
+
+            // Log the incoming request
+            console.log(`Received update request for message ${messageId}:`, req.body);
+
+            // First check if the message exists
+            const existingMessage = await this.messageModel.read(messageId);
+            
+            if (!existingMessage) {
+                console.error(`Message ${messageId} not found in database`);
                 return res.status(404).json({ error: "Message not found" });
             }
 
-            message.content = req.body.content;
-            message.edited = true;
+            // Use the full message object that was sent from the client
+            const updatedMessage = {
+                ...existingMessage,
+                ...req.body,
+                id: messageId // Ensure the ID is preserved
+            };
             
-            await this.messageModel.update(message);
-            res.json(message);
+            // Make sure the edited flag is set
+            updatedMessage.edited = true;
+
+            console.log(`Updating message ${messageId} with:`, updatedMessage);
+            
+            // Update the message in the database
+            const result = await this.messageModel.update(updatedMessage);
+            
+            if (!result) {
+                console.error(`Failed to update message ${messageId} in database`);
+                return res.status(500).json({ error: "Database update failed" });
+            }
+            
+            console.log(`Message ${messageId} updated successfully:`, result);
+            return res.status(200).json(result);
         } catch (error) {
-            console.error("Error updating message:", error);
-            res.status(500).json({ error: "Failed to update message" });
+            console.error(`Error updating message ${req.params.id}:`, error);
+            return res.status(500).json({ 
+                error: "Failed to update message", 
+                details: error.message,
+                stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
+            });
         }
     }
 
     async deleteMessage(req, res) {
         try {
-            if (!req.params || !req.params.id) {
-                return res.status(400).json({ error: "Message ID required" });
+            const messageId = req.params.id;
+            if (!messageId) {
+                return res.status(400).json({ error: "Message ID is required" });
             }
 
-            // If you have a message model
-            const message = await this.messageModel.read(req.params.id);
-            if (!message) {
+            // Get existing message first to verify it exists
+            const existingMessage = await this.messageModel.read(messageId);
+            if (!existingMessage) {
                 return res.status(404).json({ error: "Message not found" });
             }
 
-            await this.messageModel.delete({ id: req.params.id });
-            res.json({ success: true, id: req.params.id });
+            await this.messageModel.delete({ id: messageId });
+            return res.status(200).json({ message: "Message deleted successfully" });
         } catch (error) {
             console.error("Error deleting message:", error);
             res.status(500).json({ error: "Failed to delete message" });
